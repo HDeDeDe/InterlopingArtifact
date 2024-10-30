@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{ACABDAFC-0AF3-4B20-892E-C48C71037747}" SchemaVersion="119">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{ACABDAFC-0AF3-4B20-892E-C48C71037747}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="Inter_TickTock" ID="{BBB50B76-0630-4824-BF8A-53A63C8CF7CB}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Default Work Unit" ID="{5EB30D58-42F3-4C3C-B43A-B64D7CF1A154}" WorkUnitID="{5EB30D58-42F3-4C3C-B43A-B64D7CF1A154}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

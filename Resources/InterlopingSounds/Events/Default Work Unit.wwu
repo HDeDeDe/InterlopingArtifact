@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{5EB30D58-42F3-4C3C-B43A-B64D7CF1A154}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{5EB30D58-42F3-4C3C-B43A-B64D7CF1A154}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_Inter_Tick" ID="{45D6A1DA-3115-497B-8434-83EEDCC57E85}">
+					<ChildrenList>
+						<Action Name="" ID="{9198471E-16C3-4D25-B549-1BDC1536BAE5}" ShortID="321046193">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Tick" ID="{3783563C-58CA-418D-9E90-A96188C634A3}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inter_Tock" ID="{A40260C4-2475-4042-A3C8-90160330F955}">
+					<ChildrenList>
+						<Action Name="" ID="{F4C41B8B-D3CE-4E31-BFA3-C4D4C60E1AC7}" ShortID="399330311">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Tock" ID="{2F509318-F8D6-4FE8-AED1-F69B9556DAE3}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

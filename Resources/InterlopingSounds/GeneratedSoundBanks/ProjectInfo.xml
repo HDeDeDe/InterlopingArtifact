@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo>
+	<Project Name="InterlopingSounds" GUID="{079E4938-BADC-4D59-8335-40C6C567540B}" Generator="2023.1.4.8496"/>
+	<CacheRoot>../.cache</CacheRoot>
+	<Platforms>
+		<Platform Name="Windows" GUID="{1450D5D1-F258-4A37-9081-23CE720F87D6}" BasePlatform="Windows" BasePlatformGUID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}" Path="Windows"/>
+	</Platforms>
+	<Languages>
+		<Language Name="English(US)" Id="684519430" GUID="{BE788FA5-ED93-4471-94CF-E415AE80FCB5}" Default="true" UseAsStandIn="true"/>
+	</Languages>
+	<FileHash>{FBB0F9A9-6995-2DE4-9CCC-58853D82183E}</FileHash>
+</ProjectInfo>

@@ -1,0 +1,68 @@
+﻿<Project>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <OutputPath>bin\Debug\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <OutputPath>bin\Release\</OutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\.gitignore">
+            <Link>.gitignore</Link>
+        </Content>
+        <Content Include="..\README.md">
+            <Link>README.md</Link>
+        </Content>
+        <Content Include="..\CHANGELOG.md">
+            <Link>CHANGELOG.md</Link>
+        </Content>
+        <Content Include="InterlopingSounds\.cache\CacheVersion" />
+        <Content Include="InterlopingSounds\.cache\LMDB\data.mdb" />
+        <Content Include="InterlopingSounds\.cache\LMDB\lock.mdb" />
+        <Content Include="InterlopingSounds\.gitignore" />
+        <Content Include="InterlopingSounds\.p4ignore" />
+        <Content Include="InterlopingSounds\Actor-Mixer Hierarchy\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Attenuations\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Audio Devices\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Control Surface Sessions\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Conversion Settings\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Conversion Settings\Factory Conversion Settings.wwu" />
+        <Content Include="InterlopingSounds\Dynamic Dialogue\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Effects\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Effects\Factory Effects.wwu" />
+        <Content Include="InterlopingSounds\Events\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Game Parameters\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\ProjectInfo.xml" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_TickTock.bnk" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_TickTock.txt" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\PlatformInfo.xml" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\PluginInfo.xml" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\SoundbanksInfo.xml" />
+        <Content Include="InterlopingSounds\Interactive Music Hierarchy\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\InterlopingSounds.Green.validationcache" />
+        <Content Include="InterlopingSounds\InterlopingSounds.Green.wsettings" />
+        <Content Include="InterlopingSounds\InterlopingSounds.wproj" />
+        <Content Include="InterlopingSounds\Master-Mixer Hierarchy\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Metadata\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Mixing Sessions\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Modulators\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Originals\SFX\Tick.wav" />
+        <Content Include="InterlopingSounds\Originals\SFX\Tock.wav" />
+        <Content Include="InterlopingSounds\Presets\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Presets\Factory Spatial Audio.wwu" />
+        <Content Include="InterlopingSounds\Queries\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Queries\Factory Queries.wwu" />
+        <Content Include="InterlopingSounds\SoundBanks\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Soundcaster Sessions\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\States\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Switches\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Triggers\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Virtual Acoustics\Default Work Unit.wwu" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="InterlopingSounds\.cache\Windows\Voices\English(US)\" />
+      <Folder Include="InterlopingSounds\GeneratedSoundBanks\Windows\English(US)\" />
+      <Folder Include="InterlopingSounds\Originals\Plugins\iZotope Hybrid Reverb\" />
+      <Folder Include="InterlopingSounds\Originals\Plugins\iZotope Trash Box Modeler\" />
+      <Folder Include="InterlopingSounds\Originals\Voices\English(US)\" />
+    </ItemGroup>
+</Project>

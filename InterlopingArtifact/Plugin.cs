@@ -6,7 +6,7 @@ namespace HDeMods {
 	[BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public sealed class InterlopingArtifactPlugin : BaseUnityPlugin {
-		public const string PluginGUID = PluginAuthor + "." + PluginName;
+		public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
 		public const string PluginAuthor = "HDeDeDe";
 		public const string PluginName = "InterlopingArtifact";
 		public const string PluginVersion = "0.0.1";

@@ -59,6 +59,10 @@ if (Settings.giveMePDBs)
 if (Settings.icon != "") archive.CreateEntryFromFile(Settings.icon, "icon.png", CompressionLevel.Optimal);
 
 foreach (FileInfo file in Settings.extraFiles) {
+	if (file.Name.EndsWith(".bnk")) {
+		archive.CreateEntryFromFile(file.FullName, file.Name.Replace(".bnk", ".sound"), CompressionLevel.Optimal);
+		continue;
+	}
 	archive.CreateEntryFromFile(file.FullName, file.Name, CompressionLevel.Optimal);
 }
 #pragma warning restore CS0162 // Unreachable code detected

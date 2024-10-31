@@ -25,7 +25,8 @@ namespace HDeMods {
         
         // In run Loiter variables
         private static bool teleporterExists;
-        private static float stagePunishTimer;
+        internal static float tickingTimer;
+        internal static bool tock;
         private static bool teleporterHit;
         internal static int totalBlindPest;
 		
@@ -35,6 +36,7 @@ namespace HDeMods {
 		public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
 		public static ConfigEntry<bool> limitPest { get; set; }
 		public static ConfigEntry<float> limitPestAmount { get; set; }
+		public static ConfigEntry<bool> playTickingSound { get; set; }
 		
 		internal static void Startup() {
 			if (!File.Exists(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"))) {
@@ -117,12 +119,18 @@ namespace HDeMods {
 				"Blind Pest Amount",
 				10f,
 				"The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
+			playTickingSound = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+				"Ticking",
+				"Play Ticking Sound",
+				true,
+				"Enable ticking sound before loiter penalty occurs.");
 			if (!InterOptionalMods.RoO.Enabled) return;
 			InterOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 15f, 600f, "{0}");
 			InterOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
 			InterOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
 			InterOptionalMods.RoO.AddCheck(limitPest);
 			InterOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
+			InterOptionalMods.RoO.AddCheck(playTickingSound);
 		}
 
 		private static void CreateNetworkObject() {
@@ -193,6 +201,7 @@ namespace HDeMods {
 			if (!shouldRun && !ChunkyModeRun) return;
 			if (shouldRun) INTER.Log.Info("Run ended with Artifact of Loitering.");
 			shouldRun = false;
+			tock = false;
 			ChunkyModeRun = false;
 			teleporterHit = false;
 			teleporterExists = false;
@@ -229,8 +238,9 @@ namespace HDeMods {
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
-            stagePunishTimer = self.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyTimeThisRun;
-            INTER.Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
+            InterRunInfo.instance.stagePunishTimer = self.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyTimeThisRun;
+            INTER.Log.Info("Teleporter created! Timer set to " + InterRunInfo.instance.stagePunishTimer);
+            InterRunInfo.instance.RpcSetTickTock();
             teleporterPlaced(self, sceneDirector, thing);
         }
         
@@ -324,6 +334,7 @@ namespace HDeMods {
 #endif
                 return;
             }
+            
             if (!NetworkServer.active) {
 #if DEBUG
                 ReportLoiterError("Client can not enforce loiter penalty");
@@ -348,13 +359,17 @@ namespace HDeMods {
 #endif
                 return;
             }
-            if (stagePunishTimer >= Run.instance.NetworkfixedTime) {
+            if (InterRunInfo.instance.stagePunishTimer >= Run.instance.NetworkfixedTime) {
+	            if (Run.instance.NetworkfixedTime >= tickingTimer ) {
+		            tickingTimer += 1f;
+		            InterRunInfo.instance.PlayTickTock();
+	            }
 #if DEBUG
                 ReportLoiterError("Not time yet");
 #endif
                 return;
             }
-            INTER.Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
+            INTER.Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + InterRunInfo.instance.stagePunishTimer);
             InterRunInfo.instance.loiterPenaltyActive = true;
 #if DEBUG
             INTER.Log.Debug("Warning now");

@@ -21,11 +21,13 @@ namespace HDeMods {
 		public float limitPestsAmountThisRun;
 		//These values are only synced not saved
 		[SyncVar]
-		public float allyCurse = 0f;
+		public float allyCurse;
 		[SyncVar]
-		public float loiterTick = 0f;
+		public float loiterTick;
 		[SyncVar] 
-		public bool loiterPenaltyActive = false;
+		public bool loiterPenaltyActive;
+		[SyncVar] 
+		public float stagePunishTimer;
 
 		public void Awake() {
 			instance = this;
@@ -36,6 +38,34 @@ namespace HDeMods {
 			loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
 			limitPestsThisRun = saveData.limitPestsThisRun;
 			limitPestsAmountThisRun = saveData.limitPestsAmountThisRun;
+		}
+		
+		[ClientRpc]
+		public void RpcPlayTickTock() {
+			PlayTickTock();
+		}
+
+		public void PlayTickTock() {
+			if (InterlopingArtifact.playTickingSound.Value) {
+#if DEBUG
+				INTER.Log.Warning("Playing Sound!");
+#endif
+				foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+					if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(InterRefs.sfxTock, teamComponent.gameObject);
+					else AkSoundEngine.PostEvent(InterRefs.sfxTick, teamComponent.gameObject);
+				}
+				
+			}
+			InterlopingArtifact.tock = !InterlopingArtifact.tock;
+		}
+		
+		[ClientRpc]
+		public void RpcSetTickTock() {
+			SetTickTock();
+		}
+
+		public void SetTickTock() {
+			InterlopingArtifact.tickingTimer = instance.stagePunishTimer - 15f;
 		}
 		
 		[ClientRpc]

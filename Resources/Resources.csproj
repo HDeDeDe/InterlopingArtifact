@@ -15,6 +15,8 @@
         <Content Include="..\CHANGELOG.md">
             <Link>CHANGELOG.md</Link>
         </Content>
+        <Content Include="intericons" />
+        <Content Include="InterlopingArtifact.language" />
         <Content Include="InterlopingSounds\.cache\CacheVersion" />
         <Content Include="InterlopingSounds\.cache\LMDB\data.mdb" />
         <Content Include="InterlopingSounds\.cache\LMDB\lock.mdb" />
@@ -57,6 +59,7 @@
         <Content Include="InterlopingSounds\Switches\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\Triggers\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\Virtual Acoustics\Default Work Unit.wwu" />
+        <Content Include="libs\ProperSave.dll" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="InterlopingSounds\.cache\Windows\Voices\English(US)\" />

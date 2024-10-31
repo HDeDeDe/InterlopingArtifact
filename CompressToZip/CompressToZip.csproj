@@ -18,7 +18,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\InterlopingArtifact\InterlopingArtifact.csproj" />
-        <ProjectReference Include="..\YourPluginHere\YourPluginHere.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

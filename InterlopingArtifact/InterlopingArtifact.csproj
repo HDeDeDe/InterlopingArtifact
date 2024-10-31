@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <RootNamespace>HDeMods</RootNamespace>
     </PropertyGroup>
 
@@ -20,11 +20,24 @@
         <PackageReference Include="R2API.Core" Version="5.1.2"/>
         <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
         <PackageReference Include="R2API.Director" Version="2.3.1" />
+        <PackageReference Include="R2API.Language" Version="1.0.1" />
         <PackageReference Include="R2API.Networking" Version="1.0.2" />
         <PackageReference Include="R2API.Prefab" Version="1.0.4" />
         <PackageReference Include="R2API.Sound" Version="1.0.3" />
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+        <PackageReference Include="RoR2.BepInEx.Analyzers" Version="1.0.8">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Rune580.Mods.RiskOfRain2.RiskOfOptions" Version="2.8.2" Publicize="true" />
         <PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile"/>
         <PackageReference Include="RiskOfRain2.GameLibs" Version="1.3.1.275-r.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="ProperSave">
+        <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

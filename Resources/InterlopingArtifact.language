@@ -1,0 +1,8 @@
+{
+  "strings" : {
+    "INTERLOPINGARTIFACT_NAME": "Artifact of Interloping",
+    "INTERLOPINGARTIFACT_DESCRIPTION" : "Monsters will begin to swarm you after a period of time.",
+    "INTERLOPINGARTIFACT_WARNING_FORMAT" : "<color=#8654ff><size=150%>{0}</color></size>",
+    "INTERLOPINGARTIFACT_WARNING" : "GET OUT..."
+  }
+}

@@ -16,8 +16,10 @@ internal static class Settings {
 	public const string riskOfRain2Install =
 		@"C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\";
 
-	public static ArrayList extraFiles = new ArrayList {
-		new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Inter_TickTock.bnk")
+	public static readonly ArrayList extraFiles = new ArrayList {
+		new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Inter_TickTock.bnk"),
+		new FileInfo("../Resources/InterlopingArtifact.language"),
+		new FileInfo("../Resources/intericons")
 	};
 
 	public const string manifestWebsiteUrl = "";
@@ -26,5 +28,10 @@ internal static class Settings {
 	public const string manifestDependencies = "[\n" +
 	                                           "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" +
 	                                           "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Prefab-1.0.4\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Sound-1.0.3\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Director-2.3.1\",\n" +
 	                                           "\t]";
 }

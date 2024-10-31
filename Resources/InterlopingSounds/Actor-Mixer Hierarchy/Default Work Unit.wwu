@@ -4,7 +4,13 @@
 		<WorkUnit Name="Default Work Unit" ID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}" PersistMode="Standalone">
 			<ChildrenList>
 				<ActorMixer Name="SFX_Mixer" ID="{29041C32-E0D3-4D94-89C7-F880895012FA}" ShortID="493806670">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="InterlopingTicking" ID="{174ED682-C91A-4B89-9345-F0988267A0F7}" WorkUnitID="{77444A43-B53B-4DDE-AFB3-3ACD0A5C41D7}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5DD4BE2F-5DC1-419F-B9D7-A836DB578BE6}"/>
 						</Reference>

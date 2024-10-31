@@ -50,10 +50,8 @@ namespace HDeMods {
 #if DEBUG
 				INTER.Log.Warning("Playing Sound!");
 #endif
-				foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
-					if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(InterRefs.sfxTock, teamComponent.gameObject);
-					else AkSoundEngine.PostEvent(InterRefs.sfxTick, teamComponent.gameObject);
-				}
+				if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(1965432432, InterlopingArtifactPlugin.instance.gameObject);
+				else AkSoundEngine.PostEvent(InterRefs.sfxTick, InterlopingArtifactPlugin.instance.gameObject);
 				
 			}
 			InterlopingArtifact.tock = !InterlopingArtifact.tock;

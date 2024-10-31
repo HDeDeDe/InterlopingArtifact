@@ -25,7 +25,7 @@
 				<GameParameter Id="3673881719" Name="Volume_SFX"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3179234286" Type="User" Language="SFX" Hash="{FB0B04DB-65ED-A2F0-ED27-91DF68533102}">
+		<SoundBank Id="3179234286" Type="User" Language="SFX" Hash="{5C11F85B-20FE-78F2-023B-8D9C06F8FE6D}">
 			<ShortName>Inter_TickTock</ShortName>
 			<Path>Inter_TickTock.bnk</Path>
 			<Media>
@@ -55,5 +55,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{80C008DB-67C7-3F3D-8284-005BD433F85A}</FileHash>
+	<FileHash>{2E79B98E-95B1-AB15-2F44-A39F51F1B673}</FileHash>
 </SoundBanksInfo>

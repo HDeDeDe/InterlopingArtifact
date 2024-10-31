@@ -46,6 +46,13 @@ namespace HDeMods {
 		}
 
 		public void PlayTickTock() {
+			if (InterlopingArtifact.firstSoundPlay) {
+#if DEBUG
+				INTER.Log.Warning("Ignoring first sound request");
+#endif
+				InterlopingArtifact.firstSoundPlay = false;
+				return;
+			}
 			if (InterlopingArtifact.playTickingSound.Value) {
 #if DEBUG
 				INTER.Log.Warning("Playing sound!");

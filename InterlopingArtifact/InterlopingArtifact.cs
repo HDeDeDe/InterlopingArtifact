@@ -27,6 +27,7 @@ namespace HDeMods {
         private static bool teleporterExists;
         internal static float tickingTimer;
         internal static bool tock;
+        internal static bool firstSoundPlay = true;
         private static bool teleporterHit;
         internal static int totalBlindPest;
 		

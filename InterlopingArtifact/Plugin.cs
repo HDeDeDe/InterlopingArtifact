@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using BepInEx;
 using BepInEx.Logging;
 using R2API;
+using UnityEngine;
+using RoR2;
 
 namespace HDeMods {
 	[BepInDependency(DirectorAPI.PluginGUID)]
@@ -25,6 +27,9 @@ namespace HDeMods {
 		public static bool startupSuccess = false;
         
 		private void Awake() {
+#if DEBUG
+			On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
+#endif
 			if (instance != null) {
 				INTER.Log.Error("Only one instance of InterlopingArtifactPlugin can exist at a time!");
 				Destroy(this);
@@ -34,6 +39,21 @@ namespace HDeMods {
 			INTER.Log.Init(Logger);
 			InterlopingArtifact.Startup();
 		}
+		
+#if DEBUG
+		public static void KillOnThreePercentBug(On.RoR2.SteamworksClientManager.orig_ctor ctor, SteamworksClientManager self) {
+			try {
+				ctor(self);
+			}
+			catch (Exception err) {
+				INTER.Log.Fatal(err);
+				Application.Quit();
+				throw;
+			}
+			On.RoR2.SteamworksClientManager.ctor -= KillOnThreePercentBug;
+		}
+        
+#endif
 
 		private void FixedUpdate() {
 			InterlopingArtifact.EnforceLoiter();

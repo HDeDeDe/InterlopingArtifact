@@ -87,7 +87,7 @@ namespace HDeMods {
 			Artifact.smallIconDeselectedSprite = InterBundle.LoadAsset<Sprite>("texInterDeselectedIcon");
 			Artifact.smallIconSelectedSprite = InterBundle.LoadAsset<Sprite>("texInterSelectedIcon");
 
-			if (ContentAddition.AddArtifactDef(Artifact)) return false;
+			if (!ContentAddition.AddArtifactDef(Artifact)) return false;
 			return true;
 		}
 

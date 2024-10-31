@@ -32,6 +32,6 @@ internal static class Settings {
 	                                           "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
 	                                           "\t\t\"RiskofThunder-R2API_Prefab-1.0.4\",\n" +
 	                                           "\t\t\"RiskofThunder-R2API_Sound-1.0.3\",\n" +
-	                                           "\t\t\"RiskofThunder-R2API_Director-2.3.1\",\n" +
+	                                           "\t\t\"RiskofThunder-R2API_Director-2.3.1\"\n" +
 	                                           "\t]";
 }

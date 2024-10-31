@@ -3,7 +3,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	4014226528	Play_Inter_Tick			\Default Work Unit\Play_Inter_Tick	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	1564184899	SFX_Volume			\Default Work Unit\SFX_Volume	
+	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	548034140	Tick	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tick_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\Tick		1404

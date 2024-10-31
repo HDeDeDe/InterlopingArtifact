@@ -4,9 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}" PersistMode="Standalone">
 			<ChildrenList>
 				<ActorMixer Name="SFX_Mixer" ID="{29041C32-E0D3-4D94-89C7-F880895012FA}" ShortID="493806670">
-					<PropertyList>
-						<Property Name="3DSpatialization" Type="int16" Value="2"/>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Attenuation">
 							<ObjectRef Name="InterlopingTicking" ID="{174ED682-C91A-4B89-9345-F0988267A0F7}" WorkUnitID="{77444A43-B53B-4DDE-AFB3-3ACD0A5C41D7}"/>
@@ -74,7 +71,7 @@
 										</PropertyList>
 										<ReferenceList>
 											<Reference Name="ControlInput">
-												<ObjectRef Name="SFX_Volume" ID="{8A7479BA-4E1F-442D-A93A-D997B117FA05}" WorkUnitID="{560D189A-7908-4FE5-85C9-1D3A696D116C}"/>
+												<ObjectRef Name="Volume_SFX" ID="{8A7479BA-4E1F-442D-A93A-D997B117FA05}" WorkUnitID="{560D189A-7908-4FE5-85C9-1D3A696D116C}"/>
 											</Reference>
 											<Reference Name="Curve">
 												<Custom>

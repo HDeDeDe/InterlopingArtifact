@@ -360,7 +360,7 @@ namespace HDeMods {
                 return;
             }
             if (InterRunInfo.instance.stagePunishTimer >= Run.instance.NetworkfixedTime) {
-	            if (Run.instance.NetworkfixedTime >= tickingTimer ) {
+	            if (Run.instance.NetworkfixedTime >= tickingTimer) {
 		            tickingTimer += 1f;
 		            InterRunInfo.instance.PlayTickTock();
 	            }

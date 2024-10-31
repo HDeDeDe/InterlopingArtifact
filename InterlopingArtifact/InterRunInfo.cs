@@ -48,11 +48,10 @@ namespace HDeMods {
 		public void PlayTickTock() {
 			if (InterlopingArtifact.playTickingSound.Value) {
 #if DEBUG
-				INTER.Log.Warning("Playing Sound!");
+				INTER.Log.Warning("Playing sound!");
 #endif
-				if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(1965432432, InterlopingArtifactPlugin.instance.gameObject);
+				if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(InterRefs.sfxTock, InterlopingArtifactPlugin.instance.gameObject);
 				else AkSoundEngine.PostEvent(InterRefs.sfxTick, InterlopingArtifactPlugin.instance.gameObject);
-				
 			}
 			InterlopingArtifact.tock = !InterlopingArtifact.tock;
 		}

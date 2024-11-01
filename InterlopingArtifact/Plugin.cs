@@ -21,7 +21,7 @@ namespace HDeMods {
 		public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
 		public const string PluginAuthor = "HDeDeDe";
 		public const string PluginName = "InterlopingArtifact";
-		public const string PluginVersion = "0.0.1";
+		public const string PluginVersion = "0.1.0";
 		
 		public static InterlopingArtifactPlugin instance;
 		public static bool startupSuccess = false;

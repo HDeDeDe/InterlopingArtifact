@@ -5,6 +5,7 @@ namespace HDeMods {
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	internal static class InterRefs {
 		internal const uint sfxTickTock = 1626947733;
+		internal const uint sfxBellToll = 1626947733;
 		internal static BodyIndex FlyingVermin;
 
 		internal static void CacheBlindPest() {

@@ -20,13 +20,14 @@ namespace HDeMods {
 		private static GameObject m_interInfo;
 		
 		// Set up variables
-        public static bool ChunkyModeRun;
+        public static bool HurricaneRun;
         private static bool shouldRun;
         
         // In run Loiter variables
         private static bool teleporterExists;
-        internal static float tickingTimer;
-        internal static bool firstSoundPlay = true;
+        internal static float tickingTimer = 1f;
+        internal static float tickingTimerHalfway = 1f;
+        internal static sbyte halfwayFuse;
         private static bool teleporterHit;
         internal static int totalBlindPest;
 		
@@ -36,7 +37,10 @@ namespace HDeMods {
 		public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
 		public static ConfigEntry<bool> limitPest { get; set; }
 		public static ConfigEntry<float> limitPestAmount { get; set; }
-		public static ConfigEntry<bool> playTickingSound { get; set; }
+		public static ConfigEntry<bool> playWarningSound { get; set; }
+		public static ConfigEntry<bool> useTickingNoise { get; set; }
+		public static ConfigEntry<bool> enableHalfwayWarning { get; set; }
+		public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
 		
 		internal static void Startup() {
 			if (!File.Exists(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"))) {
@@ -119,18 +123,36 @@ namespace HDeMods {
 				"Blind Pest Amount",
 				10f,
 				"The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
-			playTickingSound = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
-				"Ticking",
-				"Play Ticking Sound",
+			playWarningSound = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+				"Warning",
+				"Play Warning Sound",
 				true,
-				"Enable ticking sound before loiter penalty occurs.");
+				"Enable warning sound before loiter penalty occurs.");
+			useTickingNoise = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+				"Warning",
+				"Use Ticking Sound",
+				false,
+				"Use a clock ticking sound instead of a bell.");
+			enableHalfwayWarning = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+				"Warning",
+				"Enable Halfway Warning",
+				true,
+				"Play the warning sound when the loiter timer reaches half way.");
+			timeBeforeLoiterPenalty = InterlopingArtifactPlugin.instance.Config.Bind<float>(
+				"Warning",
+				"Time Before Loiter Penalty",
+				15f,
+				"How long before the Loiter Penalty the bells start tolling.");
 			if (!InterOptionalMods.RoO.Enabled) return;
-			InterOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 15f, 600f, "{0}");
+			InterOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
 			InterOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
 			InterOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
 			InterOptionalMods.RoO.AddCheck(limitPest);
 			InterOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
-			InterOptionalMods.RoO.AddCheck(playTickingSound);
+			InterOptionalMods.RoO.AddCheck(playWarningSound);
+			InterOptionalMods.RoO.AddCheck(useTickingNoise);
+			InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
+			InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
 		}
 
 		private static void CreateNetworkObject() {
@@ -151,7 +173,7 @@ namespace HDeMods {
 			teleporterHit = false;
 			teleporterExists = false;
 			totalBlindPest = 0;
-			if(!shouldRun && !ChunkyModeRun) return;
+			if(!shouldRun && !HurricaneRun) return;
 			
 			if (shouldRun) INTER.Log.Info("Run started with Artifact of Loitering.");
 			
@@ -174,7 +196,7 @@ namespace HDeMods {
 			InterRunInfo.instance.limitPestsThisRun = limitPest.Value;
 			InterRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;
 
-			if (!ChunkyModeRun) {
+			if (!HurricaneRun) {
 				InterRunInfo.instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
 				InterRunInfo.instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
 				InterRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
@@ -198,10 +220,10 @@ namespace HDeMods {
 		}
 
 		internal static void Run_onRunDestroyGlobal(Run run) {
-			if (!shouldRun && !ChunkyModeRun) return;
+			if (!shouldRun && !HurricaneRun) return;
 			if (shouldRun) INTER.Log.Info("Run ended with Artifact of Loitering.");
 			shouldRun = false;
-			ChunkyModeRun = false;
+			HurricaneRun = false;
 			teleporterHit = false;
 			teleporterExists = false;
 			totalBlindPest = 0;
@@ -239,7 +261,9 @@ namespace HDeMods {
             teleporterExists = true;
             InterRunInfo.instance.stagePunishTimer = self.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyTimeThisRun;
             INTER.Log.Info("Teleporter created! Timer set to " + InterRunInfo.instance.stagePunishTimer);
-            InterRunInfo.instance.RpcSetTickTock();
+            tickingTimer = InterRunInfo.instance.stagePunishTimer - 15f;
+            tickingTimerHalfway = InterRunInfo.instance.stagePunishTimer - 
+                                  ((InterRunInfo.instance.stagePunishTimer - Run.instance.NetworkfixedTime) / 2);
             teleporterPlaced(self, sceneDirector, thing);
         }
         
@@ -254,7 +278,7 @@ namespace HDeMods {
 #endif
             int gougeCount = 1;
 
-            if (shouldRun && ChunkyModeRun) {
+            if (shouldRun && HurricaneRun) {
                 gougeCount += Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.MonstersOnShrineUse.itemIndex, false);
             }
 
@@ -297,7 +321,7 @@ namespace HDeMods {
             INTER.Log.Debug("Spawning enemy wave");
 #endif
 	        InterRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyFrequencyThisRun;
-            if (shouldRun && ChunkyModeRun) {
+            if (shouldRun && HurricaneRun) {
 	            InterRunInfo.instance.allyCurse += 0.035f;
 	            InterRunInfo.instance.RpcDirtyStats();
             }
@@ -325,7 +349,7 @@ namespace HDeMods {
 		
 		// Enforcing loitering penalty
         internal static void EnforceLoiter() {
-            if (!shouldRun && !ChunkyModeRun) return;
+            if (!shouldRun && !HurricaneRun) return;
             
             if (Run.instance.isGameOverServer) {
 #if DEBUG
@@ -361,7 +385,12 @@ namespace HDeMods {
             if (InterRunInfo.instance.stagePunishTimer >= Run.instance.NetworkfixedTime) {
 	            if (Run.instance.NetworkfixedTime >= tickingTimer) {
 		            tickingTimer += 1f;
-		            InterRunInfo.instance.PlayTickTock();
+		            InterRunInfo.instance.RpcPlayWarningSound();
+	            }
+	            if (Run.instance.NetworkfixedTime >= tickingTimerHalfway && halfwayFuse < 2) {
+		            tickingTimerHalfway += 1f;
+		            halfwayFuse += 1;
+		            InterRunInfo.instance.RpcPlayHalfwaySound();
 	            }
 #if DEBUG
                 ReportLoiterError("Not time yet");
@@ -370,6 +399,7 @@ namespace HDeMods {
             }
             INTER.Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + InterRunInfo.instance.stagePunishTimer);
             InterRunInfo.instance.loiterPenaltyActive = true;
+            halfwayFuse = 0;
 #if DEBUG
             INTER.Log.Debug("Warning now");
 #endif

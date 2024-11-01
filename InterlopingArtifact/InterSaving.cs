@@ -26,7 +26,7 @@ namespace HDeMods { namespace InterOptionalMods {
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {
-			if (!RunArtifactManager.instance.IsArtifactEnabled(InterlopingArtifact.Artifact) && !InterlopingArtifact.ChunkyModeRun) return;
+			if (!RunArtifactManager.instance.IsArtifactEnabled(InterlopingArtifact.Artifact) && !InterlopingArtifact.HurricaneRun) return;
 			InterSaveData tempRun = new InterSaveData {
 				isValidSave = true,
 				loiterPenaltyTimeThisRun = InterRunInfo.instance.loiterPenaltyTimeThisRun,

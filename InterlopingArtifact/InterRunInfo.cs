@@ -41,32 +41,33 @@ namespace HDeMods {
 		}
 		
 		[ClientRpc]
-		public void RpcPlayTickTock() {
-			PlayTickTock();
-		}
-
-		public void PlayTickTock() {
-			if (InterlopingArtifact.firstSoundPlay) {
-#if DEBUG
-				INTER.Log.Warning("Ignoring first sound request");
-#endif
-				InterlopingArtifact.firstSoundPlay = false;
-				return;
-			}
-			if (!InterlopingArtifact.playTickingSound.Value) return;
-#if DEBUG
-            INTER.Log.Warning("Playing sound!");
-#endif
-            AkSoundEngine.PostEvent(InterRefs.sfxTickTock, InterlopingArtifactPlugin.instance.gameObject);
+		public void RpcPlayWarningSound() {
+			PlayWarningSound();
 		}
 		
 		[ClientRpc]
-		public void RpcSetTickTock() {
-			SetTickTock();
+		public void RpcPlayHalfwaySound() {
+			PlayHalfwaySound();
+		}
+		
+		public void PlayHalfwaySound() {
+			if (!InterlopingArtifact.enableHalfwayWarning.Value) return;
+#if DEBUG
+			INTER.Log.Warning("Playing sound!");
+#endif
+			if (InterlopingArtifact.useTickingNoise.Value) 
+				AkSoundEngine.PostEvent(InterRefs.sfxTickTock, InterlopingArtifactPlugin.instance.gameObject);
+			else AkSoundEngine.PostEvent(InterRefs.sfxBellToll, InterlopingArtifactPlugin.instance.gameObject);
 		}
 
-		public void SetTickTock() {
-			InterlopingArtifact.tickingTimer = instance.stagePunishTimer - 15f;
+		public void PlayWarningSound() {
+			if (!InterlopingArtifact.playWarningSound.Value) return;
+#if DEBUG
+            INTER.Log.Warning("Playing sound!");
+#endif
+			if (InterlopingArtifact.useTickingNoise.Value) 
+				AkSoundEngine.PostEvent(InterRefs.sfxTickTock, InterlopingArtifactPlugin.instance.gameObject);
+			else AkSoundEngine.PostEvent(InterRefs.sfxBellToll, InterlopingArtifactPlugin.instance.gameObject);
 		}
 		
 		[ClientRpc]

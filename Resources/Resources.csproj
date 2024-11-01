@@ -34,8 +34,8 @@
         <Content Include="InterlopingSounds\Events\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\Game Parameters\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\GeneratedSoundBanks\ProjectInfo.xml" />
-        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_TickTock.bnk" />
-        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_TickTock.txt" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_WarningSounds.bnk" />
+        <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\Inter_WarningSounds.txt" />
         <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\PlatformInfo.xml" />
         <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\PluginInfo.xml" />
         <Content Include="InterlopingSounds\GeneratedSoundBanks\Windows\SoundbanksInfo.xml" />

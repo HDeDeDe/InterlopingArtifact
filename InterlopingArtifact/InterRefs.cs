@@ -1,9 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using RoR2;
 
 namespace HDeMods {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	internal static class InterRefs {
-		internal const uint sfxTock = 255157130;
-		internal const uint sfxTick = 4014226528;
+		internal const uint sfxTickTock = 1626947733;
 		internal static BodyIndex FlyingVermin;
 
 		internal static void CacheBlindPest() {

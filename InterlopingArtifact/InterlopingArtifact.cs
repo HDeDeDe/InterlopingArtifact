@@ -26,7 +26,6 @@ namespace HDeMods {
         // In run Loiter variables
         private static bool teleporterExists;
         internal static float tickingTimer;
-        internal static bool tock;
         internal static bool firstSoundPlay = true;
         private static bool teleporterHit;
         internal static int totalBlindPest;
@@ -202,7 +201,6 @@ namespace HDeMods {
 			if (!shouldRun && !ChunkyModeRun) return;
 			if (shouldRun) INTER.Log.Info("Run ended with Artifact of Loitering.");
 			shouldRun = false;
-			tock = false;
 			ChunkyModeRun = false;
 			teleporterHit = false;
 			teleporterExists = false;

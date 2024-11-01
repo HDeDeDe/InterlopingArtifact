@@ -53,14 +53,11 @@ namespace HDeMods {
 				InterlopingArtifact.firstSoundPlay = false;
 				return;
 			}
-			if (InterlopingArtifact.playTickingSound.Value) {
+			if (!InterlopingArtifact.playTickingSound.Value) return;
 #if DEBUG
-				INTER.Log.Warning("Playing sound!");
+            INTER.Log.Warning("Playing sound!");
 #endif
-				if (InterlopingArtifact.tock) AkSoundEngine.PostEvent(InterRefs.sfxTock, InterlopingArtifactPlugin.instance.gameObject);
-				else AkSoundEngine.PostEvent(InterRefs.sfxTick, InterlopingArtifactPlugin.instance.gameObject);
-			}
-			InterlopingArtifact.tock = !InterlopingArtifact.tock;
+            AkSoundEngine.PostEvent(InterRefs.sfxTickTock, InterlopingArtifactPlugin.instance.gameObject);
 		}
 		
 		[ClientRpc]

@@ -52,6 +52,12 @@ namespace HDeMods {
 				return;
 			}
 			InterBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"));
+			
+			Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+			Artifact.unlockableDef.nameToken = "INTERLOPINGARTIFACT_UNLOCK_NAME";
+			Artifact.unlockableDef.cachedName = "Artifacts.Interloper";
+			Artifact.unlockableDef.achievementIcon = InterBundle.LoadAsset<Sprite>("texObtainArtifactInterloperIcon");
+			ContentAddition.AddUnlockableDef(Artifact.unlockableDef);
             
 			CreateNetworkObject();
 			AddHooks();

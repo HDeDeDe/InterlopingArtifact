@@ -1,10 +1,11 @@
 using RoR2;
+using UnityEngine.Networking;
 
 namespace HDeMods {
 	internal static class InterArtifactTrial {
 		internal static void CheckArtifactTrial(On.RoR2.ArtifactTrialMissionController.orig_SetCurrentArtifact setCurrentArtifact,
 			ArtifactTrialMissionController self, int artifact) {
-			if ((ArtifactIndex)artifact == InterlopingArtifact.Artifact.artifactIndex) {
+			if ((ArtifactIndex)artifact == InterlopingArtifact.Artifact.artifactIndex && NetworkServer.active) {
 #if DEBUG
 				INTER.Log.Warning("Interloper Artifact Trial Entered!");
 #endif
@@ -17,7 +18,7 @@ namespace HDeMods {
 		
 		internal static void BeginTrial(On.RoR2.ArtifactTrialMissionController.CombatState.orig_OnEnter onEnter,
 			EntityStates.EntityState self) {
-			if (InterlopingArtifact.artifactTrial) {
+			if (InterlopingArtifact.artifactTrial && NetworkServer.active) {
 #if DEBUG
 				INTER.Log.Warning("Interloper Artifact Trial Started!");
 #endif
@@ -28,7 +29,7 @@ namespace HDeMods {
 		}
 
 		internal static void OnShellTakeDamage(ArtifactTrialMissionController mc, DamageReport dr) {
-			if (!InterlopingArtifact.artifactTrial) return;
+			if (!InterlopingArtifact.artifactTrial || !NetworkServer.active) return;
 #if DEBUG
             INTER.Log.Warning("Incrementing severity.");
 #endif
@@ -36,7 +37,7 @@ namespace HDeMods {
 		}
 
 		internal static void OnShellDeath(ArtifactTrialMissionController mc, DamageReport dr) {
-			if (!InterlopingArtifact.artifactTrial) return;
+			if (!InterlopingArtifact.artifactTrial || !NetworkServer.active) return;
 #if DEBUG
 			INTER.Log.Warning("Trial Complete!");
 #endif

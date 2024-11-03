@@ -20,6 +20,7 @@ namespace HDeMods { namespace InterOptionalMods {
 			    rawData?.Value is InterSaveData saveData && saveData.isValidSave) {
 				InterRunInfo.saveData = saveData;
 				InterRunInfo.preSet = true;
+				return;
 			}
 			
 			INTER.Log.Warning("Interloper RunInfo not present, skipping step.");

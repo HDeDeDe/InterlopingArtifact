@@ -15,6 +15,10 @@
         <Content Include="..\CHANGELOG.md">
             <Link>CHANGELOG.md</Link>
         </Content>
+        <Content Include="Icons\InterloperOff.png" />
+        <Content Include="Icons\InterloperOn.png" />
+        <Content Include="Icons\texInterDeselectedIcon.png" />
+        <Content Include="Icons\texInterSelectedIcon.png" />
         <Content Include="intericons" />
         <Content Include="InterlopingArtifact.language" />
         <Content Include="InterlopingSounds\.cache\CacheVersion" />

@@ -18,6 +18,7 @@
 
     <ItemGroup>
         <PackageReference Include="MMHOOK.RoR2" Version="2024.9.18" NoWarn="NU1701"/>
+        <PackageReference Include="R2API.ArtifactCode" Version="1.0.1" />
         <PackageReference Include="R2API.ContentManagement" Version="1.0.6" />
         <PackageReference Include="R2API.Core" Version="5.1.2"/>
         <PackageReference Include="BepInEx.Core" Version="5.4.21"/>

@@ -12,6 +12,7 @@ namespace HDeMods {
 	[BepInDependency(SoundAPI.PluginGUID)]
 	[BepInDependency(LanguageAPI.PluginGUID)]
 	[BepInDependency(PrefabAPI.PluginGUID)]
+	[BepInDependency(ArtifactCodeAPI.PluginGUID)]
 	[BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]

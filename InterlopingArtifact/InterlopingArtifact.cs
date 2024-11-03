@@ -5,6 +5,7 @@ using System.Reflection;
 using RoR2;
 using BepInEx.Configuration;
 using R2API;
+using R2API.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,12 +17,13 @@ namespace HDeMods {
 		// Artifact variables
 		public static AssetBundle InterBundle;
 		public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
+		public static readonly ArtifactCode code = ScriptableObject.CreateInstance<ArtifactCode>();
 		private static GameObject InterInfo;
 		private static GameObject m_interInfo;
 		
 		// Set up variables
         public static bool HurricaneRun;
-        private static bool shouldRun;
+        private static bool artifactEnabled;
         
         // In run Loiter variables
         private static bool teleporterExists;
@@ -30,6 +32,8 @@ namespace HDeMods {
         internal static sbyte halfwayFuse;
         private static bool teleporterHit;
         internal static int totalBlindPest;
+        internal static int artifactChallengeMult = 1;
+        internal static bool artifactTrial;
 		
 		// Config options
 		public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
@@ -50,31 +54,53 @@ namespace HDeMods {
 			InterBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"));
             
 			CreateNetworkObject();
-			
+			AddHooks();
+		}
+
+		private static void AddHooks() {
 			Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
 			Run.onRunStartGlobal += Run_onRunStartGlobal;
 			Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+			On.RoR2.Run.BeginStage += Run_BeginStage;
+			On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
+			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
+			On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
 			RoR2Application.onLoad += InterRefs.CacheBlindPest;
+			On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact += InterArtifactTrial.CheckArtifactTrial;
+			On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter += InterArtifactTrial.BeginTrial;
+			ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
+			ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
 			On.RoR2.RoR2Content.Init += CheckForChunk;
+		}
+
+		private static void RemoveHooks() {
+			Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
+			Run.onRunStartGlobal -= Run_onRunStartGlobal;
+			Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
+			RoR2Application.onLoad -= InterRefs.CacheBlindPest;
+			On.RoR2.Run.BeginStage -= Run_BeginStage;
+			On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
+			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
+			On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
+			On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact -= InterArtifactTrial.CheckArtifactTrial;
+			On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter -= InterArtifactTrial.BeginTrial;
+			ArtifactTrialMissionController.onShellTakeDamageServer -= InterArtifactTrial.OnShellTakeDamage;
+			ArtifactTrialMissionController.onShellDeathServer -= InterArtifactTrial.OnShellDeath;
+			CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
+			CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
 		}
 		
 		public static void CheckForChunk(On.RoR2.RoR2Content.orig_Init init) {
 			if (InterOptionalMods.ChunkyMode.Enabled && InterOptionalMods.ChunkyMode.PluginVersion.Minor < 4) {
 				INTER.Log.Fatal("Artifact of Interloper is not compatible with ChunkyMode versions prior to 0.4.0, aborting!");
-				Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
-				Run.onRunStartGlobal -= Run_onRunStartGlobal;
-				Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
-				RoR2Application.onLoad -= InterRefs.CacheBlindPest;
+				RemoveHooks();
 				init();
 				return;
 			}
 			
 			if (!AddArtifact()) {
 				INTER.Log.Fatal("Could not add artifact, aborting!");
-				Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
-				Run.onRunStartGlobal -= Run_onRunStartGlobal;
-				Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
-				RoR2Application.onLoad -= InterRefs.CacheBlindPest;
+				RemoveHooks();
 				init();
 				return;
 			}
@@ -92,8 +118,16 @@ namespace HDeMods {
 			Artifact.descriptionToken = "INTERLOPINGARTIFACT_DESCRIPTION";
 			Artifact.smallIconDeselectedSprite = InterBundle.LoadAsset<Sprite>("texInterDeselectedIcon");
 			Artifact.smallIconSelectedSprite = InterBundle.LoadAsset<Sprite>("texInterSelectedIcon");
-
+			
+			code.topRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
+				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
+			code.middleRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Triangle,
+				ArtifactCodeAPI.CompoundValues.Circle, ArtifactCodeAPI.CompoundValues.Triangle);
+			code.bottomRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
+				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
+			
 			if (!ContentAddition.AddArtifactDef(Artifact)) return false;
+			ArtifactCodeAPI.AddCode(Artifact, code);
 			return true;
 		}
 
@@ -158,40 +192,29 @@ namespace HDeMods {
 		private static void CreateNetworkObject() {
 			GameObject temp = new GameObject("thing");
 			temp.AddComponent<NetworkIdentity>();
-			InterInfo = temp.InstantiateClone("ChunkyRunInfo");
+			InterInfo = temp.InstantiateClone("InterloperRunInfo");
 			UnityEngine.Object.Destroy(temp);
 			InterInfo.AddComponent<InterRunInfo>();
 		}
 
 		internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
-			shouldRun = false;
+			artifactEnabled = false;
 			if (!RunArtifactManager.instance.IsArtifactEnabled(Artifact)) return;
-			shouldRun = true;
+			artifactEnabled = true;
 		}
 
 		internal static void Run_onRunStartGlobal(Run run) {
 			teleporterHit = false;
 			teleporterExists = false;
 			totalBlindPest = 0;
-			if(!shouldRun && !HurricaneRun) return;
-			
-			if (shouldRun) INTER.Log.Info("Run started with Artifact of Loitering.");
+			artifactTrial = false;
 			
 			if (!NetworkServer.active) return;
 
 			m_interInfo = UnityEngine.Object.Instantiate(InterInfo);
 			NetworkServer.Spawn(m_interInfo);
 
-			if (InterRunInfo.preSet) goto HOOKS;
-			
-			if (!shouldRun) {
-				InterRunInfo.instance.loiterPenaltyTimeThisRun = (float)timeUntilLoiterPenalty.DefaultValue;
-				InterRunInfo.instance.loiterPenaltyFrequencyThisRun = (float)loiterPenaltyFrequency.DefaultValue;
-				InterRunInfo.instance.loiterPenaltySeverityThisRun = (float)loiterPenaltySeverity.DefaultValue;
-				InterRunInfo.instance.limitPestsThisRun = (bool)limitPest.DefaultValue;
-				InterRunInfo.instance.limitPestsAmountThisRun = (float)limitPestAmount.DefaultValue;
-				goto HOOKS;
-			}
+			if (InterRunInfo.preSet) return;
 			
 			InterRunInfo.instance.limitPestsThisRun = limitPest.Value;
 			InterRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;
@@ -200,42 +223,29 @@ namespace HDeMods {
 				InterRunInfo.instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
 				InterRunInfo.instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
 				InterRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
-				goto HOOKS;
+			}
+			
+			if (!artifactEnabled) {
+				InterRunInfo.instance.loiterPenaltyTimeThisRun = (float)timeUntilLoiterPenalty.DefaultValue;
+				InterRunInfo.instance.loiterPenaltyFrequencyThisRun = (float)loiterPenaltyFrequency.DefaultValue;
+				InterRunInfo.instance.loiterPenaltySeverityThisRun = (float)loiterPenaltySeverity.DefaultValue;
+				return;
 			}
 			
 			InterRunInfo.instance.loiterPenaltyTimeThisRun = Math.Min(timeUntilLoiterPenalty.Value, (float)timeUntilLoiterPenalty.DefaultValue);
 			InterRunInfo.instance.loiterPenaltyFrequencyThisRun = Math.Min(loiterPenaltyFrequency.Value, (float)loiterPenaltyFrequency.DefaultValue);
 			InterRunInfo.instance.loiterPenaltySeverityThisRun = Math.Max(loiterPenaltySeverity.Value, (float)loiterPenaltySeverity.DefaultValue);
-			
-			HOOKS:
-			if (InterRunInfo.instance.limitPestsThisRun) {
-				CharacterBody.onBodyStartGlobal += TrackVerminAdd;
-				CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
-			}
-			
-			On.RoR2.Run.BeginStage += Run_BeginStage;
-			On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
-			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
-			On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
 		}
 
 		internal static void Run_onRunDestroyGlobal(Run run) {
-			if (!shouldRun && !HurricaneRun) return;
-			if (shouldRun) INTER.Log.Info("Run ended with Artifact of Loitering.");
-			shouldRun = false;
+			artifactEnabled = false;
 			HurricaneRun = false;
 			teleporterHit = false;
 			teleporterExists = false;
 			totalBlindPest = 0;
+			artifactTrial = false;
 			InterRunInfo.preSet = false;
 			UnityEngine.Object.Destroy(m_interInfo);
-			
-			On.RoR2.Run.BeginStage -= Run_BeginStage;
-			On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
-			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
-			On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
-			CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
-			CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
 		}
 		
 		internal static void TrackVerminAdd(CharacterBody body) {
@@ -247,6 +257,10 @@ namespace HDeMods {
 		
 		// Set up Loitering Punishment
         internal static void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
+	        if (!artifactEnabled && !HurricaneRun) {
+		        beginStage(self);
+		        return;
+	        }
 	        InterRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
@@ -258,6 +272,10 @@ namespace HDeMods {
         
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
+	        if (!artifactEnabled && !HurricaneRun) {
+		        teleporterPlaced(self, sceneDirector, thing);
+		        return;
+	        }
             teleporterExists = true;
             InterRunInfo.instance.stagePunishTimer = self.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyTimeThisRun;
             INTER.Log.Info("Teleporter created! Timer set to " + InterRunInfo.instance.stagePunishTimer);
@@ -269,16 +287,17 @@ namespace HDeMods {
         
         // The loitering penalty
         internal static void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
-            if (!InterRunInfo.instance.loiterPenaltyActive || teleporterHit || Run.instance.NetworkfixedTime < InterRunInfo.instance.loiterTick) {
+            if (!InterRunInfo.instance.loiterPenaltyActive || teleporterHit || Run.instance.NetworkfixedTime < InterRunInfo.instance.loiterTick
+                || (!artifactEnabled && !HurricaneRun && !artifactTrial)) {
                 simulate(self, deltaTime);
                 return;
             }
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");
 #endif
-            int gougeCount = 1;
+            int gougeCount = artifactChallengeMult;
 
-            if (shouldRun && HurricaneRun) {
+            if (artifactEnabled && HurricaneRun) {
                 gougeCount += Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.MonstersOnShrineUse.itemIndex, false);
             }
 
@@ -321,7 +340,7 @@ namespace HDeMods {
             INTER.Log.Debug("Spawning enemy wave");
 #endif
 	        InterRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyFrequencyThisRun;
-            if (shouldRun && HurricaneRun) {
+            if (artifactEnabled && HurricaneRun) {
 	            InterRunInfo.instance.allyCurse += 0.035f;
 	            InterRunInfo.instance.RpcDirtyStats();
             }
@@ -340,6 +359,9 @@ namespace HDeMods {
 		// Disable loitering penalty when the teleporter is interacted with
 		// ReSharper disable once IdentifierTypo
 		internal static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
+			if (!artifactEnabled && !HurricaneRun) {
+				interact(teleporterState, interactor);
+			}
 			InterRunInfo.instance.loiterPenaltyActive = false;
 			teleporterHit = true;
 			InterRunInfo.instance.allyCurse = 0f;
@@ -349,7 +371,7 @@ namespace HDeMods {
 		
 		// Enforcing loitering penalty
         internal static void EnforceLoiter() {
-            if (!shouldRun && !HurricaneRun) return;
+            if (!artifactEnabled && !HurricaneRun) return;
             
             if (Run.instance.isGameOverServer) {
 #if DEBUG
@@ -363,6 +385,13 @@ namespace HDeMods {
                 ReportLoiterError("Client can not enforce loiter penalty");
 #endif
                 return;
+            }
+
+            if (artifactTrial) {
+#if DEBUG
+	            ReportLoiterError("In Artifact Trial");
+#endif
+	            return;
             }
             if (teleporterHit) {
 #if DEBUG

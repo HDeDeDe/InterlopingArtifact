@@ -15,6 +15,8 @@
         <Content Include="..\CHANGELOG.md">
             <Link>CHANGELOG.md</Link>
         </Content>
+        <Content Include="achievementIcon.clip" />
+        <Content Include="icon.png" />
         <Content Include="Icons\InterloperOff.png" />
         <Content Include="Icons\InterloperOn.png" />
         <Content Include="Icons\texInterDeselectedIcon.png" />

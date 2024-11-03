@@ -41,7 +41,6 @@ namespace HDeMods {
 			INTER.Log.Warning("Trial Complete!");
 #endif
 			InterlopingArtifact.artifactChallengeMult = 1;
-			InterlopingArtifact.artifactTrial = false;
 			InterRunInfo.instance.loiterPenaltyActive = false;
 		}
 	}

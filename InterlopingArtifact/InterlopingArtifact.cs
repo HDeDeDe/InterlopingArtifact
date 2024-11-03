@@ -204,6 +204,10 @@ namespace HDeMods {
 		}
 
 		internal static void Run_onRunStartGlobal(Run run) {
+#if DEBUG
+			reportErrorAnyway = true;
+#endif
+			
 			teleporterHit = false;
 			teleporterExists = false;
 			totalBlindPest = 0;
@@ -261,6 +265,7 @@ namespace HDeMods {
 		        beginStage(self);
 		        return;
 	        }
+	        artifactTrial = false;
 	        InterRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
@@ -272,7 +277,7 @@ namespace HDeMods {
         
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
-	        if (!artifactEnabled && !HurricaneRun) {
+	        if (!artifactEnabled && !HurricaneRun || artifactTrial) {
 		        teleporterPlaced(self, sceneDirector, thing);
 		        return;
 	        }

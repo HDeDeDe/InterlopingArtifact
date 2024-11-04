@@ -295,8 +295,10 @@ namespace HDeMods {
         }
 
         // Fix for artifact trial
+        //TODO: THAT DOESN'T WORK LMFAO
         internal static void Run_EndStage(On.RoR2.Run.orig_EndStage endStage, Run self) {
             artifactTrial = false;
+            endStage(self);
         }
 
         // If a teleporter does not exist on the stage the loitering penalty should not be applied

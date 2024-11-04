@@ -14,6 +14,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Inter_BellToll" ID="{77C50286-D793-4071-B698-9284928EAC43}">
+					<ChildrenList>
+						<Action Name="" ID="{E55E966E-5C47-4BE9-B0B8-929FD41C2293}" ShortID="594960040">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BellToll" ID="{F69607D5-EE3B-4A84-B4E7-83E48B6C2C17}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inter_GetOut" ID="{EF497E6B-32DC-4971-A2A8-DA7CD227E1D9}">
+					<ChildrenList>
+						<Action Name="" ID="{88A1D1E8-7400-4C9A-9AC8-C4CC367AB371}" ShortID="339137989">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Get Out" ID="{D4F12DD7-F4BA-403F-95D1-EDA3FB03E4B1}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inter_BellFinal" ID="{FE280C15-FC72-45F0-9CF9-F789471F2E81}">
+					<ChildrenList>
+						<Action Name="" ID="{0A64F620-060D-44F2-A62B-2D53C5B6D1AE}" ShortID="413011221">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="bellToll3" ID="{C718F28C-098F-40FB-9276-FCBEE1BDD672}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -41,6 +41,11 @@ namespace HDeMods {
 		}
 		
 		[ClientRpc]
+		public void RpcPlayFinalSound() {
+			PlayFinalSound();
+		}
+		
+		[ClientRpc]
 		public void RpcPlayWarningSound() {
 			PlayWarningSound();
 		}
@@ -68,6 +73,16 @@ namespace HDeMods {
 			if (InterlopingArtifact.useTickingNoise.Value) 
 				AkSoundEngine.PostEvent(InterRefs.sfxTickTock, InterlopingArtifactPlugin.instance.gameObject);
 			else AkSoundEngine.PostEvent(InterRefs.sfxBellToll, InterlopingArtifactPlugin.instance.gameObject);
+		}
+		
+		public void PlayFinalSound() {
+			if (!InterlopingArtifact.playWarningSound.Value) return;
+#if DEBUG
+			INTER.Log.Warning("Playing sound!");
+#endif
+			if (InterlopingArtifact.useTickingNoise.Value) 
+				AkSoundEngine.PostEvent(InterRefs.sfxGetOut, InterlopingArtifactPlugin.instance.gameObject);
+			else AkSoundEngine.PostEvent(InterRefs.sfxBellFinal, InterlopingArtifactPlugin.instance.gameObject);
 		}
 		
 		[ClientRpc]

@@ -54,6 +54,10 @@
         <Content Include="InterlopingSounds\Metadata\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\Mixing Sessions\Default Work Unit.wwu" />
         <Content Include="InterlopingSounds\Modulators\Default Work Unit.wwu" />
+        <Content Include="InterlopingSounds\Originals\SFX\bellToll1.wav" />
+        <Content Include="InterlopingSounds\Originals\SFX\bellToll2.wav" />
+        <Content Include="InterlopingSounds\Originals\SFX\bellToll3.wav" />
+        <Content Include="InterlopingSounds\Originals\SFX\Get Out.wav" />
         <Content Include="InterlopingSounds\Originals\SFX\Tick.wav" />
         <Content Include="InterlopingSounds\Originals\SFX\Tock.wav" />
         <Content Include="InterlopingSounds\Presets\Default Work Unit.wwu" />

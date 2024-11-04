@@ -446,6 +446,7 @@ namespace HDeMods {
 #if DEBUG
             INTER.Log.Debug("Warning now");
 #endif
+	        InterRunInfo.instance.RpcPlayFinalSound();
             Chat.SendBroadcastChat(new Chat.NpcChatMessage() {
 	            baseToken = "INTERLOPINGARTIFACT_WARNING",
 	            formatStringToken = "INTERLOPINGARTIFACT_WARNING_FORMAT",

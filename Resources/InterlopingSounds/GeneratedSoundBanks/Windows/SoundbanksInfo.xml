@@ -25,10 +25,18 @@
 				<GameParameter Id="3673881719" Name="Volume_SFX"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{A7A76410-C9D5-AF71-E74E-A73CA12DDA2B}">
+		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{084AB8D8-4140-2A41-3739-CCE8AB79A181}">
 			<ShortName>Inter_WarningSounds</ShortName>
 			<Path>Inter_WarningSounds.bnk</Path>
 			<Media>
+				<File Id="171630" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bellToll3.wav</ShortName>
+					<CachePath>SFX/bellToll3_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="236300422" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Get Out.wav</ShortName>
+					<CachePath>SFX/Get Out_EDCD4836.wem</CachePath>
+				</File>
 				<File Id="548034140" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Tick.wav</ShortName>
 					<CachePath>SFX/Tick_EDCD4836.wem</CachePath>
@@ -37,8 +45,32 @@
 					<ShortName>Tock.wav</ShortName>
 					<CachePath>SFX/Tock_EDCD4836.wem</CachePath>
 				</File>
+				<File Id="851025665" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bellToll1.wav</ShortName>
+					<CachePath>SFX/bellToll1_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="941712737" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bellToll2.wav</ShortName>
+					<CachePath>SFX/bellToll2_EDCD4836.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="1844540516" Name="Play_Inter_BellFinal">
+					<MediaRefs>
+						<MediaRef Id="171630"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2239523887" Name="Play_Inter_BellToll">
+					<MediaRefs>
+						<MediaRef Id="851025665"/>
+						<MediaRef Id="941712737"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3106412111" Name="Play_Inter_GetOut">
+					<MediaRefs>
+						<MediaRef Id="236300422"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1626947733" Name="Play_Inter_TickTock">
 					<MediaRefs>
 						<MediaRef Id="548034140"/>
@@ -51,5 +83,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7B6B9383-2BFD-16E5-15EC-9E5C7A88E90C}</FileHash>
+	<FileHash>{6C39CEC2-B000-DA11-176A-4B45A9B740BC}</FileHash>
 </SoundBanksInfo>

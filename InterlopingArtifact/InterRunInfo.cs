@@ -57,6 +57,7 @@ namespace HDeMods {
 		
 		public void PlayHalfwaySound() {
 			if (!InterlopingArtifact.enableHalfwayWarning.Value) return;
+			AkSoundEngine.SetRTPCValue("Inter_Volume_SFX", InterlopingArtifact.warningSoundVolume.Value);
 #if DEBUG
 			INTER.Log.Warning("Playing sound!");
 #endif
@@ -66,7 +67,7 @@ namespace HDeMods {
 		}
 
 		public void PlayWarningSound() {
-			if (!InterlopingArtifact.playWarningSound.Value) return;
+			AkSoundEngine.SetRTPCValue("Inter_Volume_SFX", InterlopingArtifact.warningSoundVolume.Value);
 #if DEBUG
             INTER.Log.Warning("Playing sound!");
 #endif
@@ -76,7 +77,7 @@ namespace HDeMods {
 		}
 		
 		public void PlayFinalSound() {
-			if (!InterlopingArtifact.playWarningSound.Value) return;
+			AkSoundEngine.SetRTPCValue("Inter_Volume_SFX", InterlopingArtifact.warningSoundVolume.Value);
 #if DEBUG
 			INTER.Log.Warning("Playing sound!");
 #endif

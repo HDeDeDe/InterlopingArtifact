@@ -39,7 +39,7 @@ namespace HDeMods {
 		public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
 		public static ConfigEntry<bool> limitPest { get; set; }
 		public static ConfigEntry<float> limitPestAmount { get; set; }
-		public static ConfigEntry<bool> playWarningSound { get; set; }
+		public static ConfigEntry<float> warningSoundVolume { get; set; }
 		public static ConfigEntry<bool> useTickingNoise { get; set; }
 		public static ConfigEntry<bool> enableHalfwayWarning { get; set; }
 		public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
@@ -60,6 +60,7 @@ namespace HDeMods {
 			Run.onRunStartGlobal += Run_onRunStartGlobal;
 			Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 			On.RoR2.Run.BeginStage += Run_BeginStage;
+			On.RoR2.Run.EndStage += Run_EndStage;
 			On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
 			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
 			On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
@@ -79,6 +80,7 @@ namespace HDeMods {
 			Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
 			RoR2Application.onLoad -= InterRefs.CacheBlindPest;
 			On.RoR2.Run.BeginStage -= Run_BeginStage;
+			On.RoR2.Run.EndStage -= Run_EndStage;
 			On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
 			On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
 			On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
@@ -162,11 +164,11 @@ namespace HDeMods {
 				"Blind Pest Amount",
 				10f,
 				"The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
-			playWarningSound = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+			warningSoundVolume = InterlopingArtifactPlugin.instance.Config.Bind<float>(
 				"Warning",
-				"Play Warning Sound",
-				true,
-				"Enable warning sound before loiter penalty occurs.");
+				"Warning Sound Volume",
+				100f,
+				"Volume of the warning sound. Set to 0 to disable.");
 			useTickingNoise = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
 				"Warning",
 				"Use Ticking Sound",
@@ -188,7 +190,7 @@ namespace HDeMods {
 			InterOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
 			InterOptionalMods.RoO.AddCheck(limitPest);
 			InterOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
-			InterOptionalMods.RoO.AddCheck(playWarningSound);
+			InterOptionalMods.RoO.AddFloatStep(warningSoundVolume, 0f, 100f, 0.5f);
 			InterOptionalMods.RoO.AddCheck(useTickingNoise);
 			InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
 			InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
@@ -272,7 +274,6 @@ namespace HDeMods {
 		        beginStage(self);
 		        return;
 	        }
-	        //TODO: Fix ArtifactTrial not getting reset after stage
 	        InterRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
@@ -282,7 +283,12 @@ namespace HDeMods {
             INTER.Log.Info("Stage begin! Waiting for Teleporter to be created.");
             beginStage(self);
         }
-        
+
+        // Fix for artifact trial
+        internal static void Run_EndStage(On.RoR2.Run.orig_EndStage endStage, Run self) {
+	        artifactTrial = false;
+        }
+
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
 	        if (!artifactEnabled && !HurricaneRun || artifactTrial) {

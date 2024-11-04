@@ -430,7 +430,7 @@ namespace HDeMods {
 		            tickingTimer += 1f;
 		            InterRunInfo.instance.RpcPlayWarningSound();
 	            }
-	            if (Run.instance.NetworkfixedTime >= tickingTimerHalfway && halfwayFuse < 2) {
+	            if (Run.instance.NetworkfixedTime >= tickingTimerHalfway && halfwayFuse < 3) {
 		            tickingTimerHalfway += 1f;
 		            halfwayFuse += 1;
 		            InterRunInfo.instance.RpcPlayHalfwaySound();

@@ -1,5 +1,4 @@
 using RoR2;
-using RoR2.Achievements;
 using RoR2.Achievements.Artifacts;
 
 namespace HDeMods {

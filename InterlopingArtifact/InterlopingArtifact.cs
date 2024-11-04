@@ -374,6 +374,7 @@ namespace HDeMods {
 		internal static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
 			if (!artifactEnabled && !HurricaneRun) {
 				interact(teleporterState, interactor);
+				return;
 			}
 			InterRunInfo.instance.loiterPenaltyActive = false;
 			teleporterHit = true;

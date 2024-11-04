@@ -5,7 +5,6 @@ using System.Reflection;
 using RoR2;
 using BepInEx.Configuration;
 using R2API;
-using R2API.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -273,10 +272,11 @@ namespace HDeMods {
 		        beginStage(self);
 		        return;
 	        }
-	        artifactTrial = false;
+	        //TODO: Fix ArtifactTrial not getting reset after stage
 	        InterRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
+            halfwayFuse = 0;
             InterRunInfo.instance.allyCurse = 0;
             InterRunInfo.instance.loiterPenaltyActive = false;
             INTER.Log.Info("Stage begin! Waiting for Teleporter to be created.");

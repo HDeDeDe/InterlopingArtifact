@@ -19,7 +19,7 @@ internal static class Settings {
 	public static readonly ArrayList extraFiles = new ArrayList {
 		new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Inter_WarningSounds.bnk"),
 		new FileInfo("../Resources/InterlopingArtifact.language"),
-		new FileInfo("../Resources/intericons")
+		new FileInfo("../Resources/interloperassets")
 	};
 
 	public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/InterlopingArtifact";

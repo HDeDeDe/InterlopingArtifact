@@ -1,12 +1,12 @@
 {
   "strings" : {
     "INTERLOPINGARTIFACT_NAME": "Artifact of Interloping",
-    "INTERLOPINGARTIFACT_UNLOCK_NAME": "Interloper",
-    "ACHIEVEMENT_INTER_ARTIFACT_ACHIEVEMENT_NAME": "Trial of Interloping",
-    "ACHIEVEMENT_INTER_ARTIFACT_ACHIEVEMENT_DESCRIPTION": "Complete the Trial of Interloping.",
+    "ACHIEVEMENT_INTERLOPER_ARTIFACT_NAME": "Trial of Interloping",
+    "ACHIEVEMENT_INTERLOPER_ARTIFACT_DESCRIPTION": "Complete the Trial of Interloping.",
     "INTERLOPINGARTIFACT_DESCRIPTION" : "Enemies will begin to swarm you after a period of time.",
     "INTERLOPINGARTIFACT_WARNING_FORMAT" : "<color=#8654ff><size=150%>{0}</color></size>",
     "INTERLOPINGARTIFACT_WARNING" : "GET OUT...",
+    "INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION": "Settings for Artifact of Interloping",
     "RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.NAME" : "Time until loiter penalty",
     "RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.DESCRIPTION" : "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds. Only Applies when artifact is enabled. Can not be changed mid run.",
     "RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.NAME" : "Loiter penalty frequency",

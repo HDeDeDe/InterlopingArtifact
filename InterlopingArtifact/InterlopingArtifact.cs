@@ -47,17 +47,11 @@ namespace HDeMods {
 		public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
 		
 		internal static void Startup() {
-			if (!File.Exists(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"))) {
+			if (!File.Exists(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "interloperassets"))) {
 				INTER.Log.Fatal("Could not load asset bundle, aborting!");
 				return;
 			}
-			InterBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "intericons"));
-			
-			Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
-			Artifact.unlockableDef.nameToken = "INTERLOPINGARTIFACT_UNLOCK_NAME";
-			Artifact.unlockableDef.cachedName = "Artifacts.Interloper";
-			Artifact.unlockableDef.achievementIcon = InterBundle.LoadAsset<Sprite>("texObtainArtifactInterloperIcon");
-			ContentAddition.AddUnlockableDef(Artifact.unlockableDef);
+			InterBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("InterlopingArtifact.dll", "interloperassets"));
             
 			CreateNetworkObject();
 			AddHooks();
@@ -77,6 +71,8 @@ namespace HDeMods {
 			ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
 			ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
 			On.RoR2.RoR2Content.Init += CheckForChunk;
+			CharacterBody.onBodyStartGlobal += TrackVerminAdd;
+			CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
 		}
 
 		private static void RemoveHooks() {
@@ -124,6 +120,7 @@ namespace HDeMods {
 			Artifact.descriptionToken = "INTERLOPINGARTIFACT_DESCRIPTION";
 			Artifact.smallIconDeselectedSprite = InterBundle.LoadAsset<Sprite>("texInterDeselectedIcon");
 			Artifact.smallIconSelectedSprite = InterBundle.LoadAsset<Sprite>("texInterSelectedIcon");
+			Artifact.cachedName = "Interloper";
 			
 			code.topRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
 				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
@@ -132,8 +129,17 @@ namespace HDeMods {
 			code.bottomRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
 				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
 			
+			LanguageAPI.Add("INTERLOPINGARTIFACT_UNLOCK_NAME", "Interloper");
+			Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+			Artifact.unlockableDef.nameToken = "INTERLOPINGARTIFACT_UNLOCK_NAME";
+			Artifact.unlockableDef.cachedName = "Artifacts.Interloper";
+			Artifact.unlockableDef.achievementIcon = InterBundle.LoadAsset<Sprite>("texObtainArtifactInterloperIcon");
+			Artifact.pickupModelPrefab = InterBundle.LoadAsset<GameObject>("PickupInterloper");
+			
+			if (!ContentAddition.AddUnlockableDef(Artifact.unlockableDef)) return false;
 			if (!ContentAddition.AddArtifactDef(Artifact)) return false;
 			ArtifactCodeAPI.AddCode(Artifact, code);
+            
 			return true;
 		}
 
@@ -193,6 +199,8 @@ namespace HDeMods {
 			InterOptionalMods.RoO.AddCheck(useTickingNoise);
 			InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
 			InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
+			InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
+			InterOptionalMods.RoO.SetDescriptionToken("INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION");
 		}
 
 		private static void CreateNetworkObject() {

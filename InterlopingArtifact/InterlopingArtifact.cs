@@ -17,7 +17,6 @@ namespace HDeMods {
 		// Artifact variables
 		public static AssetBundle InterBundle;
 		public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
-		public static readonly ArtifactCode code = ScriptableObject.CreateInstance<ArtifactCode>();
 		private static GameObject InterInfo;
 		private static GameObject m_interInfo;
 		
@@ -121,13 +120,9 @@ namespace HDeMods {
 			Artifact.smallIconDeselectedSprite = InterBundle.LoadAsset<Sprite>("texInterDeselectedIcon");
 			Artifact.smallIconSelectedSprite = InterBundle.LoadAsset<Sprite>("texInterSelectedIcon");
 			Artifact.cachedName = "Interloper";
-			
-			code.topRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
-				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
-			code.middleRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Triangle,
-				ArtifactCodeAPI.CompoundValues.Circle, ArtifactCodeAPI.CompoundValues.Triangle);
-			code.bottomRow = new Vector3Int(ArtifactCodeAPI.CompoundValues.Diamond,
-				ArtifactCodeAPI.CompoundValues.Triangle, ArtifactCodeAPI.CompoundValues.Diamond);
+
+			Sha256HashAsset codeEncrypted = ScriptableObject.CreateInstance<Sha256HashAsset>();
+			codeEncrypted.value = Sha256Hash.FromHexString("F8C1F5810E6270F0259B663AA8578FAC6D77CA599AB0F4699C5FD2C565286201");
 			
 			LanguageAPI.Add("INTERLOPINGARTIFACT_UNLOCK_NAME", "Interloper");
 			Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
@@ -138,8 +133,7 @@ namespace HDeMods {
 			
 			if (!ContentAddition.AddUnlockableDef(Artifact.unlockableDef)) return false;
 			if (!ContentAddition.AddArtifactDef(Artifact)) return false;
-			ArtifactCodeAPI.AddCode(Artifact, code);
-            
+			ArtifactCodeAPI.AddCode(Artifact, codeEncrypted);
 			return true;
 		}
 

@@ -41,7 +41,7 @@
 						<Action Name="" ID="{0A64F620-060D-44F2-A62B-2D53C5B6D1AE}" ShortID="413011221">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="bellToll3" ID="{C718F28C-098F-40FB-9276-FCBEE1BDD672}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
+									<ObjectRef Name="bellToll3" ID="{D0E884DA-953B-495F-A458-4FF6098CB0A3}" WorkUnitID="{EA3FB5A3-B65F-446C-83B3-676A4B7996E3}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

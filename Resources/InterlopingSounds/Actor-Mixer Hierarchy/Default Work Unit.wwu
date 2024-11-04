@@ -110,11 +110,6 @@
 						<RandomSequenceContainer Name="BellToll" ID="{F69607D5-EE3B-4A84-B4E7-83E48B6C2C17}" ShortID="936495112">
 							<PropertyList>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-2</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -181,35 +176,6 @@
 								</ObjectList>
 							</ObjectLists>
 						</RandomSequenceContainer>
-						<Sound Name="bellToll3" ID="{C718F28C-098F-40FB-9276-FCBEE1BDD672}" ShortID="249829189">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-8</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5DD4BE2F-5DC1-419F-B9D7-A836DB578BE6}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{31EB822A-4BDD-461C-A990-40174853C336}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="bellToll3" ID="{B0E809A9-0E67-4A15-A273-C88748B35A2C}">
-									<Language>SFX</Language>
-									<AudioFile>bellToll3.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="171630"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="bellToll3" ID="{B0E809A9-0E67-4A15-A273-C88748B35A2C}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="Get Out" ID="{D4F12DD7-F4BA-403F-95D1-EDA3FB03E4B1}" ShortID="912978799">
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
@@ -239,6 +205,28 @@
 								<ActiveSource Name="Get Out" ID="{4163A194-BEBF-4C98-A5AC-9E3E5FB39CB7}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="bellToll3" ID="{D0E884DA-953B-495F-A458-4FF6098CB0A3}" ShortID="236666189">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5DD4BE2F-5DC1-419F-B9D7-A836DB578BE6}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{31EB822A-4BDD-461C-A990-40174853C336}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="bellToll3" ID="{3F451770-6CBE-49C7-B39F-23F9BCA6F5B7}">
+									<Language>SFX</Language>
+									<AudioFile>bellToll3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="171630"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="bellToll3" ID="{3F451770-6CBE-49C7-B39F-23F9BCA6F5B7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
@@ -255,6 +243,41 @@
 											<Reference Name="Curve">
 												<Custom>
 													<Curve Name="" ID="{4A298763-83AD-457A-9C15-B1D96095828C}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{172C7014-778A-493B-AFB8-893A54C116C0}" ShortID="592309812">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Inter_Volume_SFX" ID="{F0A6D2E3-F15B-4CF1-8C00-42EDF0335997}" WorkUnitID="{560D189A-7908-4FE5-85C9-1D3A696D116C}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{BC84117F-1804-4CB1-8092-974B3F964F7B}">
 														<PropertyList>
 															<Property Name="Flags" Type="int32" Value="3"/>
 														</PropertyList>

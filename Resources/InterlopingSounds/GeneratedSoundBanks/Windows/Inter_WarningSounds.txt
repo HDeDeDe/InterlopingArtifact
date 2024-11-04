@@ -5,13 +5,14 @@ Event	ID	Name			Wwise Object Path	Notes
 	3106412111	Play_Inter_GetOut			\Default Work Unit\Play_Inter_GetOut	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	2699199950	Inter_Volume_SFX			\Default Work Unit\Inter_Volume_SFX	
 	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	171630	bellToll3	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\bellToll3		54044
+	171630	bellToll3	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\bellToll3		43686
 	236300422	Get Out	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Get Out_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\Get Out		6826
 	548034140	Tick	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tick_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tick		1404
 	638839317	Tock	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tock_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tock		1109
-	851025665	bellToll1	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll1		18645
-	941712737	bellToll2	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll2		18416
+	851025665	bellToll1	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll1		13167
+	941712737	bellToll2	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll2		11472
 

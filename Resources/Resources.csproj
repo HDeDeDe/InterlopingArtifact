@@ -16,7 +16,9 @@
             <Link>CHANGELOG.md</Link>
         </Content>
         <Content Include="achievementIcon.clip" />
+        <Content Include="achievementIconBG.png" />
         <Content Include="icon.png" />
+        <Content Include="Icons\InterloperAchievement.png" />
         <Content Include="Icons\InterloperOff.png" />
         <Content Include="Icons\InterloperOn.png" />
         <Content Include="Icons\texInterDeselectedIcon.png" />

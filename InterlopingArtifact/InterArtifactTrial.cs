@@ -44,6 +44,7 @@ namespace HDeMods {
 #endif
             InterlopingArtifact.artifactChallengeMult = 1;
             InterRunInfo.instance.loiterPenaltyActive = false;
+            InterlopingArtifact.artifactTrial = false;
         }
     }
 }

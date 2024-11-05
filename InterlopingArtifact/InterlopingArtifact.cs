@@ -63,7 +63,6 @@ namespace HDeMods {
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             On.RoR2.Run.BeginStage += Run_BeginStage;
-            On.RoR2.Run.EndStage += Run_EndStage;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
@@ -83,7 +82,6 @@ namespace HDeMods {
             Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
             RoR2Application.onLoad -= InterRefs.CacheBlindPest;
             On.RoR2.Run.BeginStage -= Run_BeginStage;
-            On.RoR2.Run.EndStage -= Run_EndStage;
             On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
@@ -292,13 +290,6 @@ namespace HDeMods {
             InterRunInfo.instance.loiterPenaltyActive = false;
             INTER.Log.Info("Stage begin! Waiting for Teleporter to be created.");
             beginStage(self);
-        }
-
-        // Fix for artifact trial
-        //TODO: THAT DOESN'T WORK LMFAO
-        internal static void Run_EndStage(On.RoR2.Run.orig_EndStage endStage, Run self) {
-            artifactTrial = false;
-            endStage(self);
         }
 
         // If a teleporter does not exist on the stage the loitering penalty should not be applied

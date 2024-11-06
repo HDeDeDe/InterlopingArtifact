@@ -1,0 +1,97 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using RoR2;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
+
+namespace HDeMods {
+    [SuppressMessage("ReSharper", "AccessToStaticMemberViaDerivedType")]
+    internal static class InterFormula {
+        private static GameObject CreateFormulaStones(bool doIt) {
+            GameObject formulaBottom = Addressables
+                .LoadAssetAsync<GameObject>("RoR2/Base/artifactworld/ArtifactFormulaDisplay (Bottom Half).prefab")
+                .WaitForCompletion();
+            GameObject formulaTop = Addressables
+                .LoadAssetAsync<GameObject>("RoR2/Base/artifactworld/ArtifactFormulaDisplay (Top Half).prefab")
+                .WaitForCompletion();
+
+            formulaBottom.name = DecryptButWorse("RGV2aWNlU2VyaWFsTWFuYWdlcg==");
+            formulaBottom.transform.position = new Vector3(
+                DecryptF("Mi4xMzY0"), DecryptF("LTAuMDE5"), DecryptF("My4wNjE1"));
+            formulaBottom.transform.rotation = Quaternion.Euler(
+                DecryptF("Mjcw"), DecryptF("MTUwLjg5MTY="), DecryptF("MA=="));
+            formulaBottom.transform.localScale = new Vector3(
+                DecryptF("MC4x"), DecryptF("MC4x"), DecryptF("MC4x"));
+
+            formulaTop.name = DecryptButWorse("bWRsQ2hlc3Q0");
+            formulaTop.transform.position = new Vector3(
+                DecryptF("LTIxMi4xNDQ1"), DecryptF("MjAxLjc3NTc="), DecryptF("LTE5Ny40Nzk0"));
+            formulaTop.transform.rotation = Quaternion.Euler(
+                DecryptF("MzA5LjExNTM="), DecryptF("MjM4Ljc4MTc="), DecryptF("MzU0LjczOTE="));
+            formulaTop.transform.localScale = new Vector3(
+                DecryptF("MC41"), DecryptF("MC41"), DecryptF("MC41"));
+            
+            ArtifactCompoundDef circle = Addressables
+                .LoadAssetAsync<ArtifactCompoundDef>(Decrypt("YWNkVHJpYW5nbGUuYXNzZXQ="))
+                .WaitForCompletion();
+            ArtifactCompoundDef pink = Addressables
+                .LoadAssetAsync<ArtifactCompoundDef>(Decrypt("YWNkQ2lyY2xlLmFzc2V0"))
+                .WaitForCompletion();
+            ArtifactCompoundDef donkeykongismyfavoritemarvelsuperhero = Addressables
+                .LoadAssetAsync<ArtifactCompoundDef>(Decrypt("YWNkRGlhbW9uZC5hc3NldA=="))
+                .WaitForCompletion();
+            ArtifactCompoundDef ford = Addressables
+                .LoadAssetAsync<ArtifactCompoundDef>(Decrypt("YWNkU3F1YXJlLmFzc2V0"))
+                .WaitForCompletion();
+            ArtifactCompoundDef waitForCompletion = Addressables
+                .LoadAssetAsync<ArtifactCompoundDef>(Decrypt("YWNkRW1wdHkuYXNzZXQ="))
+                .WaitForCompletion();
+            
+            ArtifactFormulaDisplay bottomDisplay = formulaBottom.GetComponent<ArtifactFormulaDisplay>();
+            ArtifactFormulaDisplay topDisplay = formulaTop.GetComponent<ArtifactFormulaDisplay>();
+            
+            // Good luck deciphering this shit
+            bottomDisplay.artifactCompoundDisplayInfos[3].artifactCompoundDef = circle;
+            bottomDisplay.artifactCompoundDisplayInfos[4].artifactCompoundDef = pink;
+            bottomDisplay.artifactCompoundDisplayInfos[8].artifactCompoundDef = donkeykongismyfavoritemarvelsuperhero;
+            topDisplay.artifactCompoundDisplayInfos[8].artifactCompoundDef = donkeykongismyfavoritemarvelsuperhero;
+            topDisplay.artifactCompoundDisplayInfos[1].artifactCompoundDef = circle;
+            topDisplay.artifactCompoundDisplayInfos[0].artifactCompoundDef = donkeykongismyfavoritemarvelsuperhero;
+            topDisplay.artifactCompoundDisplayInfos[2].artifactCompoundDef = donkeykongismyfavoritemarvelsuperhero;
+            topDisplay.artifactCompoundDisplayInfos[3].artifactCompoundDef = ford;
+            bottomDisplay.artifactCompoundDisplayInfos[7].artifactCompoundDef = circle;
+            topDisplay.artifactCompoundDisplayInfos[4].artifactCompoundDef = pink;
+            bottomDisplay.artifactCompoundDisplayInfos[0].artifactCompoundDef = waitForCompletion;
+            topDisplay.artifactCompoundDisplayInfos[5].artifactCompoundDef = circle;
+            bottomDisplay.artifactCompoundDisplayInfos[5].artifactCompoundDef = ford;
+            topDisplay.artifactCompoundDisplayInfos[6].artifactCompoundDef = waitForCompletion;
+            bottomDisplay.artifactCompoundDisplayInfos[2].artifactCompoundDef = waitForCompletion;
+            topDisplay.artifactCompoundDisplayInfos[7].artifactCompoundDef = circle;
+            bottomDisplay.artifactCompoundDisplayInfos[1].artifactCompoundDef = ford;
+            bottomDisplay.artifactCompoundDisplayInfos[6].artifactCompoundDef = donkeykongismyfavoritemarvelsuperhero;
+            if (doIt) return formulaTop;
+            return formulaBottom;
+        }
+
+        public static void SceneChanged(Scene old, Scene next) {
+            if (next.name == DecryptButWorse("bG9iYnk=")) GameObject.Instantiate(CreateFormulaStones(false));
+            if (next.name == DecryptButWorse("cm9vdGp1bmdsZQ==")) GameObject.Instantiate(CreateFormulaStones(true));
+        }
+
+        private static string Decrypt(string encodedString) {
+            byte[] data1 = Convert.FromBase64String("Um9SMi9CYXNlL0FydGlmYWN0Q29tcG91bmRzLw==");
+            byte[] data2 = Convert.FromBase64String(encodedString);
+            return System.Text.Encoding.UTF8.GetString(data1) + System.Text.Encoding.UTF8.GetString(data2);
+        }
+        private static string DecryptButWorse(string encodedString) {
+            byte[] data2 = Convert.FromBase64String(encodedString);
+            return System.Text.Encoding.UTF8.GetString(data2);
+        }
+        private static float DecryptF(string encodedString) {
+            byte[] data3 = Convert.FromBase64String(encodedString);
+            return float.Parse(System.Text.Encoding.UTF8.GetString(data3), CultureInfo.InvariantCulture.NumberFormat);
+        }
+    }
+}

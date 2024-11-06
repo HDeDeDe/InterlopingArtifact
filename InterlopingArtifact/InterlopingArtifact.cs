@@ -7,6 +7,7 @@ using BepInEx.Configuration;
 using R2API;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace HDeMods {
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
@@ -74,6 +75,7 @@ namespace HDeMods {
             On.RoR2.RoR2Content.Init += CheckForChunk;
             CharacterBody.onBodyStartGlobal += TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
+            SceneManager.activeSceneChanged += InterFormula.SceneChanged;
         }
 
         private static void RemoveHooks() {
@@ -91,6 +93,7 @@ namespace HDeMods {
             ArtifactTrialMissionController.onShellDeathServer -= InterArtifactTrial.OnShellDeath;
             CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
+            SceneManager.activeSceneChanged -= InterFormula.SceneChanged;
         }
 
         public static void CheckForChunk(On.RoR2.RoR2Content.orig_Init init) {

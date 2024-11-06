@@ -215,15 +215,15 @@ namespace HDeMods {
         }
 
         private static void AddOptions() {
-            InterOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
-            InterOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
-            InterOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
+            InterOptionalMods.RoO.AddFloatStep(timeUntilLoiterPenalty, 60f, 600f, 1f, "{0}");
+            InterOptionalMods.RoO.AddFloatStep(loiterPenaltyFrequency, 0f, 60f, 0.5f, "{0}");
+            InterOptionalMods.RoO.AddFloatStep(loiterPenaltySeverity, 10f, 400f, 0.5f, "{0}");
             InterOptionalMods.RoO.AddCheck(limitPest);
             InterOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
             InterOptionalMods.RoO.AddFloatStep(warningSoundVolume, 0f, 100f, 0.5f);
             InterOptionalMods.RoO.AddCheck(useTickingNoise);
             InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
-            InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
+            InterOptionalMods.RoO.AddFloatStep(timeBeforeLoiterPenalty, 2f, 60f, 1f, "{0}");
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);

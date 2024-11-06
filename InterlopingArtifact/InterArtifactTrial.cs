@@ -34,7 +34,7 @@ namespace HDeMods {
 #if DEBUG
             INTER.Log.Warning("Incrementing severity.");
 #endif
-            InterlopingArtifact.artifactChallengeMult += 1;
+            InterlopingArtifact.artifactChallengeMult += 0.25f;
         }
 
         internal static void OnShellDeath(ArtifactTrialMissionController mc, DamageReport dr) {

@@ -32,7 +32,7 @@ namespace HDeMods {
         internal static sbyte halfwayFuse;
         private static bool teleporterHit;
         internal static int totalBlindPest;
-        internal static int artifactChallengeMult = 1;
+        internal static float artifactChallengeMult = 1;
         internal static bool artifactTrial;
 
         // Config options
@@ -385,7 +385,7 @@ namespace HDeMods {
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");
 #endif
-            int gougeCount = artifactChallengeMult;
+            float gougeCount = artifactChallengeMult;
 
             if (artifactEnabled && HurricaneRun)
                 gougeCount += Util.GetItemCountForTeam(TeamIndex.Player,

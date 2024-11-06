@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 800543634
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a81852aad547bed095840e939bc40a81
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a7a21288fe2bd6ae3724c7054e7a1302
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/InterlopingArtifact/InterloperBundle/texObtainArtifactInterloperIcon.png
+- Assets/InterlopingArtifact/InterloperBundle/texInterSelectedIcon.png
+- Assets/InterlopingArtifact/InterloperBundle/texInterDeselectedIcon.png
+- Assets/InterlopingArtifact/InterloperBundle/PickupInterloper.prefab
+Dependencies: []

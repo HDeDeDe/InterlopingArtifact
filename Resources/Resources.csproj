@@ -9,6 +9,138 @@
         <Content Include="..\.gitignore">
             <Link>.gitignore</Link>
         </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle.meta">
+          <Link>Assets\AssetBundle.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundleMaker.cs.meta">
+          <Link>Assets\AssetBundleMaker.cs.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\AssetBundle">
+          <Link>Assets\AssetBundle\AssetBundle</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\AssetBundle.manifest">
+          <Link>Assets\AssetBundle\AssetBundle.manifest</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\AssetBundle.manifest.meta">
+          <Link>Assets\AssetBundle\AssetBundle.manifest.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\AssetBundle.meta">
+          <Link>Assets\AssetBundle\AssetBundle.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\interloperassets">
+          <Link>Assets\AssetBundle\interloperassets</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\interloperassets.manifest">
+          <Link>Assets\AssetBundle\interloperassets.manifest</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\interloperassets.manifest.meta">
+          <Link>Assets\AssetBundle\interloperassets.manifest.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\interloperassets.meta">
+          <Link>Assets\AssetBundle\interloperassets.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact.meta">
+          <Link>Assets\InterlopingArtifact.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle.meta">
+          <Link>Assets\InterlopingArtifact\InterloperBundle.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab.meta">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texInterDeselectedIcon.png">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texInterDeselectedIcon.png</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texInterDeselectedIcon.png.meta">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texInterDeselectedIcon.png.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texInterSelectedIcon.png">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texInterSelectedIcon.png</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texInterSelectedIcon.png.meta">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texInterSelectedIcon.png.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png.meta">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\Scenes.meta">
+          <Link>Assets\Scenes.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\Scenes\SampleScene.unity">
+          <Link>Assets\Scenes\SampleScene.unity</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\Scenes\SampleScene.unity.meta">
+          <Link>Assets\Scenes\SampleScene.unity.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets.meta">
+          <Link>Assets\StreamingAssets.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets\aa.meta">
+          <Link>Assets\StreamingAssets\aa.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets\aa\catalog.json">
+          <Link>Assets\StreamingAssets\aa\catalog.json</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets\aa\catalog.json.meta">
+          <Link>Assets\StreamingAssets\aa\catalog.json.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets\aa\settings.json">
+          <Link>Assets\StreamingAssets\aa\settings.json</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\StreamingAssets\aa\settings.json.meta">
+          <Link>Assets\StreamingAssets\aa\settings.json.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings.meta">
+          <Link>Assets\ThunderKitSettings.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\AddressableGraphicsSettings.asset">
+          <Link>Assets\ThunderKitSettings\AddressableGraphicsSettings.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\AddressableGraphicsSettings.asset.meta">
+          <Link>Assets\ThunderKitSettings\AddressableGraphicsSettings.asset.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ImportConfiguration.asset">
+          <Link>Assets\ThunderKitSettings\ImportConfiguration.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ImportConfiguration.asset.meta">
+          <Link>Assets\ThunderKitSettings\ImportConfiguration.asset.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\PackageSourceSettings.asset">
+          <Link>Assets\ThunderKitSettings\PackageSourceSettings.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\PackageSourceSettings.asset.meta">
+          <Link>Assets\ThunderKitSettings\PackageSourceSettings.asset.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\RoR2Thunderstore.asset">
+          <Link>Assets\ThunderKitSettings\RoR2Thunderstore.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\RoR2Thunderstore.asset.meta">
+          <Link>Assets\ThunderKitSettings\RoR2Thunderstore.asset.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\SerializedR2APISubmoduleDependencies.json">
+          <Link>Assets\ThunderKitSettings\SerializedR2APISubmoduleDependencies.json</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\SerializedR2APISubmoduleDependencies.json.meta">
+          <Link>Assets\ThunderKitSettings\SerializedR2APISubmoduleDependencies.json.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ThunderKit Extensions.asset">
+          <Link>Assets\ThunderKitSettings\ThunderKit Extensions.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ThunderKit Extensions.asset.meta">
+          <Link>Assets\ThunderKitSettings\ThunderKit Extensions.asset.meta</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ThunderKitSettings.asset">
+          <Link>Assets\ThunderKitSettings\ThunderKitSettings.asset</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\ThunderKitSettings\ThunderKitSettings.asset.meta">
+          <Link>Assets\ThunderKitSettings\ThunderKitSettings.asset.meta</Link>
+        </Content>
         <Content Include="..\README.md">
             <Link>README.md</Link>
         </Content>
@@ -24,7 +156,6 @@
         <Content Include="Icons\texInterDeselectedIcon.png" />
         <Content Include="Icons\texInterSelectedIcon.png" />
         <Content Include="Icons\texObtainArtifactInterloperIcon.png" />
-        <Content Include="interloperassets" />
         <Content Include="InterlopingArtifact.language" />
         <Content Include="InterlopingSounds\.cache\CacheVersion" />
         <Content Include="InterlopingSounds\.cache\LMDB\data.mdb" />
@@ -80,5 +211,10 @@
       <Folder Include="InterlopingSounds\Originals\Plugins\iZotope Hybrid Reverb\" />
       <Folder Include="InterlopingSounds\Originals\Plugins\iZotope Trash Box Modeler\" />
       <Folder Include="InterlopingSounds\Originals\Voices\English(US)\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Include="..\InterlopingArtifactUnity\Assets\AssetBundleMaker.cs">
+        <Link>Assets\AssetBundleMaker.cs</Link>
+      </Compile>
     </ItemGroup>
 </Project>

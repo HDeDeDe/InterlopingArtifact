@@ -29,7 +29,7 @@ namespace HDeMods {
 
         private void Awake() {
 #if DEBUG
-            On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
+            //On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
             if (instance != null) {
                 INTER.Log.Error("Only one instance of InterlopingArtifactPlugin can exist at a time!");

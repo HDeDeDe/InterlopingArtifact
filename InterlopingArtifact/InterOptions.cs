@@ -12,8 +12,8 @@ namespace HDeMods {
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void AddCheck(ConfigEntry<bool> option) {
-                InterCheckBoxOption boxOption = new InterCheckBoxOption(option);
+            public static void AddCheck(ConfigEntry<bool> option, bool requireRestart = false) {
+                InterCheckBoxOption boxOption = new InterCheckBoxOption(option, requireRestart);
                 ModSettingsManager.AddOption(boxOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
 #if DEBUG
@@ -78,7 +78,7 @@ namespace HDeMods {
     // Thanks to Bubbet for the suggestion to do this
     internal class InterCheckBoxOption : CheckBoxOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry) {
+        public InterCheckBoxOption(ConfigEntry<bool> configEntry, bool restart) : base(configEntry, restart) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
 

@@ -37,6 +37,7 @@ namespace HDeMods {
 
         // Config options
         public static ConfigEntry<bool> forceUnlock { get; set; }
+        public static ConfigEntry<bool> disableCodeHint { get; set; }
         public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
         public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
         public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
@@ -77,8 +78,7 @@ namespace HDeMods {
             On.RoR2.RoR2Content.Init += CheckForChunk;
             CharacterBody.onBodyStartGlobal += TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
-            SceneManager.activeSceneChanged += InterFormula.SceneChanged;
-            RoR2Application.onLoad += ForceUnlock;
+            RoR2Application.onLoad += FinalHooks;
         }
 
         private static void RemoveHooks() {
@@ -96,8 +96,7 @@ namespace HDeMods {
             ArtifactTrialMissionController.onShellDeathServer -= InterArtifactTrial.OnShellDeath;
             CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
-            SceneManager.activeSceneChanged -= InterFormula.SceneChanged;
-            RoR2Application.onLoad -= ForceUnlock;
+            RoR2Application.onLoad -= FinalHooks;
         }
 
         public static void CheckForChunk(On.RoR2.RoR2Content.orig_Init init) {
@@ -208,6 +207,11 @@ namespace HDeMods {
                 "Force Unlock",
                 false,
                 "Force artifact to be available. This will not grant the achievement. Requires restart.");
+            disableCodeHint = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Artifact",
+                "Disable Code Hints",
+                false,
+                "Prevent artifact code hints from appearing in game. Requires restart.");
         }
 
         private static void AddOptions() {
@@ -221,11 +225,13 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
             InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
+            InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
             InterOptionalMods.RoO.SetDescriptionToken("INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION");
         }
 
-        private static void ForceUnlock() {
+        private static void FinalHooks() {
+            if (!disableCodeHint.Value) SceneManager.activeSceneChanged += InterFormula.SceneChanged;
             if (forceUnlock.Value) SceneManager.activeSceneChanged += CheckUnlock;
             RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = false;
             RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = false;

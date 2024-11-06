@@ -17,6 +17,7 @@ namespace HDeMods {
         // Artifact variables
         public static AssetBundle InterBundle;
         public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
+        public static readonly ArtifactDef ArtifactDummy = ScriptableObject.CreateInstance<ArtifactDef>();
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
 
@@ -35,6 +36,7 @@ namespace HDeMods {
         internal static bool artifactTrial;
 
         // Config options
+        public static ConfigEntry<bool> forceUnlock { get; set; }
         public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
         public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
         public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
@@ -76,6 +78,7 @@ namespace HDeMods {
             CharacterBody.onBodyStartGlobal += TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
             SceneManager.activeSceneChanged += InterFormula.SceneChanged;
+            RoR2Application.onLoad += ForceUnlock;
         }
 
         private static void RemoveHooks() {
@@ -94,6 +97,7 @@ namespace HDeMods {
             CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
             SceneManager.activeSceneChanged -= InterFormula.SceneChanged;
+            RoR2Application.onLoad -= ForceUnlock;
         }
 
         public static void CheckForChunk(On.RoR2.RoR2Content.orig_Init init) {
@@ -104,6 +108,8 @@ namespace HDeMods {
                 init();
                 return;
             }
+            
+            BindSettings();
 
             if (!AddArtifact()) {
                 INTER.Log.Fatal("Could not add artifact, aborting!");
@@ -111,10 +117,10 @@ namespace HDeMods {
                 init();
                 return;
             }
-
-            BindSettings();
+            
+            if (InterOptionalMods.RoO.Enabled) AddOptions();
             if (InterOptionalMods.ProperSaves.Enabled) InterOptionalMods.ProperSaves.SetUp();
-
+            
             InterlopingArtifactPlugin.startupSuccess = true;
             init();
         }
@@ -126,10 +132,16 @@ namespace HDeMods {
             Artifact.smallIconDeselectedSprite = InterBundle.LoadAsset<Sprite>("texInterDeselectedIcon");
             Artifact.smallIconSelectedSprite = InterBundle.LoadAsset<Sprite>("texInterSelectedIcon");
             Artifact.cachedName = "Interloper";
-
+            
             Sha256HashAsset codeEncrypted = ScriptableObject.CreateInstance<Sha256HashAsset>();
             codeEncrypted.value =
                 Sha256Hash.FromHexString("F8C1F5810E6270F0259B663AA8578FAC6D77CA599AB0F4699C5FD2C565286201");
+            
+            ArtifactDummy.nameToken = "INTERLOPINGARTIFACT_NAME";
+            ArtifactDummy.descriptionToken = "INTERLOPINGARTIFACT_DESCRIPTION";
+            ArtifactDummy.smallIconDeselectedSprite = Artifact.smallIconDeselectedSprite;
+            ArtifactDummy.smallIconSelectedSprite = Artifact.smallIconSelectedSprite;
+            ArtifactDummy.cachedName = "InterloperDummy";
 
             LanguageAPI.Add("INTERLOPINGARTIFACT_UNLOCK_NAME", "Interloper");
             Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
@@ -140,6 +152,7 @@ namespace HDeMods {
 
             if (!ContentAddition.AddUnlockableDef(Artifact.unlockableDef)) return false;
             if (!ContentAddition.AddArtifactDef(Artifact)) return false;
+            if (!ContentAddition.AddArtifactDef(ArtifactDummy)) return false;
             ArtifactCodeAPI.AddCode(Artifact, codeEncrypted);
             return true;
         }
@@ -190,7 +203,14 @@ namespace HDeMods {
                 "Time Before Loiter Penalty",
                 15f,
                 "How long before the Loiter Penalty the bells start tolling.");
-            if (!InterOptionalMods.RoO.Enabled) return;
+            forceUnlock = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Artifact",
+                "Force Unlock",
+                false,
+                "Force artifact to be available. This will not grant the achievement. Requires restart.");
+        }
+
+        private static void AddOptions() {
             InterOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
             InterOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
             InterOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
@@ -200,8 +220,37 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(useTickingNoise);
             InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
             InterOptionalMods.RoO.AddFloat(timeBeforeLoiterPenalty, 2f, 60f, "{0}");
+            InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
             InterOptionalMods.RoO.SetDescriptionToken("INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION");
+        }
+
+        private static void ForceUnlock() {
+            if (forceUnlock.Value) SceneManager.activeSceneChanged += CheckUnlock;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
+        }
+        
+        private static void CheckUnlock(Scene old, Scene next) {
+            if (next.name != "lobby") return;
+            bool hasArtifact = false;
+            foreach (LocalUser user in LocalUserManager.localUsersList) {
+                if (user.userProfile.HasUnlockable(Artifact.unlockableDef)) hasArtifact = true;
+            }
+
+            if (!hasArtifact) {
+                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = true;
+                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = true;
+                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = true;
+                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = true;
+                return;
+            }
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
         }
 
         private static void CreateNetworkObject() {
@@ -214,6 +263,10 @@ namespace HDeMods {
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
             artifactEnabled = false;
+            if (RunArtifactManager.instance.IsArtifactEnabled(ArtifactDummy)) {
+                RunArtifactManager.instance.SetArtifactEnabledServer(Artifact, true);
+                RunArtifactManager.instance.SetArtifactEnabledServer(ArtifactDummy, false);
+            }
             if (!RunArtifactManager.instance.IsArtifactEnabled(Artifact)) return;
             artifactEnabled = true;
         }

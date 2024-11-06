@@ -287,6 +287,7 @@ namespace HDeMods {
             NetworkServer.Spawn(m_interInfo);
 
             if (InterRunInfo.preSet) return;
+            InterlopingArtifactPlugin.instance.Config.Reload();
 
             InterRunInfo.instance.limitPestsThisRun = limitPest.Value;
             InterRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;

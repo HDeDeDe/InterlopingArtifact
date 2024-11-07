@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 namespace HDeMods {
     [SuppressMessage("ReSharper", "AccessToStaticMemberViaDerivedType")]
     internal static class InterFormula {
+        public static bool scrambleCode = false;
         private static GameObject CreateFormulaStones(bool doIt) {
             GameObject formulaBottom = Addressables
                 .LoadAssetAsync<GameObject>("RoR2/Base/artifactworld/ArtifactFormulaDisplay (Bottom Half).prefab")
@@ -18,9 +19,13 @@ namespace HDeMods {
                 .WaitForCompletion();
 
             formulaBottom.name = DecryptButWorse("RGV2aWNlU2VyaWFsTWFuYWdlcg==");
-            formulaBottom.transform.position = new Vector3(
+            if (scrambleCode)formulaBottom.transform.position = new Vector3(
+                DecryptF("Mi4wNzkx"), DecryptF("LTAuMDE5"), DecryptF("My4wNjE1"));
+            else formulaBottom.transform.position = new Vector3(
                 DecryptF("Mi4xMzY0"), DecryptF("LTAuMDE5"), DecryptF("My4wNjE1"));
-            formulaBottom.transform.rotation = Quaternion.Euler(
+            if (scrambleCode)formulaBottom.transform.rotation = Quaternion.Euler(
+                DecryptF("Mjcw"), DecryptF("MTU0Ljk2NjI="), DecryptF("MA=="));
+            else formulaBottom.transform.rotation = Quaternion.Euler(
                 DecryptF("Mjcw"), DecryptF("MTUwLjg5MTY="), DecryptF("MA=="));
             formulaBottom.transform.localScale = new Vector3(
                 DecryptF("MC4x"), DecryptF("MC4x"), DecryptF("MC4x"));

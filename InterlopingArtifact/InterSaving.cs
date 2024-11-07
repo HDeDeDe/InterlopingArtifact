@@ -10,6 +10,7 @@ namespace HDeMods {
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void SetUp() {
+                InterFormula.scrambleCode = true;
                 Loading.OnLoadingStarted += LoadFromSave;
                 SaveFile.OnGatherSaveData += SaveRunInfo;
             }

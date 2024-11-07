@@ -6,6 +6,7 @@ using RoR2;
 using BepInEx.Configuration;
 using R2API;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -47,6 +48,7 @@ namespace HDeMods {
         public static ConfigEntry<bool> useTickingNoise { get; set; }
         public static ConfigEntry<bool> enableHalfwayWarning { get; set; }
         public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
+        
 
         internal static void Startup() {
             if (!File.Exists(Assembly.GetExecutingAssembly().Location
@@ -108,6 +110,7 @@ namespace HDeMods {
                 return;
             }
             
+            InterlopingArtifactPlugin.instance.revokeArtifactEvent += InterlopingArtifactPlugin.instance.RevokeArtifact;
             BindSettings();
 
             if (!AddArtifact()) {
@@ -226,6 +229,11 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddFloatStep(timeBeforeLoiterPenalty, 2f, 60f, 1f, "{0}");
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
+            
+#if DEBUG
+            InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact",  InterlopingArtifactPlugin.instance.revokeArtifactEvent);
+#endif
+            
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
             InterOptionalMods.RoO.SetDescriptionToken("INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION");
         }

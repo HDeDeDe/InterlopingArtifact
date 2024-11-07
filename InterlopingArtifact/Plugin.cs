@@ -5,6 +5,7 @@ using BepInEx.Logging;
 using R2API;
 using UnityEngine;
 using RoR2;
+using UnityEngine.Events;
 
 namespace HDeMods {
     [BepInDependency(DirectorAPI.PluginGUID)]
@@ -25,6 +26,7 @@ namespace HDeMods {
         public const string PluginVersion = "0.1.1";
 
         public static InterlopingArtifactPlugin instance;
+        public UnityAction revokeArtifactEvent;
         public static bool startupSuccess = false;
 
         private void Awake() {
@@ -37,6 +39,13 @@ namespace HDeMods {
             instance = this;
             INTER.Log.Init(Logger);
             InterlopingArtifact.Startup();
+        }
+        
+        public void RevokeArtifact() {
+            foreach (LocalUser user in LocalUserManager.localUsersList) {
+                user.userProfile.RevokeUnlockable(InterlopingArtifact.Artifact.unlockableDef);
+                user.userProfile.RevokeAchievement("INTERLOPER_ARTIFACT");
+            }
         }
 
         private void FixedUpdate() {

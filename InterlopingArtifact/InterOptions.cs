@@ -4,6 +4,7 @@ using RiskOfOptions.Options;
 using RiskOfOptions;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HDeMods {
     namespace InterOptionalMods {
@@ -60,6 +61,19 @@ namespace HDeMods {
 #if DEBUG
                 INTER.Log.Debug(stepSliderOption.GetNameToken());
                 INTER.Log.Debug(stepSliderOption.GetDescriptionToken());
+#endif
+            }
+            
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            public static void AddButton(string name, string category, UnityAction onButtonPressed) {
+                InterButtonOption buttonOption = new InterButtonOption(name, category, "", "", onButtonPressed);
+                ModSettingsManager.AddOption(buttonOption, InterlopingArtifactPlugin.PluginGUID,
+                    InterlopingArtifactPlugin.PluginName);
+
+#if DEBUG
+                INTER.Log.Debug(buttonOption.GetNameToken());
+                INTER.Log.Debug(buttonOption.GetDescriptionToken());
+                INTER.Log.Debug(buttonOption.GetButtonLabelToken());
 #endif
             }
 
@@ -128,6 +142,21 @@ namespace HDeMods {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public InterSliderStepOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
             config) {
+            RoR2.Language.onCurrentLanguageChanged += ResetDescription;
+        }
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public override void RegisterTokens() {
+            Description = RoR2.Language.GetString(GetDescriptionToken());
+        }
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void ResetDescription() {
+            Description = RoR2.Language.GetString(GetDescriptionToken());
+        }
+    }
+    internal class InterButtonOption : GenericButtonOption {
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public InterButtonOption(string name, string category, string description, string buttonText, UnityAction onButtonPressed) 
+            : base(name, category, description, buttonText, onButtonPressed) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

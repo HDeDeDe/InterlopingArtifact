@@ -78,7 +78,7 @@ namespace HDeMods {
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter += InterArtifactTrial.BeginTrial;
             ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
             ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
-            On.RoR2.RoR2Content.Init += CheckForChunk;
+            On.RoR2.CharacterBody.Init += CheckForChunk;
             CharacterBody.onBodyStartGlobal += TrackVerminAdd;
             CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
             RoR2Application.onLoad += FinalHooks;
@@ -102,7 +102,7 @@ namespace HDeMods {
             RoR2Application.onLoad -= FinalHooks;
         }
 
-        public static void CheckForChunk(On.RoR2.RoR2Content.orig_Init init) {
+        public static void CheckForChunk(On.RoR2.CharacterBody.orig_Init init) {
             if (InterOptionalMods.ChunkyMode.Enabled && InterOptionalMods.ChunkyMode.PluginVersion.Minor < 4) {
                 INTER.Log.Fatal(
                     "Artifact of Interloper is not compatible with ChunkyMode versions prior to 0.4.0, aborting!");

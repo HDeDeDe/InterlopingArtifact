@@ -26,8 +26,8 @@ internal static class Settings {
     public const string manifestDescription = "Enemies will begin to swarm you after a period of time.";
 
     public const string manifestDependencies = "[\n" +
-                                               "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" +
-                                               "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\",\n" +
+                                               "\t\t\"bbepis-BepInExPack-5.4.2117\",\n" +
+                                               "\t\t\"RiskofThunder-HookGenPatcher-1.2.5\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Prefab-1.0.4\",\n" +

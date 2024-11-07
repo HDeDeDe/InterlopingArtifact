@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using ProperSave;
 using System.Runtime.CompilerServices;
 using RoR2;
 
 namespace HDeMods {
     namespace InterOptionalMods {
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         internal static class ProperSaves {
             public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
 

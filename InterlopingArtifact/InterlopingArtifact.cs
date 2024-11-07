@@ -6,6 +6,7 @@ using RoR2;
 using BepInEx.Configuration;
 using R2API;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +21,7 @@ namespace HDeMods {
         public static readonly ArtifactDef ArtifactDummy = ScriptableObject.CreateInstance<ArtifactDef>();
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
+        private static UnityAction revokeArtifactEvent;
 
         // Set up variables
         public static bool HurricaneRun;
@@ -109,7 +111,7 @@ namespace HDeMods {
                 return;
             }
             
-            InterlopingArtifactPlugin.instance.revokeArtifactEvent += RevokeArtifact;
+            revokeArtifactEvent += RevokeArtifact;
             BindSettings();
 
             if (!AddArtifact()) {
@@ -233,7 +235,7 @@ namespace HDeMods {
             
 #if DEBUG
             InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact",  
-                InterlopingArtifactPlugin.instance.revokeArtifactEvent);
+                revokeArtifactEvent);
 #endif
             
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);

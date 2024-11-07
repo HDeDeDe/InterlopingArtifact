@@ -3,6 +3,7 @@ using RoR2;
 
 namespace HDeMods {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
     internal static class InterRefs {
         internal const uint sfxTickTock = 1626947733;
         internal const uint sfxGetOut = 3106412111;

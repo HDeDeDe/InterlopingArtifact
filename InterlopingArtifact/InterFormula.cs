@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 namespace HDeMods {
     [SuppressMessage("ReSharper", "AccessToStaticMemberViaDerivedType")]
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
+    [SuppressMessage("ReSharper", "IdentifierTypo")]
     internal static class InterFormula {
         public static bool scrambleCode = false;
         private static GameObject CreateFormulaStones(bool doIt) {

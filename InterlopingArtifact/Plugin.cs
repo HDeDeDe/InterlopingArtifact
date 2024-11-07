@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using BepInEx;
 using BepInEx.Logging;
 using R2API;
-using UnityEngine.Events;
 
 namespace HDeMods {
     [BepInDependency(DirectorAPI.PluginGUID)]
@@ -23,7 +22,6 @@ namespace HDeMods {
         public const string PluginVersion = "0.1.1";
 
         public static InterlopingArtifactPlugin instance;
-        public UnityAction revokeArtifactEvent;
         public static bool startupSuccess = false;
 
         private void Awake() {

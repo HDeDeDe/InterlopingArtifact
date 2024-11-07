@@ -12,8 +12,7 @@ namespace HDeMods {
 #endif
                 InterlopingArtifact.artifactTrial = true;
             }
-
-
+            
             setCurrentArtifact(self, artifact);
         }
 

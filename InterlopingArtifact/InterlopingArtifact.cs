@@ -6,7 +6,6 @@ using RoR2;
 using BepInEx.Configuration;
 using R2API;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -164,7 +163,8 @@ namespace HDeMods {
                 "Loitering",
                 "Time until loiter penalty",
                 300f,
-                "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds.");
+                "The amount of time from the start of the stage until the loiter penalty is enforced. " +
+                "Minimum of 60 seconds.");
             loiterPenaltyFrequency = InterlopingArtifactPlugin.instance.Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty frequency",
@@ -184,7 +184,8 @@ namespace HDeMods {
                 "Limit Enemies",
                 "Blind Pest Amount",
                 10f,
-                "The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
+                "The percentage of enemies that are allowed to be blind pest. " +
+                "Only affects the Loitering penalty.");
             warningSoundVolume = InterlopingArtifactPlugin.instance.Config.Bind<float>(
                 "Warning",
                 "Warning Sound Volume",
@@ -231,7 +232,8 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             
 #if DEBUG
-            InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact",  InterlopingArtifactPlugin.instance.revokeArtifactEvent);
+            InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact",  
+                InterlopingArtifactPlugin.instance.revokeArtifactEvent);
 #endif
             
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);

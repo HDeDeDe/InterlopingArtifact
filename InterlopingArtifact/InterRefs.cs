@@ -10,8 +10,6 @@ namespace HDeMods {
         internal const uint sfxBellFinal = 1844540516;
         internal static BodyIndex FlyingVermin;
 
-        internal static void CacheBlindPest() {
-            FlyingVermin = BodyCatalog.FindBodyIndex("FlyingVerminBody");
-        }
+        internal static void CacheBlindPest() => FlyingVermin = BodyCatalog.FindBodyIndex("FlyingVerminBody");
     }
 }

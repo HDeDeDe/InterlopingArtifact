@@ -78,14 +78,11 @@ namespace HDeMods {
             }
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void SetSprite(Sprite sprite) {
-                ModSettingsManager.SetModIcon(sprite);
-            }
+            public static void SetSprite(Sprite sprite) => ModSettingsManager.SetModIcon(sprite);
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void SetDescriptionToken(string description) {
+            public static void SetDescriptionToken(string description) => 
                 ModSettingsManager.SetModDescriptionToken(description);
-            }
         }
     }
 

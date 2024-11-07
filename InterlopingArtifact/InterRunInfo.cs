@@ -34,20 +34,11 @@ namespace HDeMods {
             limitPestsAmountThisRun = saveData.limitPestsAmountThisRun;
         }
 
-        [ClientRpc]
-        public void RpcPlayFinalSound() {
-            PlayFinalSound();
-        }
+        [ClientRpc] public void RpcPlayFinalSound() => PlayFinalSound();
 
-        [ClientRpc]
-        public void RpcPlayWarningSound() {
-            PlayWarningSound();
-        }
+        [ClientRpc] public void RpcPlayWarningSound() => PlayWarningSound();
 
-        [ClientRpc]
-        public void RpcPlayHalfwaySound() {
-            PlayHalfwaySound();
-        }
+        [ClientRpc] public void RpcPlayHalfwaySound() => PlayHalfwaySound();
 
         public void PlayHalfwaySound() {
             if (!InterlopingArtifact.enableHalfwayWarning.Value) return;
@@ -80,10 +71,7 @@ namespace HDeMods {
             else AkSoundEngine.PostEvent(InterRefs.sfxBellFinal, InterlopingArtifactPlugin.instance.gameObject);
         }
 
-        [ClientRpc]
-        public void RpcDirtyStats() {
-            DirtyStats();
-        }
+        [ClientRpc] public void RpcDirtyStats() => DirtyStats();
 
         public void DirtyStats() {
             foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player))

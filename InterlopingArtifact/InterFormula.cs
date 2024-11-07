@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using RoR2;
@@ -81,22 +82,22 @@ namespace HDeMods {
         }
 
         public static void SceneChanged(Scene old, Scene next) {
-            if (next.name == DecryptButWorse("bG9iYnk=")) GameObject.Instantiate(CreateFormulaStones(false));
-            if (next.name == DecryptButWorse("cm9vdGp1bmdsZQ==")) GameObject.Instantiate(CreateFormulaStones(true));
+            if (next.name == DecryptButWorse("bG9iYnk=")) 
+                GameObject.Instantiate(CreateFormulaStones(false));
+            if (next.name == DecryptButWorse("cm9vdGp1bmdsZQ==")) 
+                GameObject.Instantiate(CreateFormulaStones(true));
         }
 
-        private static string Decrypt(string encodedString) {
-            byte[] data1 = Convert.FromBase64String("Um9SMi9CYXNlL0FydGlmYWN0Q29tcG91bmRzLw==");
-            byte[] data2 = Convert.FromBase64String(encodedString);
-            return System.Text.Encoding.UTF8.GetString(data1) + System.Text.Encoding.UTF8.GetString(data2);
-        }
-        private static string DecryptButWorse(string encodedString) {
-            byte[] data2 = Convert.FromBase64String(encodedString);
-            return System.Text.Encoding.UTF8.GetString(data2);
-        }
-        private static float DecryptF(string encodedString) {
-            byte[] data3 = Convert.FromBase64String(encodedString);
-            return float.Parse(System.Text.Encoding.UTF8.GetString(data3), CultureInfo.InvariantCulture.NumberFormat);
-        }
+        private static string Decrypt(string encodedString) =>
+            Encoding.UTF8.GetString(Convert.FromBase64String("Um9SMi9CYXNlL0FydGlmYWN0Q29tcG91bmRzLw==")) 
+            + Encoding.UTF8.GetString(Convert.FromBase64String(encodedString));
+        
+        
+        private static string DecryptButWorse(string encodedString) => 
+            Encoding.UTF8.GetString(Convert.FromBase64String(encodedString));
+        
+        private static float DecryptF(string encodedString) =>
+            float.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(encodedString)), 
+                CultureInfo.InvariantCulture.NumberFormat);
     }
 }

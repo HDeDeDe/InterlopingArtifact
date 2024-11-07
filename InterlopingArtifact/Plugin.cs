@@ -1,10 +1,7 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using BepInEx;
 using BepInEx.Logging;
 using R2API;
-using UnityEngine;
-using RoR2;
 using UnityEngine.Events;
 
 namespace HDeMods {
@@ -41,9 +38,7 @@ namespace HDeMods {
             InterlopingArtifact.Startup();
         }
 
-        private void FixedUpdate() {
-            InterlopingArtifact.EnforceLoiter();
-        }
+        private void FixedUpdate() => InterlopingArtifact.EnforceLoiter();
     }
 
     namespace INTER {

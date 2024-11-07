@@ -110,7 +110,7 @@ namespace HDeMods {
                 return;
             }
             
-            InterlopingArtifactPlugin.instance.revokeArtifactEvent += InterlopingArtifactPlugin.instance.RevokeArtifact;
+            InterlopingArtifactPlugin.instance.revokeArtifactEvent += RevokeArtifact;
             BindSettings();
 
             if (!AddArtifact()) {
@@ -236,6 +236,14 @@ namespace HDeMods {
             
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
             InterOptionalMods.RoO.SetDescriptionToken("INTERLOPINGARTIFACT_RISK_OF_OPTIONS_DESCRIPTION");
+        }
+        
+        public static void RevokeArtifact() {
+            foreach (LocalUser user in LocalUserManager.localUsersList) {
+                user.userProfile.RevokeUnlockable(InterlopingArtifact.Artifact.unlockableDef);
+                user.userProfile.RevokeAchievement("INTERLOPER_ARTIFACT");
+            }
+            Application.Quit();
         }
 
         private static void FinalHooks() {

@@ -40,13 +40,6 @@ namespace HDeMods {
             INTER.Log.Init(Logger);
             InterlopingArtifact.Startup();
         }
-        
-        public void RevokeArtifact() {
-            foreach (LocalUser user in LocalUserManager.localUsersList) {
-                user.userProfile.RevokeUnlockable(InterlopingArtifact.Artifact.unlockableDef);
-                user.userProfile.RevokeAchievement("INTERLOPER_ARTIFACT");
-            }
-        }
 
         private void FixedUpdate() {
             InterlopingArtifact.EnforceLoiter();

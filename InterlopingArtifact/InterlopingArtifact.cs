@@ -18,7 +18,6 @@ namespace HDeMods {
         // Artifact variables
         public static AssetBundle InterBundle;
         public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
-        public static readonly ArtifactDef ArtifactDummy = ScriptableObject.CreateInstance<ArtifactDef>();
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
         private static UnityAction revokeArtifactEvent;
@@ -139,12 +138,6 @@ namespace HDeMods {
             Sha256HashAsset codeEncrypted = ScriptableObject.CreateInstance<Sha256HashAsset>();
             codeEncrypted.value =
                 Sha256Hash.FromHexString("F8C1F5810E6270F0259B663AA8578FAC6D77CA599AB0F4699C5FD2C565286201");
-            
-            ArtifactDummy.nameToken = "INTERLOPINGARTIFACT_NAME";
-            ArtifactDummy.descriptionToken = "INTERLOPINGARTIFACT_DESCRIPTION";
-            ArtifactDummy.smallIconDeselectedSprite = Artifact.smallIconDeselectedSprite;
-            ArtifactDummy.smallIconSelectedSprite = Artifact.smallIconSelectedSprite;
-            ArtifactDummy.cachedName = "InterloperDummy";
 
             LanguageAPI.Add("INTERLOPINGARTIFACT_UNLOCK_NAME", "Interloper");
             Artifact.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
@@ -155,7 +148,6 @@ namespace HDeMods {
 
             if (!ContentAddition.AddUnlockableDef(Artifact.unlockableDef)) return false;
             if (!ContentAddition.AddArtifactDef(Artifact)) return false;
-            if (!ContentAddition.AddArtifactDef(ArtifactDummy)) return false;
             ArtifactCodeAPI.AddCode(Artifact, codeEncrypted);
             return true;
         }
@@ -252,31 +244,9 @@ namespace HDeMods {
 
         private static void FinalHooks() {
             if (!disableCodeHint.Value) SceneManager.activeSceneChanged += InterFormula.SceneChanged;
-            if (forceUnlock.Value) SceneManager.activeSceneChanged += CheckUnlock;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
-        }
-        
-        private static void CheckUnlock(Scene old, Scene next) {
-            if (next.name != "lobby") return;
-            bool hasArtifact = false;
-            foreach (LocalUser user in LocalUserManager.localUsersList) {
-                if (user.userProfile.HasUnlockable(Artifact.unlockableDef)) hasArtifact = true;
-            }
-
-            if (!hasArtifact) {
-                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = true;
-                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = true;
-                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = true;
-                RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = true;
-                return;
-            }
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInSinglePlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.On"].availableInMultiPlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
-            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.InterloperDummy.Off"].availableInSinglePlayer = false;
+            if (!forceUnlock.Value) return;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.Interloper.On"].requiredUnlockable = null;
+            RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.Interloper.Off"].requiredUnlockable = null;
         }
 
         private static void CreateNetworkObject() {
@@ -289,10 +259,6 @@ namespace HDeMods {
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
             artifactEnabled = false;
-            if (RunArtifactManager.instance.IsArtifactEnabled(ArtifactDummy)) {
-                RunArtifactManager.instance.SetArtifactEnabledServer(Artifact, true);
-                RunArtifactManager.instance.SetArtifactEnabledServer(ArtifactDummy, false);
-            }
             if (!RunArtifactManager.instance.IsArtifactEnabled(Artifact)) return;
             artifactEnabled = true;
         }

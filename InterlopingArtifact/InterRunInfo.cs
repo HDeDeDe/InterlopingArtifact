@@ -3,12 +3,12 @@ using System.Runtime.Serialization;
 using UnityEngine.Networking;
 
 namespace HDeMods {
-    internal class InterRunInfo : NetworkBehaviour {
+    public class InterRunInfo : NetworkBehaviour {
         public static InterRunInfo instance;
 
         // This should only be true if ProperSave is present and added settings
         public static bool preSet;
-        public static InterSaveData saveData;
+        internal static InterSaveData saveData;
 
         [SyncVar] public float loiterPenaltyTimeThisRun;
         [SyncVar] public float loiterPenaltyFrequencyThisRun;

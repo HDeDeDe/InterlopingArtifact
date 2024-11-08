@@ -4,7 +4,7 @@
 A new artifact which causes enemies to swarm you after a period of time.
 
 ## Installation
-To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/InterlopingArtifact/) or search for ChunkyMode within r2modman.
+To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/InterlopingArtifact/) or search for InterlopingArtifact within r2modman.
 
 To install manually, either click the "Manual Download" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/InterlopingArtifact/), or download the latest release from [GitHub](https://github.com/HDeDeDe/InterlopingArtifact/releases). Once downloaded, if you are using r2modman, launch r2modman and navigate to your preferred Risk of Rain 2 profile. From there, go to Settings > Profile > Import local mod, and then select HDeDeDe-InterlopingArtifact-{Version_Number}.zip (or just InterlopingArtifact.zip) when prompted. Confirm the settings and you should be good to go.
 

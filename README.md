@@ -3,6 +3,23 @@
 
 A new artifact which causes enemies to swarm you after a period of time.
 
+## Config
+This mod includes support for Risk of Options, which exposes a few settings to tweak.
+
+| Section       | Option                     | Description                                                                                                                                                                    |
+|---------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Loitering     | Time until loiter penalty  | The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds. Only Applies when artifact is enabled. Can not be changed mid run. |
+| Loitering     | Loiter penalty frequency   | The amount of time between forced enemy spawns. Only Applies when artifact is enabled. Can not be changed mid run.                                                             |
+| Loitering     | Loiter penalty severity    | TThe strength of spawned enemies. 40 is equal to 1 combat shrine. Only Applies when artifact is enabled. Can not be changed mid run.                                           |
+| Limit Enemies | Limit Blind Pest           | Enable Blind Pest limit. Can not be changed mid run.                                                                                                                           |
+| Limit Enemies | Blind Pest Amount          | The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty. Can not be changed mid run.                                                   |
+| Warning       | Warning Sound Volume       | Volume of the warning sound. Set to 0 to disable.                                                                                                                              |
+| Warning       | Use Ticking Sound          | Use a clock ticking sound instead of a bell. Recommended if you have Kampanaphobia.                                                                                            |
+| Warning       | Enable Halfway Warning     | Play the warning sound when the loiter timer reaches half way.                                                                                                                 |
+| Warning       | Time Before Loiter Penalty | How long before the Loiter Penalty the bells start tolling.                                                                                                                    |
+| Artifact      | Force Unlock               | Force artifact to be available. This will not grant the achievement. Requires restart. It's also no fun :(                                                                     |
+| Artifact      | Disable Code Hints         | Prevent artifact code hints from appearing in game. Requires restart.                                                                                                          |
+
 ## Installation
 To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/InterlopingArtifact/) or search for InterlopingArtifact within r2modman.
 
@@ -15,35 +32,35 @@ Any and all feedback is appreciated, if you want to let me know anything please 
 
 ## Artifact hints
 <details>
-    <summary>Artifact 1:</summary>
-    <details>
-    <summary>Hint 1</summary>
-    The stars told us the way.
-    </details>
-    <details>
-    <summary>Hint 2</summary>
-    Before the fall of humanity.
-    </details>
-    <details>
-    <summary>Hint 3</summary>
-    We could not back away from our fate.
-    </details>
+<summary>Artifact 1:</summary>
+<details>
+<summary>Hint 1</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;The stars told us the way.
+</details>
+<details>
+<summary>Hint 2</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;Before the fall of humanity.
+</details>
+<details>
+<summary>Hint 3</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;We could not back away from our fate.
+</details>
 </details>
 
 <details>
-    <summary>Artifact 2:</summary>
-    <details>
-    <summary>Hint 1</summary>
-    We reached for the sky.
-    </details>
-    <details>
-    <summary>Hint 2</summary>
-    The roots followed in pursuit.
-    </details>
-    <details>
-    <summary>Hint 3</summary>
-    The tree of mycelium led us astray.
-    </details>
+<summary>Artifact 2:</summary>
+<details>
+<summary>Hint 1</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;We reached for the sky.
+</details>
+<details>
+<summary>Hint 2</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;The roots followed in pursuit.
+</details>
+<details>
+<summary>Hint 3</summary>
+&nbsp;&nbsp;&nbsp;&nbsp;The tree of mycelium led us astray.
+</details>
 </details>
 
 ## Creds

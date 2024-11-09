@@ -48,7 +48,7 @@ Any and all feedback is appreciated, if you want to let me know anything please 
 
 ## Creds
 
-Antboi - Made the Artifact Icon
+Ants - Made the Artifact Icon
 
 HIFU - Provided base game icon backgrounds
 

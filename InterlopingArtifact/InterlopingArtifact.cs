@@ -20,7 +20,6 @@ namespace HDeMods {
         public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
-        private static UnityAction revokeArtifactEvent;
 
         // Set up variables
         public static bool HurricaneRun;
@@ -110,7 +109,6 @@ namespace HDeMods {
                 return;
             }
             
-            revokeArtifactEvent += RevokeArtifact;
             BindSettings();
 
             if (!AddArtifact()) {
@@ -226,8 +224,7 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             
 #if DEBUG
-            InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact",  
-                revokeArtifactEvent);
+            InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact", RevokeArtifact);
 #endif
             
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);

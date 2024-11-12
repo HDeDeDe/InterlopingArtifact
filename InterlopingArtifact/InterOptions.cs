@@ -14,7 +14,7 @@ namespace HDeMods {
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddCheck(ConfigEntry<bool> option, bool requireRestart = false) {
-                InterCheckBoxOption boxOption = new InterCheckBoxOption(option, requireRestart);
+                LocalizedCheckBoxOption boxOption = new LocalizedCheckBoxOption(option, requireRestart);
                 ModSettingsManager.AddOption(boxOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
 #if DEBUG
@@ -25,8 +25,8 @@ namespace HDeMods {
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
-                InterIntSliderOption sliderOption =
-                    new InterIntSliderOption(option, new IntSliderConfig() { min = minimum, max = maximum });
+                LocalizedIntSliderOption sliderOption =
+                    new LocalizedIntSliderOption(option, new IntSliderConfig() { min = minimum, max = maximum });
                 ModSettingsManager.AddOption(sliderOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
 
@@ -39,7 +39,7 @@ namespace HDeMods {
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum,
                 string format = "{0:0}%") {
-                InterSliderOption sliderOption = new InterSliderOption(option,
+                LocalizedSliderOption sliderOption = new LocalizedSliderOption(option,
                     new SliderConfig() { min = minimum, max = maximum, FormatString = format });
                 ModSettingsManager.AddOption(sliderOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
@@ -53,7 +53,7 @@ namespace HDeMods {
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddFloatStep(ConfigEntry<float> option, float minimum, float maximum, float step,
                 string format = "{0:0}%") {
-                InterSliderStepOption stepSliderOption = new InterSliderStepOption(option, new StepSliderConfig()
+                LocalizedSliderStepOption stepSliderOption = new LocalizedSliderStepOption(option, new StepSliderConfig()
                     { min = minimum, max = maximum, FormatString = format, increment = step });
                 ModSettingsManager.AddOption(stepSliderOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
@@ -66,7 +66,7 @@ namespace HDeMods {
             
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddButton(string name, string category, UnityAction onButtonPressed) {
-                InterButtonOption buttonOption = new InterButtonOption(name, category, "", "", onButtonPressed);
+                LocalizedButtonOption buttonOption = new LocalizedButtonOption(name, category, "", "", onButtonPressed);
                 ModSettingsManager.AddOption(buttonOption, InterlopingArtifactPlugin.PluginGUID,
                     InterlopingArtifactPlugin.PluginName);
 
@@ -87,9 +87,9 @@ namespace HDeMods {
     }
 
     // Thanks to Bubbet for the suggestion to do this
-    internal class InterCheckBoxOption : CheckBoxOption {
+    internal class LocalizedCheckBoxOption : CheckBoxOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterCheckBoxOption(ConfigEntry<bool> configEntry, bool restart) : base(configEntry, restart) {
+        public LocalizedCheckBoxOption(ConfigEntry<bool> configEntry, bool restart) : base(configEntry, restart) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
 
@@ -104,9 +104,9 @@ namespace HDeMods {
         }
     }
 
-    internal class InterIntSliderOption : IntSliderOption {
+    internal class LocalizedIntSliderOption : IntSliderOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config) {
+        public LocalizedIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
 
@@ -120,9 +120,9 @@ namespace HDeMods {
         }
     }
 
-    internal class InterSliderOption : SliderOption {
+    internal class LocalizedSliderOption : SliderOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterSliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config) {
+        public LocalizedSliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -135,9 +135,9 @@ namespace HDeMods {
         }
     }
 
-    internal class InterSliderStepOption : StepSliderOption {
+    internal class LocalizedSliderStepOption : StepSliderOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterSliderStepOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
+        public LocalizedSliderStepOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
             config) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }
@@ -150,9 +150,9 @@ namespace HDeMods {
             Description = RoR2.Language.GetString(GetDescriptionToken());
         }
     }
-    internal class InterButtonOption : GenericButtonOption {
+    internal class LocalizedButtonOption : GenericButtonOption {
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public InterButtonOption(string name, string category, string description, string buttonText, UnityAction onButtonPressed) 
+        public LocalizedButtonOption(string name, string category, string description, string buttonText, UnityAction onButtonPressed) 
             : base(name, category, description, buttonText, onButtonPressed) {
             RoR2.Language.onCurrentLanguageChanged += ResetDescription;
         }

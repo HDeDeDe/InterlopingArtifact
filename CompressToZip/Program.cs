@@ -3,14 +3,14 @@ using System.Diagnostics;
 
 //---------------------------------------------------Program------------------------------------------------------------
 
-const string targetFile = "../" + Settings.pluginName + "/bin/" + Settings.pluginName + ".zip";
-
 #if DEBUG
+const string targetFile = "../" + Settings.pluginName + "/bin/" + Settings.pluginName + "_debug.zip";
 const string dllPath = "../" + Settings.pluginName + "/bin/Debug/netstandard2.1/";
 const string dllPathWindows = "..\\" + Settings.pluginName + "\\bin\\Debug\\netstandard2.1\\";
 #endif
 
 #if RELEASE
+const string targetFile = "../" + Settings.pluginName + "/bin/" + Settings.pluginName + ".zip";
 const string dllPath = "../" + Settings.pluginName + "/bin/Release/netstandard2.1/";
 const string dllPathWindows = "..\\" + Settings.pluginName + "\\bin\\Release\\netstandard2.1\\";
 #endif

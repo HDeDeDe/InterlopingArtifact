@@ -128,9 +128,12 @@ namespace HDeMods {
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void ResetToDefault() {
                 if (!initialized) return;
-                ModOptionPanelController options =
-                    // I'm too lazy to find a proper way of doing this
-                    GameObject.Find("SettingsPanelTitle(Clone)").GetComponent<ModOptionPanelController>();
+                // I'm too lazy to find a proper way of doing this
+                GameObject panel = GameObject.Find("SettingsPanelTitle(Clone)");
+                if (panel == null) panel = GameObject.Find("SettingsPanel(Clone)");
+                
+                ModOptionPanelController options = panel.GetComponent<ModOptionPanelController>();
+                
                 foreach (ModSetting setting in options._modSettings) {
                     if (setting.GetType() == typeof(GenericButtonController)) continue;
                     AccessTools.Method(setting.GetType(), "ResetToDefault")?.Invoke(setting, null);

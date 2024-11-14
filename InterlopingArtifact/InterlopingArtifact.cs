@@ -211,18 +211,22 @@ namespace HDeMods {
         }
 
         private static void AddOptions() {
+            InterOptionalMods.RoO.Init(InterlopingArtifactPlugin.PluginGUID, InterlopingArtifactPlugin.PluginName, INTER.Log.Error, INTER.Log.Debug);
             InterOptionalMods.RoO.AddFloatStep(timeUntilLoiterPenalty, 60f, 600f, 1f, "{0}");
             InterOptionalMods.RoO.AddFloatStep(loiterPenaltyFrequency, 0f, 60f, 0.5f, "{0}");
             InterOptionalMods.RoO.AddFloatStep(loiterPenaltySeverity, 10f, 400f, 0.5f, "{0}");
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Loitering", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(limitPest);
             InterOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Limit Enemies", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddFloatStep(warningSoundVolume, 0f, 100f, 0.5f);
             InterOptionalMods.RoO.AddCheck(useTickingNoise);
             InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
             InterOptionalMods.RoO.AddFloatStep(timeBeforeLoiterPenalty, 2f, 60f, 1f, "{0}");
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Warning", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
-            
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Artifact", InterOptionalMods.RoO.ResetToDefault);
 #if DEBUG
             InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact", RevokeArtifact);
 #endif

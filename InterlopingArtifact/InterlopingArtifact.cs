@@ -6,7 +6,6 @@ using RoR2;
 using BepInEx.Configuration;
 using R2API;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -237,7 +236,7 @@ namespace HDeMods {
         
         public static void RevokeArtifact() {
             foreach (LocalUser user in LocalUserManager.localUsersList) {
-                user.userProfile.RevokeUnlockable(InterlopingArtifact.Artifact.unlockableDef);
+                user.userProfile.RevokeUnlockable(Artifact.unlockableDef);
                 user.userProfile.RevokeAchievement("INTERLOPER_ARTIFACT");
             }
             Application.Quit();

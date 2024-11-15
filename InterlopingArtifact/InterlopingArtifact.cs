@@ -46,7 +46,8 @@ namespace HDeMods {
         public static ConfigEntry<bool> useTickingNoise { get; set; }
         public static ConfigEntry<bool> enableHalfwayWarning { get; set; }
         public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
-        
+        public static ConfigEntry<bool> respectEnemyCap { get; set; }
+        public static ConfigEntry<bool> aggressiveCulling { get; set; }
 
         internal static void Startup() {
             if (!File.Exists(Assembly.GetExecutingAssembly().Location
@@ -197,6 +198,16 @@ namespace HDeMods {
                 "Time Before Loiter Penalty",
                 15f,
                 "How long before the Loiter Penalty the bells start tolling.");
+            respectEnemyCap = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Enemy Cap",
+                "Respect Enemy Cap",
+                false,
+                "Prevent additional enemies from spawning if the enemy cap is reached.");
+            aggressiveCulling = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Enemy Cap",
+                "Aggressive Culling",
+                false,
+                "Aggressively cull enemies that are not near living players.");
             forceUnlock = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
                 "Artifact",
                 "Force Unlock",
@@ -223,6 +234,9 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(enableHalfwayWarning);
             InterOptionalMods.RoO.AddFloatStep(timeBeforeLoiterPenalty, 2f, 60f, 1f, "{0}");
             InterOptionalMods.RoO.AddButton("Reset to Default", "Warning", InterOptionalMods.RoO.ResetToDefault);
+            InterOptionalMods.RoO.AddCheck(respectEnemyCap);
+            InterOptionalMods.RoO.AddCheck(aggressiveCulling);
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Enemy Cap", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             InterOptionalMods.RoO.AddButton("Reset to Default", "Artifact", InterOptionalMods.RoO.ResetToDefault);

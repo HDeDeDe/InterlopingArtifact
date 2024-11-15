@@ -14,7 +14,6 @@ namespace HDeMods {
         [SyncVar] public float loiterPenaltyFrequencyThisRun;
         [SyncVar] public float loiterPenaltySeverityThisRun;
         [SyncVar] public bool limitPestsThisRun;
-
         [SyncVar] public float limitPestsAmountThisRun;
 
         //These values are only synced not saved

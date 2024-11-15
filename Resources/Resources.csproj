@@ -69,6 +69,9 @@
         <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png.meta">
           <Link>Assets\InterlopingArtifact\InterloperBundle\texObtainArtifactInterloperIcon.png.meta</Link>
         </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texRampCulling.png">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texRampCulling.png</Link>
+        </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\Scenes.meta">
           <Link>Assets\Scenes.meta</Link>
         </Content>

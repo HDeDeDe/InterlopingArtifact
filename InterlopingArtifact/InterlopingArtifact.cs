@@ -22,7 +22,7 @@ namespace HDeMods {
 
         // Set up variables
         public static bool HurricaneRun;
-        private static bool artifactEnabled;
+        internal static bool artifactEnabled;
 
         // In run Loiter variables
         private static bool teleporterExists;
@@ -48,6 +48,18 @@ namespace HDeMods {
         public static ConfigEntry<float> timeBeforeLoiterPenalty { get; set; }
         public static ConfigEntry<bool> respectEnemyCap { get; set; }
         public static ConfigEntry<bool> aggressiveCulling { get; set; }
+        public static ConfigEntry<float> aggressiveCullingRadius { get; set; }
+
+        private static void RefreshAndClamp() {
+            InterlopingArtifactPlugin.instance.Config.Reload();
+            timeUntilLoiterPenalty.Value = Math.Clamp(timeUntilLoiterPenalty.Value, 60f, 600f);
+            loiterPenaltyFrequency.Value = Math.Clamp(loiterPenaltyFrequency.Value, 0f, 60f);
+            loiterPenaltySeverity.Value = Math.Clamp(loiterPenaltySeverity.Value, 10f, 400f);
+            limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
+            warningSoundVolume.Value = Math.Clamp(warningSoundVolume.Value, 0f, 100f);
+            timeBeforeLoiterPenalty.Value = Math.Clamp(timeBeforeLoiterPenalty.Value, 2f, 60f);
+            aggressiveCullingRadius.Value = Math.Clamp(aggressiveCullingRadius.Value, 65f, 200f);
+        }
 
         internal static void Startup() {
             if (!File.Exists(Assembly.GetExecutingAssembly().Location
@@ -60,6 +72,9 @@ namespace HDeMods {
                 .Replace("InterlopingArtifact.dll", "interloperassets"));
 
             CreateNetworkObject();
+#if DEBUG
+            CullingTracker.DebugInit();
+#endif
             AddHooks();
         }
 
@@ -71,13 +86,13 @@ namespace HDeMods {
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
-            RoR2Application.onLoad += InterRefs.CacheBlindPest;
+            RoR2Application.onLoad += InterRefs.CacheIndexes;
             On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact += InterArtifactTrial.CheckArtifactTrial;
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter += InterArtifactTrial.BeginTrial;
             ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
             ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
             On.RoR2.PlatformSystems.Init += CheckForChunk;
-            CharacterBody.onBodyStartGlobal += TrackVerminAdd;
+            CharacterBody.onBodyStartGlobal += CharacterBody_onStartGlobal;
             CharacterBody.onBodyDestroyGlobal += TrackVerminRemove;
             RoR2Application.onLoad += FinalHooks;
         }
@@ -86,7 +101,7 @@ namespace HDeMods {
             Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal -= Run_onRunStartGlobal;
             Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
-            RoR2Application.onLoad -= InterRefs.CacheBlindPest;
+            RoR2Application.onLoad -= InterRefs.CacheIndexes;
             On.RoR2.Run.BeginStage -= Run_BeginStage;
             On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
@@ -95,7 +110,7 @@ namespace HDeMods {
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter -= InterArtifactTrial.BeginTrial;
             ArtifactTrialMissionController.onShellTakeDamageServer -= InterArtifactTrial.OnShellTakeDamage;
             ArtifactTrialMissionController.onShellDeathServer -= InterArtifactTrial.OnShellDeath;
-            CharacterBody.onBodyStartGlobal -= TrackVerminAdd;
+            CharacterBody.onBodyStartGlobal -= CharacterBody_onStartGlobal;
             CharacterBody.onBodyDestroyGlobal -= TrackVerminRemove;
             RoR2Application.onLoad -= FinalHooks;
         }
@@ -208,6 +223,11 @@ namespace HDeMods {
                 "Aggressive Culling",
                 false,
                 "Aggressively cull enemies that are not near living players.");
+            aggressiveCullingRadius = InterlopingArtifactPlugin.instance.Config.Bind<float>(
+                "Enemy Cap",
+                "Culling Radius",
+                75f,
+                "The distance from players before enemies are considered for culling.");
             forceUnlock = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
                 "Artifact",
                 "Force Unlock",
@@ -236,6 +256,7 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddButton("Reset to Default", "Warning", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(respectEnemyCap);
             InterOptionalMods.RoO.AddCheck(aggressiveCulling);
+            InterOptionalMods.RoO.AddFloatStep(aggressiveCullingRadius, 65f, 200f, 0.25f, "{0}m");
             InterOptionalMods.RoO.AddButton("Reset to Default", "Enemy Cap", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
@@ -257,6 +278,7 @@ namespace HDeMods {
         }
 
         private static void FinalHooks() {
+            RefreshAndClamp();
             if (!disableCodeHint.Value) SceneManager.activeSceneChanged += InterFormula.SceneChanged;
             if (!forceUnlock.Value) return;
             RuleCatalog.ruleChoiceDefsByGlobalName["Artifacts.Interloper.On"].requiredUnlockable = null;
@@ -293,7 +315,7 @@ namespace HDeMods {
             NetworkServer.Spawn(m_interInfo);
 
             if (InterRunInfo.preSet) return;
-            InterlopingArtifactPlugin.instance.Config.Reload();
+            RefreshAndClamp();
 
             InterRunInfo.instance.limitPestsThisRun = limitPest.Value;
             InterRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;
@@ -330,7 +352,8 @@ namespace HDeMods {
             UnityEngine.Object.Destroy(m_interInfo);
         }
 
-        internal static void TrackVerminAdd(CharacterBody body) {
+        internal static void CharacterBody_onStartGlobal(CharacterBody body) {
+            body.gameObject.AddComponent<CullingTracker>();
             if (body.bodyIndex == InterRefs.FlyingVermin) totalBlindPest++;
         }
 
@@ -382,10 +405,40 @@ namespace HDeMods {
                 simulate(self, deltaTime);
                 return;
             }
+
+            bool enemiesCulled = false;
+
+            if (aggressiveCulling.Value) {
+#if DEBUG
+                INTER.Log.Warning("Culling Enemies!");
+#endif
+                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Monster)) {
+                    CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
+                    if (ct.Player) continue;
+                    if (!ct.CanBeCulled || tc.body.isBoss) continue;
+                    tc.body.healthComponent.Die(true);
+                    enemiesCulled = true;
+                }
+                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
+                    CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
+                    if (ct.Player) continue;
+                    bool isInfested = tc.body.inventory.currentEquipmentIndex == InterRefs.VoidAspect;
+                    if (!ct.CanBeCulled || tc.body.isBoss || isInfested) continue;
+                    tc.body.healthComponent.Die(true);
+                    enemiesCulled = true;
+                }
+                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Lunar)) {
+                    CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
+                    if (ct.Player) continue;
+                    if (!ct.CanBeCulled || tc.body.isBoss) continue;
+                    tc.body.healthComponent.Die(true);
+                    enemiesCulled = true;
+                }
+            }
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");
 #endif
-            if (respectEnemyCap.Value) {
+            if (respectEnemyCap.Value && !enemiesCulled) {
                 bool enemyCapReached = false;
                 
                 // ReSharper disable once ConvertIfToOrExpression

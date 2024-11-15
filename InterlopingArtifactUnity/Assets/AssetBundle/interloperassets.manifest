@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2496212994
+CRC: 1438379831
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8137e13c082d848820dcfbe9383cf367
+    Hash: e760f44b043e650847a1cc58218df1d8
   TypeTreeHash:
     serializedVersion: 2
     Hash: a7a21288fe2bd6ae3724c7054e7a1302
@@ -34,4 +34,5 @@ Assets:
 - Assets/InterlopingArtifact/InterloperBundle/texInterDeselectedIcon.png
 - Assets/InterlopingArtifact/InterloperBundle/texRampCulling.png
 - Assets/InterlopingArtifact/InterloperBundle/PickupInterloper.prefab
+- Assets/InterlopingArtifact/InterloperBundle/texRampCulling2.png
 Dependencies: []

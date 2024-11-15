@@ -385,6 +385,29 @@ namespace HDeMods {
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");
 #endif
+            if (respectEnemyCap.Value) {
+                bool enemyCapReached = false;
+                
+                // ReSharper disable once ConvertIfToOrExpression
+                if (TeamComponent.GetTeamMembers(TeamIndex.Monster).Count
+                    >= TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit) enemyCapReached = true;
+                if (TeamComponent.GetTeamMembers(TeamIndex.Void).Count
+                    >= TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit) enemyCapReached = true;
+                if (TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count
+                    >= TeamCatalog.GetTeamDef(TeamIndex.Lunar)!.softCharacterLimit) enemyCapReached = true;
+
+                if (enemyCapReached) {
+#if DEBUG
+                INTER.Log.Warning("Too many enemies are present, skipping loiter tick.");
+#endif 
+                    InterRunInfo.instance.loiterTick =
+                        Run.instance.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyFrequencyThisRun;
+                    simulate(self, deltaTime);
+                    return;
+                }
+            }
+            
+            
             float gougeCount = artifactChallengeMult;
 
             if (artifactEnabled && HurricaneRun)

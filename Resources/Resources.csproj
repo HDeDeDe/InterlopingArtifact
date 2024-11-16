@@ -39,6 +39,9 @@
         <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\interloperassets.meta">
           <Link>Assets\AssetBundle\interloperassets.meta</Link>
         </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\Die\FuckingPlease.asmdef">
+          <Link>Assets\Die\FuckingPlease.asmdef</Link>
+        </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact.meta">
           <Link>Assets\InterlopingArtifact.meta</Link>
         </Content>
@@ -71,6 +74,9 @@
         </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texRampCulling.png">
           <Link>Assets\InterlopingArtifact\InterloperBundle\texRampCulling.png</Link>
+        </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\texRampCulling2.png">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\texRampCulling2.png</Link>
         </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\Scenes.meta">
           <Link>Assets\Scenes.meta</Link>
@@ -218,6 +224,9 @@
     <ItemGroup>
       <Compile Include="..\InterlopingArtifactUnity\Assets\AssetBundleMaker.cs">
         <Link>Assets\AssetBundleMaker.cs</Link>
+      </Compile>
+      <Compile Include="..\InterlopingArtifactUnity\Assets\Die\JustPleaseDoTheFuckingThing.cs">
+        <Link>Assets\Die\JustPleaseDoTheFuckingThing.cs</Link>
       </Compile>
     </ItemGroup>
 </Project>

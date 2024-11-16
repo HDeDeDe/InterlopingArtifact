@@ -11,11 +11,18 @@ namespace HDeMods {
         internal const uint sfxBellToll = 2239523887;
         internal const uint sfxBellFinal = 1844540516;
         internal static BodyIndex FlyingVermin;
+        internal static BodyIndex Scavenger;
         internal static EquipmentIndex VoidAspect = EquipmentIndex.None;
         internal static readonly int remapTex = Shader.PropertyToID("_RemapTex");
+        internal static readonly int softFactor = Shader.PropertyToID("_InvFade");
+        internal static readonly int softPower = Shader.PropertyToID("_SoftPower");
+        internal static readonly int brightnessBoost = Shader.PropertyToID("_Boost");
+        internal static readonly int alphaBoost = Shader.PropertyToID("_AlphaBoost");
+        internal static readonly int intersectionStrength = Shader.PropertyToID("_IntersectionStrength");
 
         internal static void CacheIndexes() {
             FlyingVermin = BodyCatalog.FindBodyIndex("FlyingVerminBody");
+            Scavenger = BodyCatalog.FindBodyIndex("ScavBody");
             VoidAspect = EquipmentCatalog.FindEquipmentIndex(DLC1Content.Elites.Void.eliteEquipmentDef.nameToken);
         }
     }

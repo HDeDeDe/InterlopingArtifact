@@ -33,6 +33,12 @@ namespace HDeMods {
         internal static int totalBlindPest;
         internal static float artifactChallengeMult = 1;
         internal static bool artifactTrial;
+        
+#if DEBUG
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
+        private static bool preventSpawns;
+#pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
+#endif
 
         // Config options
         public static ConfigEntry<bool> forceUnlock { get; set; }
@@ -72,9 +78,7 @@ namespace HDeMods {
                 .Replace("InterlopingArtifact.dll", "interloperassets"));
 
             CreateNetworkObject();
-#if DEBUG
-            CullingTracker.DebugInit();
-#endif
+            InterlopingArtifactPlugin.instance.gameObject.AddComponent<InterloperCullingZone>();
             AddHooks();
         }
 
@@ -405,6 +409,16 @@ namespace HDeMods {
                 simulate(self, deltaTime);
                 return;
             }
+            
+#if DEBUG
+            if (preventSpawns) {
+                INTER.Log.Error("Spawns are currently being suppressed!");
+                InterRunInfo.instance.loiterTick =
+                    Run.instance.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyFrequencyThisRun;
+                simulate(self, deltaTime);
+                return;
+            }
+#endif
 
             bool enemiesCulled = false;
 
@@ -415,25 +429,25 @@ namespace HDeMods {
                 foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Monster)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
                     if (ct.Player) continue;
-                    if (!ct.CanBeCulled || tc.body.isBoss) continue;
+                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
                 }
-                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
+                /*foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
                     if (ct.Player) continue;
                     bool isInfested = tc.body.inventory.currentEquipmentIndex == InterRefs.VoidAspect;
-                    if (!ct.CanBeCulled || tc.body.isBoss || isInfested) continue;
+                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger || isInfested) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
                 }
                 foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Lunar)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
                     if (ct.Player) continue;
-                    if (!ct.CanBeCulled || tc.body.isBoss) continue;
+                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
-                }
+                }*/
             }
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");

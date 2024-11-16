@@ -12,9 +12,6 @@
         <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle.meta">
           <Link>Assets\AssetBundle.meta</Link>
         </Content>
-        <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundleMaker.cs.meta">
-          <Link>Assets\AssetBundleMaker.cs.meta</Link>
-        </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\AssetBundle\AssetBundle">
           <Link>Assets\AssetBundle\AssetBundle</Link>
         </Content>
@@ -222,9 +219,6 @@
       <Folder Include="InterlopingSounds\Originals\Voices\English(US)\" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Include="..\InterlopingArtifactUnity\Assets\AssetBundleMaker.cs">
-        <Link>Assets\AssetBundleMaker.cs</Link>
-      </Compile>
       <Compile Include="..\InterlopingArtifactUnity\Assets\Die\JustPleaseDoTheFuckingThing.cs">
         <Link>Assets\Die\JustPleaseDoTheFuckingThing.cs</Link>
       </Compile>

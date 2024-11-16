@@ -55,6 +55,7 @@ namespace HDeMods {
         public static ConfigEntry<bool> respectEnemyCap { get; set; }
         public static ConfigEntry<bool> aggressiveCulling { get; set; }
         public static ConfigEntry<float> aggressiveCullingRadius { get; set; }
+        public static ConfigEntry<bool> showCullingRadius { get; set; }
 
         private static void RefreshAndClamp() {
             InterlopingArtifactPlugin.instance.Config.Reload();
@@ -78,7 +79,7 @@ namespace HDeMods {
                 .Replace("InterlopingArtifact.dll", "interloperassets"));
 
             CreateNetworkObject();
-            InterlopingArtifactPlugin.instance.gameObject.AddComponent<InterloperCullingZone>();
+            InterloperCullingZone.InitZone();
             AddHooks();
         }
 
@@ -237,6 +238,11 @@ namespace HDeMods {
                 "Force Unlock",
                 false,
                 "Force artifact to be available. This will not grant the achievement. Requires restart.");
+            showCullingRadius = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Enemy Cap",
+                "Show Culling Radius",
+                false,
+                "Display a radius around players to indicate where enemies will be culled.");
             disableCodeHint = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
                 "Artifact",
                 "Disable Code Hints",
@@ -261,6 +267,7 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(respectEnemyCap);
             InterOptionalMods.RoO.AddCheck(aggressiveCulling);
             InterOptionalMods.RoO.AddFloatStep(aggressiveCullingRadius, 65f, 200f, 0.25f, "{0}m");
+            InterOptionalMods.RoO.AddCheck(showCullingRadius);
             InterOptionalMods.RoO.AddButton("Reset to Default", "Enemy Cap", InterOptionalMods.RoO.ResetToDefault);
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);

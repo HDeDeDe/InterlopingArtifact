@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 574803301
+CRC: 1350181955
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 518c9338d6a6f9dad78a663c08c86d4a
+    Hash: d98e9dfe1d2bbc1fd03f722aa2723c38
   TypeTreeHash:
     serializedVersion: 2
-    Hash: a7a21288fe2bd6ae3724c7054e7a1302
+    Hash: 6d778ada88cddd8372b01149620eef24
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,9 +25,19 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+- Class: 114
+  Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers: []
+SerializeReferenceClassIdentifiers:
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkHash128
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
 - Assets/InterlopingArtifact/InterloperBundle/texObtainArtifactInterloperIcon.png
 - Assets/InterlopingArtifact/InterloperBundle/texInterSelectedIcon.png
@@ -35,4 +45,5 @@ Assets:
 - Assets/InterlopingArtifact/InterloperBundle/texRampCulling.png
 - Assets/InterlopingArtifact/InterloperBundle/PickupInterloper.prefab
 - Assets/InterlopingArtifact/InterloperBundle/texRampCulling2.png
+- Assets/InterlopingArtifact/InterloperBundle/InterloperCullingZoneVisual.prefab
 Dependencies: []

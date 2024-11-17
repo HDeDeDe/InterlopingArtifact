@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using R2API;
 using RoR2;
@@ -79,12 +80,13 @@ namespace HDeMods {
         [Range(0f, 20f)] public const float alphaBoost = 0.5f;
         [Range(0f, 20f)] public const float intersectionStrength = 20f;
         
-        private MeshRenderer m_rangeDisplayRenderer;
+        private ObjectScaleCurve m_rangeDisplayRenderer;
         private bool m_visible;
+        private bool m_visiblePreviousFrame;
+        private bool m_enabledPreviousFrame;
 
         public static void InitZone() {
-            GameObject temp = InterlopingArtifact.InterBundle.LoadAsset<GameObject>("PickupInterloper");
-            temp.AddComponent<NetworkIdentity>();
+            GameObject temp = InterlopingArtifact.InterBundle.LoadAsset<GameObject>("InterloperCullingZoneVisual");
             rangeDisplayPrefab = temp.InstantiateClone("Interloper_CullZone");
             Destroy(temp);
             
@@ -100,20 +102,29 @@ namespace HDeMods {
             material.SetFloat(InterRefs.intersectionStrength, intersectionStrength);
             
             rangeDisplayPrefab.GetComponentInChildren<MeshRenderer>().material = material;
-            rangeDisplayPrefab.GetComponentInChildren<MeshRenderer>().enabled = false;
             rangeDisplayPrefab.AddComponent<InterloperCullingZone>();
         }
         
         private void Awake() {
-            m_rangeDisplayRenderer = GetComponentInChildren<MeshRenderer>();
+            m_rangeDisplayRenderer = GetComponent<ObjectScaleCurve>();
+            m_rangeDisplayRenderer.enabled = false;
         }
 
         private void Update() {
-            if (!InterlopingArtifact.showCullingRadius.Value) {
-                m_rangeDisplayRenderer.enabled = false;
+            if (m_visible != m_visiblePreviousFrame 
+                || InterlopingArtifact.showCullingRadius.Value != m_enabledPreviousFrame) SetVisible(m_visible);
+
+            m_enabledPreviousFrame = InterlopingArtifact.showCullingRadius.Value;
+            m_visiblePreviousFrame = m_visible;
+        }
+
+        private void SetVisible(bool visibility) {
+            if (visibility && InterlopingArtifact.showCullingRadius.Value) {
+                m_rangeDisplayRenderer.enabled = true;
                 return;
             }
-            m_rangeDisplayRenderer.enabled = m_visible;
+            m_rangeDisplayRenderer.Reset();
+            m_rangeDisplayRenderer.enabled = false;
         }
 
         [ClientRpc]
@@ -127,9 +138,8 @@ namespace HDeMods {
 
         private void SetPosition(Vector3 position) => transform.localPosition = position;
         
-        private void SetSize(Vector3 size) => transform.localScale = size;
-        
-        private void SetVisibility(bool visibility) => m_visible = visibility;
+        private void SetSize(Vector3 size) => m_rangeDisplayRenderer.baseScale = size;
 
+        private void SetVisibility(bool visibility) => m_visible = visibility; 
     }
 }

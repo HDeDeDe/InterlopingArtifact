@@ -45,6 +45,9 @@
         <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle.meta">
           <Link>Assets\InterlopingArtifact\InterloperBundle.meta</Link>
         </Content>
+        <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\InterloperCullingZoneVisual.prefab">
+          <Link>Assets\InterlopingArtifact\InterloperBundle\InterloperCullingZoneVisual.prefab</Link>
+        </Content>
         <Content Include="..\InterlopingArtifactUnity\Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab">
           <Link>Assets\InterlopingArtifact\InterloperBundle\PickupInterloper.prefab</Link>
         </Content>

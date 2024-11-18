@@ -33,8 +33,6 @@ namespace HDeMods {
         internal static int totalBlindPest;
         internal static float artifactChallengeMult = 1;
         internal static bool artifactTrial;
-
-        internal static bool voidMajority;
         
 #if DEBUG
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
@@ -278,6 +276,17 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddButton("Reset to Default", "Artifact", InterOptionalMods.RoO.ResetToDefault);
 #if DEBUG
             InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact", RevokeArtifact);
+            InterOptionalMods.RoO.AddButton("Toggle Supression", "Loitering", () => {
+                preventSpawns = !preventSpawns;
+                if (preventSpawns) Chat.AddMessage("Interloping Spawns off");
+                else Chat.AddMessage("Interloping Spawns on");
+            });
+            LanguageAPI.Add("RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.TOGGLE_SUPRESSION.GENERIC_BUTTON.NAME",
+                "Toggle Supression");
+            LanguageAPI.Add("RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.TOGGLE_SUPRESSION.GENERIC_BUTTON.DESCRIPTION",
+                "Toggles enemy supression");
+            LanguageAPI.Add("RISK_OF_OPTIONS.COM.HDEDEDE.INTERLOPINGARTIFACT.LOITERING.TOGGLE_SUPRESSION.GENERIC_BUTTON.SUB_BUTTON.NAME",
+                "Toggle");
 #endif
             
             InterOptionalMods.RoO.SetSprite(Artifact.unlockableDef.achievementIcon);
@@ -420,15 +429,6 @@ namespace HDeMods {
                 simulate(self, deltaTime);
                 return;
             }
-
-            {
-                int voidCount = TeamComponent.GetTeamMembers(TeamIndex.Void).Count;
-                int totalEnemies = TeamComponent.GetTeamMembers(TeamIndex.Monster).Count
-                                   + voidCount
-                                   + TeamComponent.GetTeamMembers(TeamIndex.Monster).Count;
-                if (totalEnemies / 2 <= voidCount) InterRunInfo.instance.RPCSetVoidMajority(true);
-                else InterRunInfo.instance.RPCSetVoidMajority(false);
-            }
             
 #if DEBUG
             if (preventSpawns) {
@@ -449,11 +449,11 @@ namespace HDeMods {
                 foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Monster)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
                     if (ct.Player || ct.isMinion) continue;
-                    if (!ct.canBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
+                    if (!ct.canBeCulled || tc.body.isBoss) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
                 }
-                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
+                /*foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
                     if (ct.Player || ct.isMinion) continue;
                     bool isInfested = tc.body.inventory.currentEquipmentIndex == InterRefs.VoidAspect || ct.voidCampSpawn;
@@ -467,7 +467,7 @@ namespace HDeMods {
                     if (!ct.canBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
-                }
+                }*/
             }
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");

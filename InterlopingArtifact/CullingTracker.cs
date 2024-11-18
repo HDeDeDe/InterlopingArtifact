@@ -16,7 +16,8 @@ namespace HDeMods {
         public bool canBeCulled;
         public bool voidCampSpawn;
         public bool isMinion;
-        private bool m_isVoidTeam;
+        private bool m_isBigMan;
+        private bool m_isVeryBigMan;
         
         private InterloperCullingZone m_rangeDisplayController;
         
@@ -32,14 +33,23 @@ namespace HDeMods {
                 return;
             }
             m_body = GetComponent<CharacterBody>();
-            m_isVoidTeam = m_body.teamComponent.teamIndex == TeamIndex.Void;
+            m_isBigMan = InterRefs.IsBigMan(m_body.bodyIndex);
+            m_isVeryBigMan = InterRefs.IsVeryBigMan(m_body.bodyIndex);
             if (!m_body.master) {
                 INTER.Log.Warning(m_body.name + " master not found. Assuming this is not a player or a minion.");
                 return;
             }
             if (m_body.master.minionOwnership.ownerMaster != null) {
-                isMinion = true;
-                return;
+                CharacterBody masterBody = m_body.master.minionOwnership.ownerMaster.GetBody();
+                if (!masterBody) {
+                    INTER.Log.Warning(m_body.name + " ownerMaster has no body! Assuming this is not a Geep or Gip!");
+                    isMinion = true;
+                    return;
+                }
+                if (masterBody.bodyIndex != InterRefs.Gup && masterBody.bodyIndex != InterRefs.Geep) {
+                    isMinion = true;
+                    return;
+                }
             }
             foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances) {
                 if (m_body.master != pcmc.master) continue;
@@ -52,6 +62,7 @@ namespace HDeMods {
         }
         private void FixedUpdate() {
             if (!NetworkServer.active) return;
+            if(m_isVeryBigMan) return;
             float cullingRadius = InterlopingArtifact.aggressiveCullingRadius.Value;
             
             if (Player) {
@@ -59,14 +70,13 @@ namespace HDeMods {
                     m_rangeDisplayController.RpcSetVisibility(false);
                     return;
                 }
-                if (InterlopingArtifact.voidMajority) cullingRadius *= 2;
                 m_rangeDisplayController.RpcSetPosition(transform.localPosition);
                 m_rangeDisplayController.RpcSetSize(Vector3.one * (cullingRadius * 2));
                 m_rangeDisplayController.RpcSetVisibility(true);
                 return;
             }
             if (!InterRunInfo.instance.loiterPenaltyActive) return;
-            if (m_isVoidTeam) cullingRadius *= 2;
+            if (m_isBigMan) cullingRadius *= 2;
             canBeCulled = !m_body.NearAnyPlayers(cullingRadius);
         }
         

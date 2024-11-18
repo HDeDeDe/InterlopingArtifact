@@ -17,7 +17,7 @@ namespace HDeMods {
         internal static BodyIndex Geep;
         internal static BodyIndex [] VeryBigMen;
         internal static BodyIndex[] BigMen;
-        internal static EquipmentIndex VoidAspect = EquipmentIndex.None;
+        //internal static EquipmentIndex VoidAspect = EquipmentIndex.None;
         internal static readonly int remapTex = Shader.PropertyToID("_RemapTex");
         internal static readonly int softFactor = Shader.PropertyToID("_InvFade");
         internal static readonly int softPower = Shader.PropertyToID("_SoftPower");
@@ -65,7 +65,7 @@ namespace HDeMods {
                 BodyCatalog.FindBodyIndex("GupBody"),
             };
             
-            VoidAspect = EquipmentCatalog.FindEquipmentIndex(DLC1Content.Elites.Void.eliteEquipmentDef.nameToken);
+            //VoidAspect = EquipmentCatalog.FindEquipmentIndex(DLC1Content.Elites.Void.eliteEquipmentDef.nameToken);
         }
 
         internal static bool IsBigMan(BodyIndex body) => BigMen.Any(index => index == body);

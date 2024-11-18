@@ -33,6 +33,8 @@ namespace HDeMods {
         internal static int totalBlindPest;
         internal static float artifactChallengeMult = 1;
         internal static bool artifactTrial;
+
+        internal static bool voidMajority;
         
 #if DEBUG
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
@@ -94,6 +96,7 @@ namespace HDeMods {
             RoR2Application.onLoad += InterRefs.CacheIndexes;
             On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact += InterArtifactTrial.CheckArtifactTrial;
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter += InterArtifactTrial.BeginTrial;
+            InterDoNotCull.CreateHook();
             ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
             ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
             On.RoR2.PlatformSystems.Init += CheckForChunk;
@@ -111,6 +114,7 @@ namespace HDeMods {
             On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
+            InterDoNotCull.RemoveHook();
             On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact -= InterArtifactTrial.CheckArtifactTrial;
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter -= InterArtifactTrial.BeginTrial;
             ArtifactTrialMissionController.onShellTakeDamageServer -= InterArtifactTrial.OnShellTakeDamage;
@@ -416,6 +420,15 @@ namespace HDeMods {
                 simulate(self, deltaTime);
                 return;
             }
+
+            {
+                int voidCount = TeamComponent.GetTeamMembers(TeamIndex.Void).Count;
+                int totalEnemies = TeamComponent.GetTeamMembers(TeamIndex.Monster).Count
+                                   + voidCount
+                                   + TeamComponent.GetTeamMembers(TeamIndex.Monster).Count;
+                if (totalEnemies / 2 <= voidCount) InterRunInfo.instance.RPCSetVoidMajority(true);
+                else InterRunInfo.instance.RPCSetVoidMajority(false);
+            }
             
 #if DEBUG
             if (preventSpawns) {
@@ -435,26 +448,26 @@ namespace HDeMods {
 #endif
                 foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Monster)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
-                    if (ct.Player) continue;
-                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
+                    if (ct.Player || ct.isMinion) continue;
+                    if (!ct.canBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
                 }
-                /*foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
+                foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Void)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
-                    if (ct.Player) continue;
-                    bool isInfested = tc.body.inventory.currentEquipmentIndex == InterRefs.VoidAspect;
-                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger || isInfested) continue;
+                    if (ct.Player || ct.isMinion) continue;
+                    bool isInfested = tc.body.inventory.currentEquipmentIndex == InterRefs.VoidAspect || ct.voidCampSpawn;
+                    if (!ct.canBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger || isInfested) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
                 }
                 foreach (TeamComponent tc in TeamComponent.GetTeamMembers(TeamIndex.Lunar)) {
                     CullingTracker ct = tc.gameObject.GetComponent<CullingTracker>();
-                    if (ct.Player) continue;
-                    if (!ct.CanBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
+                    if (ct.Player || ct.isMinion) continue;
+                    if (!ct.canBeCulled || tc.body.isBoss || tc.body.bodyIndex == InterRefs.Scavenger) continue;
                     tc.body.healthComponent.Die(true);
                     enemiesCulled = true;
-                }*/
+                }
             }
 #if DEBUG
             INTER.Log.Warning("Attempting to spawn enemy wave");

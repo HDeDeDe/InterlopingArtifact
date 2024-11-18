@@ -76,6 +76,11 @@ namespace HDeMods {
             foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player))
                 teamComponent.body.MarkAllStatsDirty();
         }
+        
+        [ClientRpc]
+        public void RPCSetVoidMajority(bool majority) => SetVoidMajority(majority);
+
+        public void SetVoidMajority(bool majority) => InterlopingArtifact.voidMajority = majority;
     }
 
     internal struct InterSaveData {

@@ -1,25 +1,26 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using HarmonyLib;
+using MonoMod.RuntimeDetour;
 using R2API;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 namespace HDeMods {
     public class CullingTracker : MonoBehaviour {
         private CharacterBody m_body;
-        private bool m_canBeCulled;
+        public bool canBeCulled;
+        public bool voidCampSpawn;
+        public bool isMinion;
+        private bool m_isVoidTeam;
         
         private InterloperCullingZone m_rangeDisplayController;
         
         public bool Player { get; private set; }
-        public bool CanBeCulled {
-            get {
-                if (!InterRunInfo.instance.loiterPenaltyActive) return false;
-                return m_canBeCulled;
-            }
-        }
 
         private void Awake() {
             if (!NetworkServer.active) {
@@ -31,33 +32,42 @@ namespace HDeMods {
                 return;
             }
             m_body = GetComponent<CharacterBody>();
+            m_isVoidTeam = m_body.teamComponent.teamIndex == TeamIndex.Void;
             if (!m_body.master) {
-                INTER.Log.Warning(m_body.name + " master not found. Assuming this is not a player.");
+                INTER.Log.Warning(m_body.name + " master not found. Assuming this is not a player or a minion.");
+                return;
+            }
+            if (m_body.master.minionOwnership.ownerMaster != null) {
+                isMinion = true;
                 return;
             }
             foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances) {
                 if (m_body.master != pcmc.master) continue;
                 Player = true;
-                INTER.Log.Fatal(m_body.name + " is a player.");
+                INTER.Log.Message(m_body.name + " is a player.");
                 GameObject temp = Instantiate(InterloperCullingZone.rangeDisplayPrefab);
                 NetworkServer.Spawn(temp);
                 m_rangeDisplayController = temp.GetComponent<InterloperCullingZone>();
             }
-            
         }
         private void FixedUpdate() {
             if (!NetworkServer.active) return;
+            float cullingRadius = InterlopingArtifact.aggressiveCullingRadius.Value;
             
             if (Player) {
-                m_rangeDisplayController.RpcSetPosition(transform.localPosition);
-                m_rangeDisplayController.RpcSetSize(Vector3.one * (InterlopingArtifact.aggressiveCullingRadius.Value * 2));
-                if (!InterRunInfo.instance.loiterPenaltyActive || !InterlopingArtifact.aggressiveCulling.Value) 
+                if (!InterRunInfo.instance.loiterPenaltyActive || !InterlopingArtifact.aggressiveCulling.Value) {
                     m_rangeDisplayController.RpcSetVisibility(false);
-                else m_rangeDisplayController.RpcSetVisibility(true);
+                    return;
+                }
+                if (InterlopingArtifact.voidMajority) cullingRadius *= 2;
+                m_rangeDisplayController.RpcSetPosition(transform.localPosition);
+                m_rangeDisplayController.RpcSetSize(Vector3.one * (cullingRadius * 2));
+                m_rangeDisplayController.RpcSetVisibility(true);
                 return;
             }
             if (!InterRunInfo.instance.loiterPenaltyActive) return;
-            m_canBeCulled = !m_body.NearAnyPlayers(InterlopingArtifact.aggressiveCullingRadius.Value);
+            if (m_isVoidTeam) cullingRadius *= 2;
+            canBeCulled = !m_body.NearAnyPlayers(cullingRadius);
         }
         
         private void OnDestroy() {
@@ -68,17 +78,46 @@ namespace HDeMods {
         }
     }
 
+    internal class InterDoNotCull : MonoBehaviour {
+        private static Hook voidCampSpawnEnemyHook;
+        private static MethodInfo voidCampSpawnEnemy;
+        private delegate void VoidCampSpawnEnemySig(Action<CampDirector, GameObject> orig,
+            CampDirector self, GameObject masterObject);
+        private static VoidCampSpawnEnemySig hookEvent;
+        
+        
+        public static void CreateHook() {
+            voidCampSpawnEnemy = AccessTools.Method(typeof(CampDirector), 
+                "<PopulateCamp>g__OnMonsterSpawnedServer|18_0", new Type[] {typeof(GameObject)});
+            hookEvent += CheckForVoidSpawn;
+            voidCampSpawnEnemyHook = new Hook(voidCampSpawnEnemy, hookEvent);
+        }
+        
+        public static void RemoveHook() {
+            voidCampSpawnEnemyHook.Undo();
+        }
+
+        private static void CheckForVoidSpawn(Action<CampDirector, GameObject> orig, CampDirector self, GameObject masterObject) {
+            CharacterMaster meMaster = masterObject.GetComponent<CharacterMaster>();
+            GameObject body = meMaster.GetBodyObject();
+            if (self.campCenterTransform.name == "VoidCamp(Clone)") body.AddComponent<InterDoNotCull>();
+
+            orig(self, masterObject);
+        }
+        
+        private void FixedUpdate() {
+            CullingTracker tracker = GetComponent<CullingTracker>();
+            tracker.voidCampSpawn = true;
+            enabled = false;
+        }
+    }
+
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
     [SuppressMessage("ReSharper", "ConvertToConstant.Global")]
     internal class InterloperCullingZone : NetworkBehaviour {
         public static GameObject rangeDisplayPrefab;
         private static Material material;
-        [Range(0f, 30f)] public const float softFactor = 0.25f;
-        [Range(0.1f, 20f)] public const float softPower = 1f;
-        [Range(0f, 5f)] public const float brightnessBoost = 0.1f;
-        [Range(0f, 20f)] public const float alphaBoost = 0.5f;
-        [Range(0f, 20f)] public const float intersectionStrength = 20f;
         
         private ObjectScaleCurve m_rangeDisplayRenderer;
         private bool m_visible;
@@ -95,11 +134,11 @@ namespace HDeMods {
                 .WaitForCompletion());
             material.name = "matInterloperCullingZone";
             material.SetTexture(InterRefs.remapTex, InterlopingArtifact.InterBundle.LoadAsset<Texture2D>("texRampCulling2"));
-            material.SetFloat(InterRefs.softFactor, softFactor);
-            material.SetFloat(InterRefs.softPower, softPower);
-            material.SetFloat(InterRefs.brightnessBoost, brightnessBoost);
-            material.SetFloat(InterRefs.alphaBoost, alphaBoost);
-            material.SetFloat(InterRefs.intersectionStrength, intersectionStrength);
+            material.SetFloat(InterRefs.softFactor, 0.25f);
+            material.SetFloat(InterRefs.softPower, 1f);
+            material.SetFloat(InterRefs.brightnessBoost, 0.1f);
+            material.SetFloat(InterRefs.alphaBoost, 0.5f);
+            material.SetFloat(InterRefs.intersectionStrength, 20f);
             
             rangeDisplayPrefab.GetComponentInChildren<MeshRenderer>().material = material;
             rangeDisplayPrefab.AddComponent<InterloperCullingZone>();
@@ -140,6 +179,6 @@ namespace HDeMods {
         
         private void SetSize(Vector3 size) => m_rangeDisplayRenderer.baseScale = size;
 
-        private void SetVisibility(bool visibility) => m_visible = visibility; 
+        private void SetVisibility(bool visibility) => m_visible = visibility;
     }
 }

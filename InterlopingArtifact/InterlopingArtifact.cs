@@ -94,7 +94,7 @@ namespace HDeMods {
             RoR2Application.onLoad += InterRefs.CacheIndexes;
             On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact += InterArtifactTrial.CheckArtifactTrial;
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter += InterArtifactTrial.BeginTrial;
-            InterDoNotCull.CreateHook();
+            //InterDoNotCull.CreateHook();
             ArtifactTrialMissionController.onShellTakeDamageServer += InterArtifactTrial.OnShellTakeDamage;
             ArtifactTrialMissionController.onShellDeathServer += InterArtifactTrial.OnShellDeath;
             On.RoR2.PlatformSystems.Init += CheckForChunk;
@@ -112,7 +112,7 @@ namespace HDeMods {
             On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
-            InterDoNotCull.RemoveHook();
+            //InterDoNotCull.RemoveHook();
             On.RoR2.ArtifactTrialMissionController.SetCurrentArtifact -= InterArtifactTrial.CheckArtifactTrial;
             On.RoR2.ArtifactTrialMissionController.CombatState.OnEnter -= InterArtifactTrial.BeginTrial;
             ArtifactTrialMissionController.onShellTakeDamageServer -= InterArtifactTrial.OnShellTakeDamage;

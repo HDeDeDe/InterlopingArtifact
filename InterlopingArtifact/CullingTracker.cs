@@ -8,13 +8,12 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using UnityEngine.Serialization;
 
 namespace HDeMods {
     public class CullingTracker : MonoBehaviour {
         private CharacterBody m_body;
         public bool canBeCulled;
-        public bool voidCampSpawn;
+        //public bool voidCampSpawn;
         public bool isMinion;
         private bool m_isBigMan;
         private bool m_isVeryBigMan;
@@ -88,7 +87,7 @@ namespace HDeMods {
         }
     }
 
-    internal class InterDoNotCull : MonoBehaviour {
+    /*internal class InterDoNotCull : MonoBehaviour {
         private static Hook voidCampSpawnEnemyHook;
         private static MethodInfo voidCampSpawnEnemy;
         private delegate void VoidCampSpawnEnemySig(Action<CampDirector, GameObject> orig,
@@ -120,7 +119,7 @@ namespace HDeMods {
             tracker.voidCampSpawn = true;
             enabled = false;
         }
-    }
+    }*/
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]

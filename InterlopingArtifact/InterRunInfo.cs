@@ -10,11 +10,11 @@ namespace HDeMods {
         public static bool preSet;
         internal static InterSaveData saveData;
 
-        [SyncVar] public float loiterPenaltyTimeThisRun;
-        [SyncVar] public float loiterPenaltyFrequencyThisRun;
-        [SyncVar] public float loiterPenaltySeverityThisRun;
-        [SyncVar] public bool limitPestsThisRun;
-        [SyncVar] public float limitPestsAmountThisRun;
+        public float loiterPenaltyTimeThisRun;
+        public float loiterPenaltyFrequencyThisRun;
+        public float loiterPenaltySeverityThisRun;
+        public bool limitPestsThisRun;
+        public float limitPestsAmountThisRun;
 
         //These values are only synced not saved
         [SyncVar] public float allyCurse;
@@ -34,9 +34,6 @@ namespace HDeMods {
         }
 
         [ClientRpc] public void RpcPlayFinalSound() => PlayFinalSound();
-
-        [ClientRpc] public void RpcPlayWarningSound() => PlayWarningSound();
-
         [ClientRpc] public void RpcPlayHalfwaySound() => PlayHalfwaySound();
 
         public void PlayHalfwaySound() {
@@ -75,6 +72,12 @@ namespace HDeMods {
         public void DirtyStats() {
             foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player))
                 teamComponent.body.MarkAllStatsDirty();
+        }
+        
+        [ClientRpc] public void RpcCalcWarningTimer() => CalcWarningTimer();
+
+        public void CalcWarningTimer() {
+            InterlopingArtifact.tickingTimer = instance.stagePunishTimer - InterlopingArtifact.timeBeforeLoiterPenalty.Value;
         }
     }
 

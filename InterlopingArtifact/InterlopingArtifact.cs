@@ -409,10 +409,19 @@ namespace HDeMods {
             }
 
             teleporterExists = true;
-            InterRunInfo.instance.stagePunishTimer =
-                self.NetworkfixedTime + InterRunInfo.instance.loiterPenaltyTimeThisRun;
+
+            float loiterTime = InterRunInfo.instance.loiterPenaltyTimeThisRun;
+            if (HurricaneRun && !artifactEnabled) loiterTime -= loiterTime * 0.1f * Math.Max(self.stageClearCount - 5, 0);
+#if DEBUG
+            if(!Mathf.Approximately(loiterTime, InterRunInfo.instance.loiterPenaltyTimeThisRun)) 
+                INTER.Log.Debug($"{InterRunInfo.instance.loiterPenaltyTimeThisRun - loiterTime} seconds removed from the clock.");
+#endif
+            InterRunInfo.instance.stagePunishTimer = self.NetworkfixedTime + Math.Max(loiterTime, 60f);
+            
             INTER.Log.Info("Teleporter created! Timer set to " + InterRunInfo.instance.stagePunishTimer);
-            tickingTimer = InterRunInfo.instance.stagePunishTimer - 15f;
+            
+            InterRunInfo.instance.RpcCalcWarningTimer();
+            
             tickingTimerHalfway = InterRunInfo.instance.stagePunishTimer -
                                   (InterRunInfo.instance.stagePunishTimer - Run.instance.NetworkfixedTime) / 2;
             teleporterPlaced(self, sceneDirector, thing);
@@ -587,13 +596,6 @@ namespace HDeMods {
                 return;
             }
 
-            if (!NetworkServer.active) {
-#if DEBUG
-                ReportLoiterError("Client can not enforce loiter penalty");
-#endif
-                return;
-            }
-
             if (artifactTrial) {
 #if DEBUG
                 ReportLoiterError("In Artifact Trial");
@@ -615,26 +617,35 @@ namespace HDeMods {
                 return;
             }
 
-            if (InterRunInfo.instance.loiterPenaltyActive) {
-#if DEBUG
-                ReportLoiterError("Time's up");
-#endif
-                return;
-            }
-
             if (InterRunInfo.instance.stagePunishTimer >= Run.instance.NetworkfixedTime) {
+#if DEBUG
+                ReportLoiterError("Not time yet");
+#endif
                 if (Run.instance.NetworkfixedTime >= tickingTimer) {
                     tickingTimer += 1f;
-                    InterRunInfo.instance.RpcPlayWarningSound();
+                    InterRunInfo.instance.PlayWarningSound();
                 }
+                
+                if (!NetworkServer.active) return;
 
                 if (Run.instance.NetworkfixedTime >= tickingTimerHalfway && halfwayFuse < 3) {
                     tickingTimerHalfway += 1f;
                     halfwayFuse += 1;
                     InterRunInfo.instance.RpcPlayHalfwaySound();
                 }
+                return;
+            }
+            
+            if (InterRunInfo.instance.loiterPenaltyActive) {
 #if DEBUG
-                ReportLoiterError("Not time yet");
+                ReportLoiterError("Time's up");
+#endif
+                return;
+            }
+            
+            if (!NetworkServer.active) {
+#if DEBUG
+                ReportLoiterError("Client can not enforce loiter penalty");
 #endif
                 return;
             }

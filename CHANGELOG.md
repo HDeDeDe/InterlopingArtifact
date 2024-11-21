@@ -1,3 +1,8 @@
+## 0.3.0
+- Fixed Time Before Loiter Penalty not actually being used to determine when to play sounds.
+- When playing on ChunkyMode, the time before loiter penalty now decreases by 10% for each stage completed after the first loop, down to a minimum of 60 seconds. This does not apply if Artifact of Interloping is enabled.
+- Less info is now synced
+- Play warning sound is now handled client side.
 ## 0.2.0
 - Added Respect Enemy Limit option.
 - Added Aggressive Culling option.

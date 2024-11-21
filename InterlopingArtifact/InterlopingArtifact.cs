@@ -13,6 +13,8 @@ namespace HDeMods {
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
+    [SuppressMessage("ReSharper", "ConvertToConstant.Global")]
     public static class InterlopingArtifact {
         // Artifact variables
         public static AssetBundle InterBundle;
@@ -20,8 +22,11 @@ namespace HDeMods {
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
 
-        // Set up variables
+        // Variables exposed for Hurricane
         public static bool HurricaneRun;
+        public static int StagesUntilWaveringBegins = 5;
+        
+        // Set up variables
         internal static bool artifactEnabled;
 
         // In run Loiter variables
@@ -411,7 +416,7 @@ namespace HDeMods {
             teleporterExists = true;
 
             float loiterTime = InterRunInfo.instance.loiterPenaltyTimeThisRun;
-            if (HurricaneRun && !artifactEnabled) loiterTime -= loiterTime * 0.1f * Math.Max(self.stageClearCount - 5, 0);
+            if (HurricaneRun && !artifactEnabled) loiterTime -= loiterTime * 0.1f * Math.Max(self.stageClearCount - StagesUntilWaveringBegins, 0);
 #if DEBUG
             if(!Mathf.Approximately(loiterTime, InterRunInfo.instance.loiterPenaltyTimeThisRun)) 
                 INTER.Log.Debug($"{InterRunInfo.instance.loiterPenaltyTimeThisRun - loiterTime} seconds removed from the clock.");

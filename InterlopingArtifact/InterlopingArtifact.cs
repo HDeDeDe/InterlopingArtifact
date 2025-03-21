@@ -351,6 +351,7 @@ namespace HDeMods {
                 InterRunInfo.instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
                 InterRunInfo.instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
                 InterRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
+                return;
             }
 
             if (!artifactEnabled) {

@@ -1,3 +1,6 @@
+## 0.3.1
+- Updated for SotS 2.0 part 2
+- Fixed a bug that prevented settings from being respected beyond the defaults when not playing on Chunky Mode.
 ## 0.3.0
 - Fixed Time Before Loiter Penalty not actually being used to determine when to play sounds.
 - When playing on ChunkyMode, the time before loiter penalty now decreases by 10% for each stage completed after the first loop, down to a minimum of 60 seconds. This does not apply if Artifact of Interloping is enabled.

@@ -59,6 +59,7 @@ namespace HDeMods {
         public static ConfigEntry<bool> aggressiveCulling { get; set; }
         public static ConfigEntry<float> aggressiveCullingRadius { get; set; }
         public static ConfigEntry<bool> showCullingRadius { get; set; }
+        public static ConfigEntry<bool> enableOnEclipse { get; set; }
 
         private static void RefreshAndClamp() {
             InterlopingArtifactPlugin.instance.Config.Reload();
@@ -253,6 +254,11 @@ namespace HDeMods {
                 "Disable Code Hints",
                 false,
                 "Prevent artifact code hints from appearing in game. Requires restart.");
+            enableOnEclipse = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
+                "Experimental",
+                "Enable on Eclipse",
+                false,
+                "Enables default ruleset for artifact when playing on Eclipse mode. Not recommended.");
         }
 
         private static void AddOptions() {
@@ -277,6 +283,8 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             InterOptionalMods.RoO.AddButton("Reset to Default", "Artifact", InterOptionalMods.RoO.ResetToDefault);
+            InterOptionalMods.RoO.AddCheck(enableOnEclipse);
+            InterOptionalMods.RoO.AddButton("Reset to Default", "Experimental", InterOptionalMods.RoO.ResetToDefault);
 #if DEBUG
             InterOptionalMods.RoO.AddButton("Revoke Artifact", "Artifact", RevokeArtifact);
             InterOptionalMods.RoO.AddButton("Toggle Supression", "Loitering", () => {
@@ -337,6 +345,9 @@ namespace HDeMods {
             artifactTrial = false;
 
             if (!NetworkServer.active) return;
+            
+            //If enableOnEclipse is true, pretend this is a hurricane run when playing on eclipse 
+            if (enableOnEclipse.Value && run.selectedDifficulty >= DifficultyIndex.Eclipse1) HurricaneRun = true;
 
             m_interInfo = UnityEngine.Object.Instantiate(InterInfo);
             NetworkServer.Spawn(m_interInfo);

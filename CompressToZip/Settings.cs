@@ -17,7 +17,10 @@ internal static class Settings {
         @"C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\";
 
     public static readonly ArrayList extraFiles = new() {
+        new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/init.bnk"),
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Inter_WarningSounds.bnk"),
+        new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Media/737693030.wem"),
+        new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Media/466803387.wem"),
         new FileInfo("../Resources/InterlopingArtifact.language"),
         new FileInfo("../InterlopingArtifactUnity/Assets/AssetBundle/interloperassets")
     };

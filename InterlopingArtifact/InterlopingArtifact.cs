@@ -441,6 +441,7 @@ namespace HDeMods {
             teleporterExists = false;
             totalBlindPest = 0;
             artifactTrial = false;
+            InterRunInfo.instance.StopMusic();
             InterRunInfo.preSet = false;
             UnityEngine.Object.Destroy(m_interInfo);
         }

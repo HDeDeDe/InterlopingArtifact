@@ -92,10 +92,14 @@ namespace HDeMods {
             InterlopingArtifact.tickingTimer = instance.stagePunishTimer - InterlopingArtifact.timeBeforeLoiterPenalty.Value;
         }
 
-        [ClientRpc] public void RpcStopMusic() => StopMusic();
+        [ClientRpc] public void RpcStopMusic() => StopMusicAlias();
+
+        private void StopMusicAlias() => StopMusic();
 
         public void StopMusic() {
             trackOverride.enabled = false;
+            InterlopingArtifact.interlopeTrack.Stop();
+            MusicController.Instance.UpdateState();
         }
     }
 

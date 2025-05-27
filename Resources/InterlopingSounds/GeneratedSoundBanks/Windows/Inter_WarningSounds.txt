@@ -1,18 +1,43 @@
 Event	ID	Name			Wwise Object Path	Notes
+	1185756935	Resume_Inter_Music			\Default Work Unit\Resume_Inter_Music	
+	1279622976	Play_Inter_Music			\Default Work Unit\Play_Inter_Music	
 	1626947733	Play_Inter_TickTock			\Default Work Unit\Play_Inter_TickTock	
+	1683422662	Pause_Inter_Music			\Default Work Unit\Pause_Inter_Music	
 	1844540516	Play_Inter_BellFinal			\Default Work Unit\Play_Inter_BellFinal	
 	2239523887	Play_Inter_BellToll			\Default Work Unit\Play_Inter_BellToll	
 	3106412111	Play_Inter_GetOut			\Default Work Unit\Play_Inter_GetOut	
 
+State Group	ID	Name			Wwise Object Path	Notes
+	792781730	Music_system			\Default Work Unit\Music_system	
+	3328571779	InterMusicChoice			\Default Work Unit\InterMusicChoice	
+
+State	ID	Name	State Group			Notes
+	89505537	Gameplay	Music_system			
+	580146960	Bossfight	Music_system			
+	748895195	None	Music_system			
+	778026301	SecretLevel	Music_system			
+	2607556080	Menu	Music_system			
+	748895195	None	InterMusicChoice			
+	3026340126	InterMusic	InterMusicChoice			
+
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	151362964	playerHealth			\Default Work Unit\playerHealth	
+	2510409079	Inter_Volume_MSX			\Default Work Unit\Inter_Volume_MSX	
 	2699199950	Inter_Volume_SFX			\Default Work Unit\Inter_Volume_SFX	
 	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
+	3729143042	Volume_MSX			\Default Work Unit\Volume_MSX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	171630	bellToll3	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\bellToll3		43686
 	236300422	Get Out	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Get Out_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\Get Out		6826
+	466803387	inter_mus_loop	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_loop_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_loop\inter_mus_loop		3600
 	548034140	Tick	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tick_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tick		1404
 	638839317	Tock	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tock_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tock		1109
+	737693030	inter_mus_intro	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_intro_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_intro\inter_mus_intro		3249
 	851025665	bellToll1	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll1		13167
 	941712737	bellToll2	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll2		11472
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	466803387	inter_mus_loop	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_loop_D8A0D580.wem	466803387.wem	\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_loop\inter_mus_loop	
+	737693030	inter_mus_intro	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_intro_D8A0D580.wem	737693030.wem	\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_intro\inter_mus_intro	
 

@@ -47,6 +47,45 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Inter_Music" ID="{4F5F0F38-9276-4CFF-A3CA-C09BEFD9DFEF}">
+					<ChildrenList>
+						<Action Name="" ID="{D2F4B412-A8C2-4F19-AE6C-4927F5F6250E}" ShortID="753811060">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_System" ID="{2DEAE63A-48AB-4E90-8270-00F72016291D}" WorkUnitID="{7CA72A93-840E-44F2-90CA-178661D8AE13}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Pause_Inter_Music" ID="{8B3B9EBB-E7DC-498A-82D9-C3C0EEB30182}">
+					<ChildrenList>
+						<Action Name="" ID="{BABCCE3E-6C5B-47E4-B7F0-4EDECF92C75F}" ShortID="1024711042">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="7"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_System" ID="{2DEAE63A-48AB-4E90-8270-00F72016291D}" WorkUnitID="{7CA72A93-840E-44F2-90CA-178661D8AE13}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Resume_Inter_Music" ID="{CA1354B8-C64B-4DDD-94D9-7B3E560CBD3D}">
+					<ChildrenList>
+						<Action Name="" ID="{E6109AFA-30D5-4B1F-8E55-F06E7EE3CE21}" ShortID="897126916">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="9"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_System" ID="{2DEAE63A-48AB-4E90-8270-00F72016291D}" WorkUnitID="{7CA72A93-840E-44F2-90CA-178661D8AE13}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

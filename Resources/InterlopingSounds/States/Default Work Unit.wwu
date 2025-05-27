@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{1FFD9EDD-A381-43EE-92A1-D3912A492EB3}" SchemaVersion="119">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{1FFD9EDD-A381-43EE-92A1-D3912A492EB3}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{1FFD9EDD-A381-43EE-92A1-D3912A492EB3}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="InterMusicChoice" ID="{A285A505-103D-442C-82E0-4E0D370F8B88}">
+					<ChildrenList>
+						<State Name="None" ID="{98373E7E-0B9F-45B0-91C2-4D4C97E57CD9}"/>
+						<State Name="InterMusic" ID="{0D4825C8-21B9-4C15-A2DF-0018E64989AA}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Music_system" ID="{D2B04D9B-CA8B-46F2-AD6C-70040E2551C5}">
+					<ChildrenList>
+						<State Name="None" ID="{8D25C007-920C-4862-8AD7-2C4E83058512}"/>
+						<State Name="Bossfight" ID="{78483AF6-ABBE-4E97-B885-A05D01BE57CA}"/>
+						<State Name="Gameplay" ID="{9E4FD99B-EAE7-4756-B519-CA834DE86C5F}"/>
+						<State Name="Menu" ID="{D6E112BC-03FF-4CA4-B4F8-61F15D665581}"/>
+						<State Name="SecretLevel" ID="{1C27C124-B64B-464A-9152-15AD3AF94157}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

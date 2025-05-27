@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{91E0BF8C-F155-12F0-99F3-A22ACDB8B9B9}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{3033CEAC-AE79-A850-0B8A-B7F8D32FF39A}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -22,11 +22,31 @@
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 			<GameParameters>
+				<GameParameter Id="151362964" Name="playerHealth"/>
+				<GameParameter Id="2510409079" Name="Inter_Volume_MSX"/>
 				<GameParameter Id="2699199950" Name="Inter_Volume_SFX"/>
 				<GameParameter Id="3673881719" Name="Volume_SFX"/>
+				<GameParameter Id="3729143042" Name="Volume_MSX"/>
 			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="792781730" Name="Music_system">
+					<States>
+						<State Id="89505537" Name="Gameplay"/>
+						<State Id="580146960" Name="Bossfight"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="778026301" Name="SecretLevel"/>
+						<State Id="2607556080" Name="Menu"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3328571779" Name="InterMusicChoice">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="3026340126" Name="InterMusic"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 		</SoundBank>
-		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{C4E347DA-7707-63EC-97B9-0331EC88A8BF}">
+		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{BF254C02-267B-CEE3-AFAD-38CEE4C4AB5B}">
 			<ShortName>Inter_WarningSounds</ShortName>
 			<Path>Inter_WarningSounds.bnk</Path>
 			<Media>
@@ -38,6 +58,12 @@
 					<ShortName>Get Out.wav</ShortName>
 					<CachePath>SFX/Get Out_EDCD4836.wem</CachePath>
 				</File>
+				<File Id="466803387" Language="SFX" Streaming="true" Location="Memory">
+					<ShortName>inter_mus_loop.wav</ShortName>
+					<Path>Media/466803387.wem</Path>
+					<CachePath>SFX/inter_mus_loop_D8A0D580.wem</CachePath>
+					<PrefetchSize>3600</PrefetchSize>
+				</File>
 				<File Id="548034140" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Tick.wav</ShortName>
 					<CachePath>SFX/Tick_EDCD4836.wem</CachePath>
@@ -45,6 +71,12 @@
 				<File Id="638839317" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Tock.wav</ShortName>
 					<CachePath>SFX/Tock_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="737693030" Language="SFX" Streaming="true" Location="Memory">
+					<ShortName>inter_mus_intro.wav</ShortName>
+					<Path>Media/737693030.wem</Path>
+					<CachePath>SFX/inter_mus_intro_D8A0D580.wem</CachePath>
+					<PrefetchSize>3249</PrefetchSize>
 				</File>
 				<File Id="851025665" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>bellToll1.wav</ShortName>
@@ -56,6 +88,7 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="1683422662" Name="Pause_Inter_Music"/>
 				<Event Id="1844540516" Name="Play_Inter_BellFinal">
 					<MediaRefs>
 						<MediaRef Id="171630"/>
@@ -72,18 +105,55 @@
 						<MediaRef Id="236300422"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1279622976" Name="Play_Inter_Music">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="792781730" Id="89505537"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="3328571779" Id="3026340126"/>
+									<MediaRefs>
+										<MediaRef Id="466803387"/>
+										<MediaRef Id="737693030"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 				<Event Id="1626947733" Name="Play_Inter_TickTock">
 					<MediaRefs>
 						<MediaRef Id="548034140"/>
 						<MediaRef Id="638839317"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1185756935" Name="Resume_Inter_Music"/>
 			</Events>
 			<GameParameters>
+				<GameParameter Id="151362964" Name="playerHealth"/>
+				<GameParameter Id="2510409079" Name="Inter_Volume_MSX"/>
 				<GameParameter Id="2699199950" Name="Inter_Volume_SFX"/>
 				<GameParameter Id="3673881719" Name="Volume_SFX"/>
+				<GameParameter Id="3729143042" Name="Volume_MSX"/>
 			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="792781730" Name="Music_system">
+					<States>
+						<State Id="89505537" Name="Gameplay"/>
+						<State Id="580146960" Name="Bossfight"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="778026301" Name="SecretLevel"/>
+						<State Id="2607556080" Name="Menu"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3328571779" Name="InterMusicChoice">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="3026340126" Name="InterMusic"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{EC988A7E-214F-8511-26A9-9400B0E51663}</FileHash>
+	<FileHash>{DFE03E5E-7D7E-A344-A003-97D9C7B07727}</FileHash>
 </SoundBanksInfo>

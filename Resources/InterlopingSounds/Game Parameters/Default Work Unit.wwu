@@ -13,6 +13,17 @@
 						<Property Name="InitialValue" Type="Real64" Value="100"/>
 					</PropertyList>
 				</GameParameter>
+				<GameParameter Name="Volume_MSX" ID="{3327EE7F-7A33-4F15-A1DA-18DD0F62D6FE}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Inter_Volume_MSX" ID="{98CEFBF0-733F-498A-BFA6-EEB5461F748D}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="playerHealth" ID="{D38B264F-4726-4312-9B46-E557ADC9B51E}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

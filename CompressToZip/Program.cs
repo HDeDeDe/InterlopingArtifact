@@ -75,6 +75,10 @@ foreach (FileInfo file in Settings.extraFiles) {
         archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/Media/" +  file.Name, CompressionLevel.Optimal);
         continue;
     }
+    if (file.Name.EndsWith("load_bearing_dog.png")) {
+        archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/interloperdeps.bin", CompressionLevel.Optimal);
+        continue;
+    }
 
     archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/" + file.Name, CompressionLevel.Optimal);
 }

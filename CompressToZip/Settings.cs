@@ -22,6 +22,7 @@ internal static class Settings {
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Media/737693030.wem"),
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Media/466803387.wem"),
         new FileInfo("../Resources/InterlopingArtifact.language"),
+        new FileInfo("../Resources/load_bearing_dog.png"),
         new FileInfo("../InterlopingArtifactUnity/Assets/AssetBundle/interloperassets")
     };
 

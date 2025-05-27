@@ -79,6 +79,12 @@ namespace HDeMods {
 
         internal static void Startup() {
             if (!File.Exists(Assembly.GetExecutingAssembly().Location
+                    .Replace("InterlopingArtifact.dll", "interloperdeps.bin"))) {
+                INTER.Log.Fatal("Could not find dependency file, aborting!");
+                return;
+            }
+            
+            if (!File.Exists(Assembly.GetExecutingAssembly().Location
                     .Replace("InterlopingArtifact.dll", "interloperassets"))) {
                 INTER.Log.Fatal("Could not load asset bundle, aborting!");
                 return;

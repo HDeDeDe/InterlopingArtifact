@@ -30,10 +30,10 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	171630	bellToll3	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\bellToll3		43686
 	236300422	Get Out	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Get Out_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\Get Out		6826
-	466803387	inter_mus_loop	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_loop_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_loop\inter_mus_loop		3600
+	466803387	inter_mus_loop	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_loop_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_loop\inter_mus_loop		3183
 	548034140	Tick	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tick_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tick		1404
 	638839317	Tock	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\Tock_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\TickTok\Tock		1109
-	737693030	inter_mus_intro	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_intro_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_intro\inter_mus_intro		3249
+	737693030	inter_mus_intro	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\inter_mus_intro_D8A0D580.wem		\Interactive Music Hierarchy\Default Work Unit\Music_System\GameplaySongChoice\Dying_Light_2_Volatile_Chase_4\inter_mus_intro\inter_mus_intro		3345
 	851025665	bellToll1	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll1		13167
 	941712737	bellToll2	C:\BorkedCode\InterlopingArtifact\Resources\InterlopingSounds\.cache\Windows\SFX\bellToll2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\BellToll\bellToll2		11472
 

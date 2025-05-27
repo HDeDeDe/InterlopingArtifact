@@ -46,7 +46,7 @@
 				</StateGroup>
 			</StateGroups>
 		</SoundBank>
-		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{BF254C02-267B-CEE3-AFAD-38CEE4C4AB5B}">
+		<SoundBank Id="2925220824" Type="User" Language="SFX" Hash="{C4E3FFE7-C144-7BBE-329C-67F43A89BCE7}">
 			<ShortName>Inter_WarningSounds</ShortName>
 			<Path>Inter_WarningSounds.bnk</Path>
 			<Media>
@@ -62,7 +62,7 @@
 					<ShortName>inter_mus_loop.wav</ShortName>
 					<Path>Media/466803387.wem</Path>
 					<CachePath>SFX/inter_mus_loop_D8A0D580.wem</CachePath>
-					<PrefetchSize>3600</PrefetchSize>
+					<PrefetchSize>3183</PrefetchSize>
 				</File>
 				<File Id="548034140" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Tick.wav</ShortName>
@@ -76,7 +76,7 @@
 					<ShortName>inter_mus_intro.wav</ShortName>
 					<Path>Media/737693030.wem</Path>
 					<CachePath>SFX/inter_mus_intro_D8A0D580.wem</CachePath>
-					<PrefetchSize>3249</PrefetchSize>
+					<PrefetchSize>3345</PrefetchSize>
 				</File>
 				<File Id="851025665" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>bellToll1.wav</ShortName>
@@ -155,5 +155,5 @@
 			</StateGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{DFE03E5E-7D7E-A344-A003-97D9C7B07727}</FileHash>
+	<FileHash>{5A15F03E-B600-5386-A9BE-3262F457E167}</FileHash>
 </SoundBanksInfo>

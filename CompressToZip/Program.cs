@@ -53,30 +53,30 @@ ZipArchive archive = ZipFile.Open(targetFile, ZipArchiveMode.Create);
 
 if (Settings.changelog != "") archive.CreateEntryFromFile(Settings.changelog, "CHANGELOG.md", CompressionLevel.Optimal);
 if (Settings.readme != "") archive.CreateEntryFromFile(Settings.readme, "README.md", CompressionLevel.Optimal);
-archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".dll", Settings.pluginName + ".dll",
+archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".dll", "BepInEx/plugins/" + Settings.pluginName + ".dll",
     CompressionLevel.Optimal);
 if (Settings.giveMePDBs)
-    archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".pdb", Settings.pluginName + ".pdb",
+    archive.CreateEntryFromFile(dllPath + Settings.pluginName + ".pdb", "BepInEx/plugins/" + Settings.pluginName + ".pdb",
         CompressionLevel.Optimal);
 if (Settings.icon != "") archive.CreateEntryFromFile(Settings.icon, "icon.png", CompressionLevel.Optimal);
 
 bool initFlag = false;
 foreach (FileInfo file in Settings.extraFiles) {
     if (file.Name.EndsWith("init.bnk")) {
-        archive.CreateEntryFromFile(file.FullName, file.Name.Replace("init.bnk", Settings.pluginName + "_init.bnk"), CompressionLevel.Optimal);
+        archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/" + file.Name.Replace("init.bnk", Settings.pluginName + "_init.bnk"), CompressionLevel.Optimal);
         initFlag = true;
         continue;
     }
     if (file.Name.EndsWith(".bnk") && !initFlag) {
-        archive.CreateEntryFromFile(file.FullName, file.Name.Replace(".bnk", ".sound"), CompressionLevel.Optimal);
+        archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/" + file.Name.Replace(".bnk", ".sound"), CompressionLevel.Optimal);
         continue;
     }
     if (file.Name.EndsWith(".wem")) {
-        archive.CreateEntryFromFile(file.FullName, "Media/" +  file.Name, CompressionLevel.Optimal);
+        archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/Media/" +  file.Name, CompressionLevel.Optimal);
         continue;
     }
 
-    archive.CreateEntryFromFile(file.FullName, file.Name, CompressionLevel.Optimal);
+    archive.CreateEntryFromFile(file.FullName, "BepInEx/plugins/" + file.Name, CompressionLevel.Optimal);
 }
 #pragma warning restore CS0162 // Unreachable code detected
 

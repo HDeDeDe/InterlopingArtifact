@@ -12,6 +12,10 @@ namespace HDeMods {
         internal const uint sfxGetOut = 3106412111;
         internal const uint sfxBellToll = 2239523887;
         internal const uint sfxBellFinal = 1844540516;
+        internal const uint musStateGameplay = 89505537;
+        internal const uint musGroupInter = 3328571779;
+        internal const uint musSystemMusic = 792781730;
+        internal const uint musStateInter = 3026340126;
         internal static BodyIndex FlyingVermin;
         internal static BodyIndex Gup;
         internal static BodyIndex Geep;

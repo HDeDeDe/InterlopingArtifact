@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
@@ -16,11 +17,13 @@ namespace HDeMods {
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
     [SuppressMessage("ReSharper", "ConvertToConstant.Global")]
     public static class InterlopingArtifact {
+        internal static bool musicLoaded;
         // Artifact variables
         public static AssetBundle InterBundle;
         public static readonly ArtifactDef Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
         private static GameObject InterInfo;
         private static GameObject m_interInfo;
+        internal static SoundAPI.Music.CustomMusicTrackDef interlopeTrack;
 
         // Variables exposed for Hurricane
         public static bool HurricaneRun;
@@ -59,6 +62,7 @@ namespace HDeMods {
         public static ConfigEntry<bool> aggressiveCulling { get; set; }
         public static ConfigEntry<float> aggressiveCullingRadius { get; set; }
         public static ConfigEntry<bool> showCullingRadius { get; set; }
+        public static ConfigEntry<float> warningMusicVolume { get; set; }
         public static ConfigEntry<bool> enableOnEclipse { get; set; }
 
         private static void RefreshAndClamp() {
@@ -68,6 +72,7 @@ namespace HDeMods {
             loiterPenaltySeverity.Value = Math.Clamp(loiterPenaltySeverity.Value, 10f, 400f);
             limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
             warningSoundVolume.Value = Math.Clamp(warningSoundVolume.Value, 0f, 100f);
+            warningMusicVolume.Value = Math.Clamp(warningMusicVolume.Value, 0f, 100f);
             timeBeforeLoiterPenalty.Value = Math.Clamp(timeBeforeLoiterPenalty.Value, 2f, 60f);
             aggressiveCullingRadius.Value = Math.Clamp(aggressiveCullingRadius.Value, 65f, 200f);
         }
@@ -84,7 +89,43 @@ namespace HDeMods {
 
             CreateNetworkObject();
             InterloperCullingZone.InitZone();
+            LoadMusic();
             AddHooks();
+        }
+
+        private static void LoadMusic() {
+            //INTER.Log.Fatal(Assembly.GetExecutingAssembly().Location);
+            SoundAPI.Music.CustomMusicData musicData = new SoundAPI.Music.CustomMusicData();
+            musicData.BanksFolderPath = Assembly.GetExecutingAssembly().Location
+                .Replace("\\InterlopingArtifact.dll", "");
+            musicData.BepInPlugin = InterlopingArtifactPlugin.instance.Info.Metadata;
+            musicData.InitBankName = "InterlopingArtifact_init";
+            musicData.PlayMusicSystemEventName = "Play_Inter_Music";
+            musicData.SoundBankName = "Inter_WarningSounds";
+            
+            interlopeTrack = ScriptableObject.CreateInstance<SoundAPI.Music.CustomMusicTrackDef>();
+            interlopeTrack.cachedName = "interlopeTrack";
+            interlopeTrack.SoundBankName = musicData.SoundBankName;
+            interlopeTrack.CustomStates = new List<SoundAPI.Music.CustomMusicTrackDef.CustomState>();
+
+            SoundAPI.Music.CustomMusicTrackDef.CustomState trackState =
+                new SoundAPI.Music.CustomMusicTrackDef.CustomState() {
+                    GroupId = InterRefs.musGroupInter,
+                    StateId = InterRefs.musStateInter
+                };
+            SoundAPI.Music.CustomMusicTrackDef.CustomState gameplayState =
+                new SoundAPI.Music.CustomMusicTrackDef.CustomState() {
+                    GroupId = InterRefs.musSystemMusic,
+                    StateId = InterRefs.musStateGameplay
+                };
+            interlopeTrack.CustomStates.Add(trackState);
+            interlopeTrack.CustomStates.Add(gameplayState);
+
+            if (!SoundAPI.Music.Add(musicData)) {
+                INTER.Log.Error("Failed to add music, disabling music options.");
+                return;
+            }
+            musicLoaded = true;
         }
 
         private static void AddHooks() {
@@ -254,11 +295,20 @@ namespace HDeMods {
                 "Disable Code Hints",
                 false,
                 "Prevent artifact code hints from appearing in game. Requires restart.");
+            warningMusicVolume = InterlopingArtifactPlugin.instance.Config.Bind<float>(
+                "Experimental",
+                "Warning Music Volume",
+                0f,
+                "Replace stage music with a different track when time is up. Set to 0 to disable. Requires map change to toggle.");
             enableOnEclipse = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
                 "Experimental",
                 "Enable on Eclipse",
                 false,
                 "Enables default ruleset for artifact when playing on Eclipse mode. Not recommended.");
+        }
+
+        internal static void SetVolumeEwEwEwEw() {
+            AkSoundEngine.SetRTPCValue("Inter_Volume_MSX", warningMusicVolume.Value);
         }
 
         private static void AddOptions() {
@@ -283,6 +333,10 @@ namespace HDeMods {
             InterOptionalMods.RoO.AddCheck(forceUnlock, true);
             InterOptionalMods.RoO.AddCheck(disableCodeHint, true);
             InterOptionalMods.RoO.AddButton("Reset to Default", "Artifact", InterOptionalMods.RoO.ResetToDefault);
+            if (musicLoaded) {
+                InterOptionalMods.RoO.AddFloatStep(warningMusicVolume, 0f, 100f, 0.5f);
+                InterOptionalMods.RoO.AddButton("Set Volume", "Experimental", SetVolumeEwEwEwEw);
+            }
             InterOptionalMods.RoO.AddCheck(enableOnEclipse);
             InterOptionalMods.RoO.AddButton("Reset to Default", "Experimental", InterOptionalMods.RoO.ResetToDefault);
 #if DEBUG
@@ -599,6 +653,7 @@ namespace HDeMods {
             teleporterHit = true;
             InterRunInfo.instance.allyCurse = 0f;
             InterRunInfo.instance.RpcDirtyStats();
+            InterRunInfo.instance.RpcStopMusic();
             interact(teleporterState, interactor);
         }
 

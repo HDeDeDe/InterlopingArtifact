@@ -9,6 +9,7 @@ namespace HDeMods {
         // This should only be true if ProperSave is present and added settings
         public static bool preSet;
         internal static InterSaveData saveData;
+        internal MusicTrackOverride trackOverride;
 
         public float loiterPenaltyTimeThisRun;
         public float loiterPenaltyFrequencyThisRun;
@@ -25,6 +26,10 @@ namespace HDeMods {
         public void Awake() {
             instance = this;
             DontDestroyOnLoad(this);
+            trackOverride = gameObject.AddComponent<MusicTrackOverride>();
+            trackOverride.enabled = false;
+            trackOverride.track = InterlopingArtifact.interlopeTrack;
+            trackOverride.priority = 10;
             if (!preSet) return;
             loiterPenaltyTimeThisRun = saveData.loiterPenaltyTimeThisRun;
             loiterPenaltyFrequencyThisRun = saveData.loiterPenaltyFrequencyThisRun;
@@ -65,6 +70,13 @@ namespace HDeMods {
             if (InterlopingArtifact.useTickingNoise.Value)
                 AkSoundEngine.PostEvent(InterRefs.sfxGetOut, InterlopingArtifactPlugin.instance.gameObject);
             else AkSoundEngine.PostEvent(InterRefs.sfxBellFinal, InterlopingArtifactPlugin.instance.gameObject);
+            
+            if (InterlopingArtifact.warningMusicVolume.Value <= 0f || !InterlopingArtifact.musicLoaded) return;
+#if DEBUG
+            INTER.Log.Warning("Playing music!");
+#endif
+            InterlopingArtifact.SetVolumeEwEwEwEw();
+            trackOverride.enabled = true;
         }
 
         [ClientRpc] public void RpcDirtyStats() => DirtyStats();
@@ -78,6 +90,12 @@ namespace HDeMods {
 
         public void CalcWarningTimer() {
             InterlopingArtifact.tickingTimer = instance.stagePunishTimer - InterlopingArtifact.timeBeforeLoiterPenalty.Value;
+        }
+
+        [ClientRpc] public void RpcStopMusic() => StopMusic();
+
+        public void StopMusic() {
+            trackOverride.enabled = false;
         }
     }
 

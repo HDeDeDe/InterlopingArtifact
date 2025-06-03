@@ -71,12 +71,13 @@ namespace HDeMods {
                 AkSoundEngine.PostEvent(InterRefs.sfxGetOut, InterlopingArtifactPlugin.instance.gameObject);
             else AkSoundEngine.PostEvent(InterRefs.sfxBellFinal, InterlopingArtifactPlugin.instance.gameObject);
             
-            if (InterlopingArtifact.warningMusicVolume.Value <= 0f || !InterlopingArtifact.musicLoaded) return;
+            
 #if DEBUG
+            if (InterlopingArtifact.warningMusicVolume.Value <= 0f || !InterlopingArtifact.musicLoaded) return;
             INTER.Log.Warning("Playing music!");
-#endif
             InterlopingArtifact.SetVolumeEwEwEwEw();
             trackOverride.enabled = true;
+#endif
         }
 
         [ClientRpc] public void RpcDirtyStats() => DirtyStats();

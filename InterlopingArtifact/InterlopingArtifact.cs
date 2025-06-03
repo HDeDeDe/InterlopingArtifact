@@ -72,7 +72,9 @@ namespace HDeMods {
             loiterPenaltySeverity.Value = Math.Clamp(loiterPenaltySeverity.Value, 10f, 400f);
             limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
             warningSoundVolume.Value = Math.Clamp(warningSoundVolume.Value, 0f, 100f);
+#if DEBUG
             warningMusicVolume.Value = Math.Clamp(warningMusicVolume.Value, 0f, 100f);
+#endif
             timeBeforeLoiterPenalty.Value = Math.Clamp(timeBeforeLoiterPenalty.Value, 2f, 60f);
             aggressiveCullingRadius.Value = Math.Clamp(aggressiveCullingRadius.Value, 65f, 200f);
         }
@@ -131,7 +133,11 @@ namespace HDeMods {
                 INTER.Log.Error("Failed to add music, disabling music options.");
                 return;
             }
+            
+            // Temporary until I can get this shit to actually work
+#if DEBUG
             musicLoaded = true;
+#endif
         }
 
         private static void AddHooks() {
@@ -301,11 +307,13 @@ namespace HDeMods {
                 "Disable Code Hints",
                 false,
                 "Prevent artifact code hints from appearing in game. Requires restart.");
+#if DEBUG
             warningMusicVolume = InterlopingArtifactPlugin.instance.Config.Bind<float>(
                 "Experimental",
                 "Warning Music Volume",
                 0f,
                 "Replace stage music with a different track when time is up. Set to 0 to disable. Requires map change to toggle.");
+#endif
             enableOnEclipse = InterlopingArtifactPlugin.instance.Config.Bind<bool>(
                 "Experimental",
                 "Enable on Eclipse",
@@ -447,7 +455,9 @@ namespace HDeMods {
             teleporterExists = false;
             totalBlindPest = 0;
             artifactTrial = false;
+#if DEBUG
             InterRunInfo.instance.StopMusic();
+#endif
             InterRunInfo.preSet = false;
             UnityEngine.Object.Destroy(m_interInfo);
         }
@@ -660,7 +670,9 @@ namespace HDeMods {
             teleporterHit = true;
             InterRunInfo.instance.allyCurse = 0f;
             InterRunInfo.instance.RpcDirtyStats();
+#if DEBUG
             InterRunInfo.instance.RpcStopMusic();
+#endif
             interact(teleporterState, interactor);
         }
 

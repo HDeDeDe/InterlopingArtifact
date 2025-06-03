@@ -1,3 +1,5 @@
+## 0.4.0
+- Added experimental option to enable artifact on eclipse mode.
 ## 0.3.1
 - Updated for SotS 2.0 part 2
 - Fixed a bug that prevented settings from being respected beyond the defaults when not playing on Chunky Mode.

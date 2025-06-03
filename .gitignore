@@ -329,3 +329,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
+/Resources/InterlopingSounds/Originals/SFX/inter_mus_intro.wav
+/Resources/InterlopingSounds/Originals/SFX/inter_mus_loop.wav

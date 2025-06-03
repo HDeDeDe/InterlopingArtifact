@@ -1,8 +1,9 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 internal static class Settings {
 //-----------------------------------------------------Customize--------------------------------------------------------
-    // ReSharper disable once InconsistentNaming
     public const bool giveMePDBs = true;
     public const bool weave = true;
 
@@ -16,7 +17,7 @@ internal static class Settings {
     public const string riskOfRain2Install =
         @"C:\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\";
 
-    public static readonly ArrayList extraFiles = new() {
+    public static readonly ArrayList extraFiles = [
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/init.bnk"),
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Inter_WarningSounds.bnk"),
         new FileInfo("../Resources/InterlopingSounds/GeneratedSoundBanks/Windows/Media/737693030.wem"),
@@ -24,7 +25,7 @@ internal static class Settings {
         new FileInfo("../Resources/InterlopingArtifact.language"),
         new FileInfo("../Resources/load_bearing_dog.png"),
         new FileInfo("../InterlopingArtifactUnity/Assets/AssetBundle/interloperassets")
-    };
+    ];
 
     public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/InterlopingArtifact";
     public const string manifestDescription = "Enemies will begin to swarm you after a period of time.";
